@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Navbar from '../components/Navbar'
+import ProgressBar from '../components/ProgressBar'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
@@ -21,6 +22,15 @@ const Home: NextPage = () => {
       <main>
         <Button>test</Button>
         <Input type='text' placeholder="testing" />
+        <div style={{display: 'flex'}}>
+        <ProgressBar value={60} sub="Mon" showValue/>
+        <ProgressBar value={1} sub="Tue" showValue/>
+        <ProgressBar value={57} sub="Wed" showValue/>
+        <ProgressBar value={69} sub="Thu" showValue/>
+        <ProgressBar value={41} sub="Fri" horizontal showValue/>
+        <ProgressBar value={87} sub="Sat" horizontal showValue/>
+        <ProgressBar value={99} sub="Sun" horizontal showValue/>
+        </div>
         <Navbar />
       </main>
     </div>
