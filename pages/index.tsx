@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Button from "../components/Button";
+import Card from "../components/Card";
 import Input from "../components/Input";
 import Loader from "../components/Loader";
 import Navbar from "../components/Navbar";
@@ -31,6 +32,9 @@ const Home: NextPage = () => {
           <ProgressBar value={99} sub="Sun" horizontal showValue />
         </div>
         <Loader static/>
+        <Card title="Card">
+            Some great content for this card in the making.
+        </Card>
         <Navbar />
       </main>
     </div>
