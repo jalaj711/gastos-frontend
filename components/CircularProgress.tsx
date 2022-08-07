@@ -5,7 +5,10 @@ function CircularProgress(props: {
   value: number;
   id: string;
   range?: number;
-  gaugeLike?: boolean;
+  centralNeedle?: boolean;
+  gaugeMarks?: boolean;
+  gaugeMarkSeperation?: number;
+  showValue?: boolean;
   dimension?: number;
   lineWidth?: number;
 }) {
@@ -58,7 +61,7 @@ function CircularProgress(props: {
       // Draws the marks on the gauge
       const drawGaugeMarks = () => {
         const length = 5;
-        const seperationInDegrees = 45;
+        const seperationInDegrees = props.gaugeMarkSeperation || 45;
         var degrees = 0;
         const drawSingleMark = () => {
           ctx.beginPath();
@@ -101,9 +104,9 @@ function CircularProgress(props: {
         ctx.moveTo(centreX, centreY);
         ctx.lineTo(
           centreX +
-            (radius - lineWidth - 10) * Math.sin((Math.PI / 180) * degrees),
+            (radius - lineWidth - 20) * Math.sin((Math.PI / 180) * degrees),
           centreY +
-            (radius - lineWidth - 10) * Math.cos((Math.PI / 180) * degrees)
+            (radius - lineWidth - 20) * Math.cos((Math.PI / 180) * degrees)
         );
         ctx.strokeStyle = colors.primary;
         ctx.lineWidth = lineWidth;
@@ -112,23 +115,19 @@ function CircularProgress(props: {
 
       ctx.lineCap = "round";
       drawOutline();
-      if (props.gaugeLike) {
-        drawGaugeMarks();
-        drawMeter();
-      }
+      props.gaugeMarks && drawGaugeMarks();
+      props.centralNeedle &&  drawMeter();
       drawValue();
     }
-  }, [props.id, props.value, props.gaugeLike, radius, lineWidth, range]);
+  }, [props.id, props.value, props.gaugeMarks, props.centralNeedle, props.gaugeMarkSeperation, radius, lineWidth, range]);
 
   return (
     <>
       <div className="progressWrap">
         <canvas id={props.id} width={dimension} height={dimension}></canvas>
-        {props.gaugeLike ? (
-          ""
-        ) : (
+        {props.showValue &&
           <span className="progressValue">{props.value}%</span>
-        )}
+        }
       </div>
       <style jsx>{`
         .progressValue {
