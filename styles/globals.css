@@ -2,7 +2,6 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Roboto';
   background-color: #121212;
   color: white;
 }
@@ -14,6 +13,7 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: 'Montserrat';
 }
 
 /* @media (prefers-color-scheme: dark) {

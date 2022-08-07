@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Button from '../components/Button'
 import Input from '../components/Input'
+import Navbar from '../components/Navbar'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
       <main>
         <Button>test</Button>
         <Input type='text' placeholder="testing" />
+        <Navbar />
       </main>
     </div>
   )
