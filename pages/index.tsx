@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Button from "../components/Button";
 import Card from "../components/Card";
+import CircularProgress from "../components/CircularProgress";
 import Input from "../components/Input";
 import Loader from "../components/Loader";
 import Navbar from "../components/Navbar";
@@ -35,6 +36,8 @@ const Home: NextPage = () => {
         <Card title="Card">
             Some great content for this card in the making.
         </Card>
+        <CircularProgress value={60} id="circularprogress" />
+        <CircularProgress value={60} gaugeLike id="circularprogress2" range={360}/>
         <Navbar />
       </main>
     </div>

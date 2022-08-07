@@ -1,0 +1,152 @@
+import { useEffect } from "react";
+import colors from "../utils/colors";
+
+function CircularProgress(props: {
+  value: number;
+  id: string;
+  range?: number;
+  gaugeLike?: boolean;
+  dimension?: number;
+  lineWidth?: number;
+}) {
+  const dimension = props.dimension || 150;
+  const radius = dimension / 2 - 10;
+  const lineWidth = props.lineWidth || 10;
+  const range = props.range || 360;
+
+  // Offset required for
+  const offsetInDegrees = 90;
+  useEffect(() => {
+    var can = document.getElementById(props.id) as HTMLCanvasElement;
+    const ctx = can.getContext("2d");
+
+    var centreX = can.width / 2,
+      centreY = can.height / 2;
+    if (ctx) {
+      ctx.clearRect(0, 0, can.width, can.height);
+
+      // Draws the outline container for the progress bar
+      const drawOutline = () => {
+        ctx.beginPath();
+        ctx.arc(
+          centreX,
+          centreY,
+          radius,
+          (Math.PI / 180) * offsetInDegrees,
+          (Math.PI / 180) * (range + offsetInDegrees)
+        );
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      };
+
+      // Draws the actual amount of progress made
+      const drawValue = () => {
+        ctx.beginPath();
+        ctx.strokeStyle = colors.primary;
+        ctx.lineWidth = lineWidth;
+        ctx.arc(
+          centreX,
+          centreY,
+          radius,
+          (Math.PI / 180) * offsetInDegrees,
+          (Math.PI / 180) * ((range / 100) * props.value + offsetInDegrees)
+        );
+        ctx.stroke();
+      };
+
+      // Draws the marks on the gauge
+      const drawGaugeMarks = () => {
+        const length = 5;
+        const seperationInDegrees = 45;
+        var degrees = 0;
+        const drawSingleMark = () => {
+          ctx.beginPath();
+          
+          // We have the desired length of each of these marks we need,
+          // and we know the centre, the radius and lineWidth of the
+          // container, so we can calculate the distance the line should
+          // start from the centre of the circle and the angle at which
+          // we need the stroke is known, therefore we use the mathematical
+          // expression for polar to caartesian coordinates:
+          // x = r sin( theta )
+          // y = r cos( theta )
+          ctx.moveTo(
+            centreX +
+              (radius - lineWidth - length) *
+                Math.sin((Math.PI / 180) * degrees),
+            centreY +
+              (radius - lineWidth - length) *
+                Math.cos((Math.PI / 180) * degrees)
+          );
+          ctx.lineTo(
+            centreX +
+              (radius - lineWidth) * Math.sin((Math.PI / 180) * degrees),
+            centreY + (radius - lineWidth) * Math.cos((Math.PI / 180) * degrees)
+          );
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        };
+        while (degrees >= -range) {
+          console.log(degrees);
+          drawSingleMark();
+          degrees -= seperationInDegrees;
+        }
+      };
+
+      const drawMeter = () => {
+        const degrees = -(props.value * range) / 100;
+        ctx.beginPath();
+        ctx.moveTo(centreX, centreY);
+        ctx.lineTo(
+          centreX +
+            (radius - lineWidth - 10) * Math.sin((Math.PI / 180) * degrees),
+          centreY +
+            (radius - lineWidth - 10) * Math.cos((Math.PI / 180) * degrees)
+        );
+        ctx.strokeStyle = colors.primary;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      };
+
+      ctx.lineCap = "round";
+      drawOutline();
+      if (props.gaugeLike) {
+        drawGaugeMarks();
+        drawMeter();
+      }
+      drawValue();
+    }
+  }, [props.id, props.value, props.gaugeLike, radius, lineWidth, range]);
+
+  return (
+    <>
+      <div className="progressWrap">
+        <canvas id={props.id} width={dimension} height={dimension}></canvas>
+        {props.gaugeLike ? (
+          ""
+        ) : (
+          <span className="progressValue">{props.value}%</span>
+        )}
+      </div>
+      <style jsx>{`
+        .progressValue {
+          display: block;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          color: white;
+        }
+        .progressWrap {
+          position: relative;
+          width: ${dimension}px;
+          height: ${dimension}px;
+        }
+      `}</style>
+    </>
+  );
+}
+
+export default CircularProgress;
