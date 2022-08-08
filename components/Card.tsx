@@ -1,7 +1,6 @@
-import { ReactNode, StyleHTMLAttributes } from "react";
+import { ReactNode } from "react";
 
 function Card(props: {
-  title: string;
   children: ReactNode;
   onClick?: (evt: Event) => any;
 }) {
@@ -9,8 +8,7 @@ function Card(props: {
     <>
       <div className="container">
         <div className="wrapper">
-          <h3 className="title">{props.title}</h3>
-          <p className="content">{props.children}</p>
+          {props.children}
         </div>
       </div>
       <style jsx>
@@ -34,9 +32,6 @@ function Card(props: {
               rgba(255, 255, 255, 0.1),
               rgba(255, 255, 255, 0.1)
             );
-          }
-          .title {
-            font-size: x-large;
           }
         `}
       </style>

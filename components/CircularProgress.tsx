@@ -108,7 +108,7 @@ function CircularProgress(props: {
           centreY +
             (radius - lineWidth - 20) * Math.cos((Math.PI / 180) * degrees)
         );
-        ctx.strokeStyle = colors.primary;
+        ctx.strokeStyle = "#fff";
         ctx.lineWidth = lineWidth;
         ctx.stroke();
       };
