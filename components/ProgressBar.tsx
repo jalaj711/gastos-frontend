@@ -2,17 +2,19 @@ import colors from "../utils/colors";
 
 function ProgressBar(props: {
   value: number;
-  sub: string;
+  sub?: string;
   horizontal?: boolean;
   showValue?: boolean;
 }) {
   return (
     <>
       <div className="progressContainer">
-        <span className="progressSubtitle">{props.sub}</span>
+        {props.sub && <span className="progressSubtitle">{props.sub}</span>}
         <div className="progressBar">
           <div className="progressElement">
-            {props.showValue && <span className="progressValue">{props.value}%</span>}
+            {props.showValue && (
+              <span className="progressValue">{props.value}%</span>
+            )}
           </div>
         </div>
       </div>

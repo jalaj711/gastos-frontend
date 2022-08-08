@@ -2,28 +2,28 @@ import { ReactNode } from "react";
 
 function Card(props: {
   children: ReactNode;
+  bg?: boolean;
   onClick?: (evt: Event) => any;
 }) {
   return (
     <>
       <div className="container">
-        <div className="wrapper">
-          {props.children}
-        </div>
+        <div className="wrapper">{props.children}</div>
       </div>
       <style jsx>
         {`
-        .container {
-
+          .container {
             width: fit-content;
-            background-image: url(/assets/CardBg1.svg);
+            ${props.bg
+              ? `background-image: url(/assets/CardBg1.svg);
             background-repeat: no-repeat;
             background-size: 80px;
-            background-position-x: 95%;
+            background-position-x: 95%;`
+              : ""}
             min-width: 30vw;
             margin: 12px;
             border-radius: 16px;
-        }
+          }
           .wrapper {
             padding: 24px;
             border-radius: 16px;
