@@ -11,6 +11,7 @@ function CircularProgress(props: {
   showValue?: boolean;
   dimension?: number;
   lineWidth?: number;
+  offSet?: number;
 }) {
   const dimension = props.dimension || 150;
   const radius = dimension / 2 - 10;
@@ -18,7 +19,7 @@ function CircularProgress(props: {
   const range = props.range || 360;
 
   // Offset required for
-  const offsetInDegrees = 90;
+  const offsetInDegrees = props.offSet || 90;
   useEffect(() => {
     var can = document.getElementById(props.id) as HTMLCanvasElement;
     const ctx = can.getContext("2d");
@@ -62,10 +63,10 @@ function CircularProgress(props: {
       const drawGaugeMarks = () => {
         const length = 5;
         const seperationInDegrees = props.gaugeMarkSeperation || 45;
-        var degrees = 0;
+        var degrees = -offsetInDegrees + 90
         const drawSingleMark = () => {
           ctx.beginPath();
-          
+
           // We have the desired length of each of these marks we need,
           // and we know the centre, the radius and lineWidth of the
           // container, so we can calculate the distance the line should
@@ -91,7 +92,7 @@ function CircularProgress(props: {
           ctx.lineWidth = 1;
           ctx.stroke();
         };
-        while (degrees >= -range) {
+        while (degrees >= -range - offsetInDegrees + 90) {
           console.log(degrees);
           drawSingleMark();
           degrees -= seperationInDegrees;
@@ -99,7 +100,7 @@ function CircularProgress(props: {
       };
 
       const drawMeter = () => {
-        const degrees = -(props.value * range) / 100;
+        const degrees = -(props.value * range) / 100 - offsetInDegrees + 90;
         ctx.beginPath();
         ctx.moveTo(centreX, centreY);
         ctx.lineTo(
@@ -116,18 +117,28 @@ function CircularProgress(props: {
       ctx.lineCap = "round";
       drawOutline();
       props.gaugeMarks && drawGaugeMarks();
-      props.centralNeedle &&  drawMeter();
+      props.centralNeedle && drawMeter();
       drawValue();
     }
-  }, [props.id, props.value, props.gaugeMarks, props.centralNeedle, props.gaugeMarkSeperation, radius, lineWidth, range]);
+  }, [
+    props.id,
+    props.value,
+    props.gaugeMarks,
+    props.centralNeedle,
+    props.gaugeMarkSeperation,
+    radius,
+    lineWidth,
+    range,
+    offsetInDegrees,
+  ]);
 
   return (
     <>
       <div className="progressWrap">
         <canvas id={props.id} width={dimension} height={dimension}></canvas>
-        {props.showValue &&
+        {props.showValue && (
           <span className="progressValue">{props.value}%</span>
-        }
+        )}
       </div>
       <style jsx>{`
         .progressValue {
