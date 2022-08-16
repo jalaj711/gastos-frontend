@@ -14,8 +14,8 @@ function CircularProgress(props: {
   offSet?: number;
 }) {
   const dimension = props.dimension || 150;
-  const radius = dimension / 2 - 10;
   const lineWidth = props.lineWidth || 10;
+  const radius = dimension / 2 - lineWidth;
   const range = props.range || 360;
 
   // Offset required for
@@ -93,7 +93,6 @@ function CircularProgress(props: {
           ctx.stroke();
         };
         while (degrees >= -range - offsetInDegrees + 90) {
-          console.log(degrees);
           drawSingleMark();
           degrees -= seperationInDegrees;
         }
