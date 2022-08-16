@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         </Card>
         <CircularProgress value={60} showValue id="circularprogress" />
         <CircularProgress value={60} showValue gaugeMarkSeperation={60} gaugeMarks id="circularprogress2"/>
-        <CircularProgress value={60} centralNeedle gaugeMarkSeperation={60} range={180} id="circularprogress3"/>
+        <CircularProgress value={60} centralNeedle gaugeMarkSeperation={60} range={135} offSet={-153.5} gaugeMarks id="circularprogress3"/>
       </main>
     </>
   );

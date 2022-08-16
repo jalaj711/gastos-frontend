@@ -1,6 +1,9 @@
 import Head from "next/head";
-import Card from "../components/Card";
 import ProgressBar from "../components/ProgressBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
+import ActivityCard from "../components/ActivityCard";
 
 function Dashboard() {
   return (
@@ -27,9 +30,18 @@ function Dashboard() {
               </div>
             </div>
             <div className="search">
-                Search...
+              <FontAwesomeIcon icon={faSearch} strokeWidth={1} />
+              <input placeholder="Search..." />
             </div>
           </div>
+        </div>
+        <div className="activityGrid">
+          <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
+          <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
+          <ActivityCard title="Activity 3" description="Some description for activity 3" completed={50} />
+          <ActivityCard title="Activity 4" description="Some description for activity 4" completed={23} />
+          <ActivityCard title="Activity 5" description="Some description for activity 5" completed={45} />
+          <ActivityCard title="Activity 6" description="Some description for activity 6" completed={89} />
         </div>
       </main>
 
@@ -75,15 +87,41 @@ function Dashboard() {
 
           .search {
             width: 100%;
-            padding: 16px 24px;
+            padding: 0px 16px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
-            margin-top: 8px
+            margin-top: 8px;
+          }
+
+          .search input {
+            margin-left: 8px;
+            padding: 12px 8px;
+            background: transparent;
+            border: none;
+            width: 80%;
+            color: #fff8;
+          }
+
+          .search input:hover,
+          .search input:focus {
+            outline: none;
+          }
+
+          .search svg {
+            stroke-width: 1px;
           }
 
           .mainWrapper,
           .progressWrapper {
             display: flex;
+          }
+
+          .activityGrid {
+            display: grid;
+            grid-template-columns: 28vw 28vw 28vw;
+            padding: 0 24px;
+            justify-content: space-evenly;
+            margin-top: 24px;
           }
         `}
       </style>
