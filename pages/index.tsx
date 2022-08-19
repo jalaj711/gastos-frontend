@@ -2,10 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Button from "../components/Button";
 import Card from "../components/Card";
-import CircularProgress from "../components/CircularProgress";
+import CircularProgress from "../components/Progress/CircularProgress";
 import Input from "../components/Input";
 import Loader from "../components/Loader";
-import ProgressBar from "../components/ProgressBar";
+import ProgressBar from "../components/Progress/ProgressBar";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCancel, faCoffee, faCross, faCrosshairs, faXmark } from "@fortawesome/free-solid-svg-icons";
 

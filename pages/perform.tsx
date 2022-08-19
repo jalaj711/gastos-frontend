@@ -1,8 +1,10 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import Button from "../components/Button";
+import { faPause, faStop } from "@fortawesome/free-solid-svg-icons";
 
 const PerfProgress = dynamic(
-  () => import("../components/performanceProgress"),
+  () => import("../components/Progress/performanceProgress"),
   {
     ssr: false,
   }
@@ -90,6 +92,14 @@ function Performance() {
                 outof="20hrs"
                 percentage="22.5"
               />
+            </div>
+            <div style={{ display: "inline-flex" }}>
+              <Button icon={faStop} fullRadius outlined>
+                Stop
+              </Button>
+              <Button icon={faPause} fullRadius>
+                Pause
+              </Button>
             </div>
           </div>
         </div>

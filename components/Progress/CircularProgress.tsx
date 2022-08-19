@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import colors from "../utils/colors";
+import colors from "../../utils/colors";
 
 function CircularProgress(props: {
   value: number;

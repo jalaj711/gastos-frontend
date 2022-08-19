@@ -1,5 +1,5 @@
 import Head from "next/head";
-import ProgressBar from "../components/ProgressBar";
+import ProgressBar from "../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 

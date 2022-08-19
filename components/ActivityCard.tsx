@@ -1,5 +1,12 @@
 import Card from "./Card";
-import CircularProgress from "./CircularProgress";
+import dynamic from "next/dynamic";
+
+const CircularProgress = dynamic(
+  () => import("./Progress/CircularProgress"),
+  {
+    ssr: false,
+  }
+);
 
 export default function ActivityCard(props: {
     title: string;
