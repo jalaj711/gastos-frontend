@@ -1,17 +1,33 @@
-import { faChartSimple, faPlus, faGaugeHigh, faUser, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartSimple,
+  faPlus,
+  faGaugeHigh,
+  faUser,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import colors from "../utils/colors";
+import { useRouter } from "next/router";
+import { MouseEvent } from "react";
 function NavbarItem(props: {
   active?: boolean;
   text: string;
   icon: IconDefinition;
+  href: string;
 }) {
+  const router = useRouter();
+  const active = props.active || (router.asPath === props.href);
+
+  const handleClick = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    router.push(props.href);
+  };
   return (
-    <div>
-      <FontAwesomeIcon icon={props.icon} style={{fontSize: '16px'}} />
-      {props.active && <span>{props.text}</span>}
+    <a href={props.href} onClick={handleClick}>
+      <FontAwesomeIcon icon={props.icon} style={{ fontSize: "16px" }} />
+      {active && <span>{props.text}</span>}
       <style jsx>{`
-        div {
+        a {
           padding: 8px 16px;
           height: 48px;
           min-width: 48px;
@@ -28,11 +44,11 @@ function NavbarItem(props: {
           justify-content: center;
           margin-left: 16px;
           backdrop-filter: blur(4px);
-          ${props.active &&
+          ${active &&
           "background: " + colors.primary + ";color: " + colors.textOnPrimary}
         }
 
-        div:hover {
+        a:hover {
           background-image: linear-gradient(
             rgba(255, 255, 255, 0.3),
             rgba(255, 255, 255, 0.3)
@@ -44,16 +60,16 @@ function NavbarItem(props: {
           margin-left: 8px;
         }
       `}</style>
-    </div>
+    </a>
   );
 }
 function Navbar() {
   return (
     <div className="navbar">
-      <NavbarItem text="dashboard" icon={faChartSimple} active />
-      <NavbarItem text="add" icon={faPlus}/>
-      <NavbarItem text="perform" icon={faGaugeHigh} />
-      <NavbarItem text="profile" icon={faUser} />
+      <NavbarItem href="/dashboard" text="dashboard" icon={faChartSimple} />
+      <NavbarItem href="/add" text="add" icon={faPlus} />
+      <NavbarItem href="/perform" text="perform" icon={faGaugeHigh} />
+      <NavbarItem href="/profile" text="profile" icon={faUser} />
       <style jsx>
         {`
           .navbar {

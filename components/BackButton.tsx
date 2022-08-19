@@ -1,11 +1,13 @@
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import colors from "../utils/colors";
+import { useRouter } from "next/router";
 
 export default function BackButton() {
+  const router = useRouter()
   return (
     <>
-      <button>
+      <button onClick={router.back}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
       <style jsx>
