@@ -7,7 +7,7 @@ import Input from "../components/Input";
 import Loader from "../components/Loader";
 import ProgressBar from "../components/ProgressBar";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faCancel, faCoffee, faCross, faCrosshairs, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Home: NextPage = () => {
   return (
@@ -19,7 +19,6 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Button>test</Button>
         <Input type="text" placeholder="testing" />
         <div style={{ display: "flex" }}>
           <ProgressBar value={60} sub="Mon" showValue />
@@ -30,13 +29,33 @@ const Home: NextPage = () => {
           <ProgressBar value={87} sub="Sat" horizontal showValue />
           <ProgressBar value={99} sub="Sun" horizontal showValue />
         </div>
-        <Loader static/>
-        <Card>
-            Some great content for this card in the making.
-        </Card>
+        <Loader static />
+        <Card>Some great content for this card in the making.</Card>
+        <Button outlined>test</Button>
+        <Button outlined fullRadius icon={faXmark}>
+          Cancel
+        </Button>
+        <Button fullRadius icon={faCoffee}>
+          test
+        </Button>
+        <Button>test</Button>
         <CircularProgress value={60} showValue id="circularprogress" />
-        <CircularProgress value={60} showValue gaugeMarkSeperation={60} gaugeMarks id="circularprogress2"/>
-        <CircularProgress value={60} centralNeedle gaugeMarkSeperation={60} range={135} offSet={-153.5} gaugeMarks id="circularprogress3"/>
+        <CircularProgress
+          value={60}
+          showValue
+          gaugeMarkSeperation={60}
+          gaugeMarks
+          id="circularprogress2"
+        />
+        <CircularProgress
+          value={60}
+          centralNeedle
+          gaugeMarkSeperation={60}
+          range={135}
+          offSet={-153.5}
+          gaugeMarks
+          id="circularprogress3"
+        />
       </main>
     </>
   );
