@@ -27,6 +27,7 @@ function NavbarItem(props: {
           align-items: center;
           justify-content: center;
           margin-left: 16px;
+          backdrop-filter: blur(4px);
           ${props.active &&
           "background: " + colors.primary + ";color: " + colors.textOnPrimary}
         }

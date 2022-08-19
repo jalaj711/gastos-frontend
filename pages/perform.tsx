@@ -74,6 +74,14 @@ function Performance() {
           <div className="perfStats">
             <div className="perfDone">35m 46s</div>
             <div style={{ display: "inline-flex" }}>
+              <Button icon={faStop} fullRadius outlined>
+                Stop
+              </Button>
+              <Button icon={faPause} fullRadius>
+                Pause
+              </Button>
+            </div>
+            <div style={{ display: "inline-flex", marginTop: '12px' }}>
               <PerfItem
                 title="today"
                 value="35m"
@@ -92,14 +100,6 @@ function Performance() {
                 outof="20hrs"
                 percentage="22.5"
               />
-            </div>
-            <div style={{ display: "inline-flex" }}>
-              <Button icon={faStop} fullRadius outlined>
-                Stop
-              </Button>
-              <Button icon={faPause} fullRadius>
-                Pause
-              </Button>
             </div>
           </div>
         </div>
