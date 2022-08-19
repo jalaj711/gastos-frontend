@@ -1,7 +1,7 @@
 // import { useEffect, useState } from "react";
 import CircularProgress from "./CircularProgress";
 
-export default function PerformanceProgress(){
+export default function PerformanceProgress(props: {value: number}){
     const width = (typeof window !== 'undefined' && window.innerWidth) || 500
     const height = (typeof window !== 'undefined' && window.innerHeight) || 300
     const lineWidth = 0.015 * width;
@@ -20,6 +20,6 @@ export default function PerformanceProgress(){
     //     setTimeout(increase, 10, value)
     // }, [])
   return (
-        <CircularProgress value={60} id="performanceCircular" dimension={radius*2} range={range} offSet={offSet} lineWidth={lineWidth}/>
+        <CircularProgress value={props.value} id="performanceCircular" dimension={radius*2} range={range} offSet={offSet} lineWidth={lineWidth}/>
   );
 }

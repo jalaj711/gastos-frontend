@@ -48,7 +48,7 @@ function CircularProgress(props: {
       const drawValue = () => {
         ctx.beginPath();
         ctx.strokeStyle = colors.primary;
-        ctx.lineWidth = lineWidth;
+        ctx.lineWidth = lineWidth + 0.3 * lineWidth;
         ctx.arc(
           centreX,
           centreY,
@@ -63,7 +63,7 @@ function CircularProgress(props: {
       const drawGaugeMarks = () => {
         const length = 5;
         const seperationInDegrees = props.gaugeMarkSeperation || 45;
-        var degrees = -offsetInDegrees + 90
+        var degrees = -offsetInDegrees + 90;
         const drawSingleMark = () => {
           ctx.beginPath();
 
