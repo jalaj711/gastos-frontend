@@ -13,8 +13,9 @@ export default function ActivityCard(props: {
     description: string;
     completed: number;
 }){
+  const colors = ['#6bc4abc7', '#6b8ac4c7', '#a46bc4c7', '#c4be6bc7', '#a46bc4c7']
     return (
-        <Card extraStyles="width: 27vw">
+        <Card extraStyles="width: 27vw" backgroundColor={colors[Math.floor(Math.random() * colors.length)]}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ flexBasis: "70%" }}>
                 <h3>{props.title}</h3>
@@ -28,6 +29,7 @@ export default function ActivityCard(props: {
                   dimension={100}
                   lineWidth={5}
                   offSet={-90}
+                  colors={{stroke: '#fff6', backgroundTrack: '#0001'}}
                 />
               </span>
             </div>

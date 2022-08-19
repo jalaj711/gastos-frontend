@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import colors from "../../utils/colors";
 
 function CircularProgress(props: {
@@ -12,11 +12,18 @@ function CircularProgress(props: {
   dimension?: number;
   lineWidth?: number;
   offSet?: number;
+  colors?: { stroke?: string; gaugeMarks?: string; needle?: string; backgroundTrack?: string}
 }) {
   const dimension = props.dimension || 150;
   const lineWidth = props.lineWidth || 10;
   const radius = dimension / 2 - lineWidth;
   const range = props.range || 360;
+  const colorsObject = useMemo(() => ({
+    stroke: (props.colors && props.colors.stroke) || colors.primary,
+    gaugeMarks: (props.colors && props.colors.gaugeMarks) || "#fff",
+    needle: (props.colors && props.colors.needle) || "#fff",
+    backgroundTrack: (props.colors && props.colors.backgroundTrack) || "rgba(255, 255, 255, 0.1)"
+  }), [props.colors])
 
   // Offset required for
   const offsetInDegrees = props.offSet || 90;
@@ -39,7 +46,7 @@ function CircularProgress(props: {
           (Math.PI / 180) * offsetInDegrees,
           (Math.PI / 180) * (range + offsetInDegrees)
         );
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+        ctx.strokeStyle = colorsObject.backgroundTrack;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
       };
@@ -47,7 +54,7 @@ function CircularProgress(props: {
       // Draws the actual amount of progress made
       const drawValue = () => {
         ctx.beginPath();
-        ctx.strokeStyle = colors.primary;
+        ctx.strokeStyle = colorsObject.stroke;
         ctx.lineWidth = lineWidth + 0.3 * lineWidth;
         ctx.arc(
           centreX,
@@ -88,7 +95,7 @@ function CircularProgress(props: {
               (radius - lineWidth) * Math.sin((Math.PI / 180) * degrees),
             centreY + (radius - lineWidth) * Math.cos((Math.PI / 180) * degrees)
           );
-          ctx.strokeStyle = "#fff";
+          ctx.strokeStyle = colorsObject.gaugeMarks;
           ctx.lineWidth = 1;
           ctx.stroke();
         };
@@ -108,7 +115,7 @@ function CircularProgress(props: {
           centreY +
             (radius - lineWidth - 10) * Math.cos((Math.PI / 180) * degrees)
         );
-        ctx.strokeStyle = "#fff";
+        ctx.strokeStyle = colorsObject.needle;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
       };
@@ -129,6 +136,7 @@ function CircularProgress(props: {
     lineWidth,
     range,
     offsetInDegrees,
+    colorsObject
   ]);
 
   return (
