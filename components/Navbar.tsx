@@ -1,6 +1,6 @@
 import {
   faChartSimple,
-  faUser,
+  faWallet,
   IconDefinition,
   faDollarSign,
   faAdd,
@@ -69,7 +69,7 @@ function Navbar() {
       <NavbarItem href="/dashboard" text="dashboard" icon={faChartSimple} />
       <NavbarItem href="/add" text="add" icon={faAdd} />
       <NavbarItem href="/transactions" text="transacts" icon={faDollarSign} />
-      <NavbarItem href="/profile" text="profile" icon={faUser} />
+      <NavbarItem href="/wallets" text="wallets" icon={faWallet} />
       <style jsx>
         {`
           .navbar {

@@ -2,8 +2,7 @@ import Head from "next/head";
 import ProgressBar from "../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
-
-import AccountCard from "../components/AccountCard";
+import WalletCard from "../components/WalletCard";
 import TransactionCard from "../components/TransactionCard";
 import Button from "../components/Button";
 import LabelCard from "../components/LabelCard";
@@ -39,21 +38,21 @@ function Dashboard() {
           </div>
         </div>
         <div className="section">
-          <h2>Your Accounts</h2>
+          <h2>Your Wallets</h2>
           <div className="cardGrid">
-            <AccountCard
-              title="Account 1"
-              description="Some description for Account 1"
+            <WalletCard
+              title="Wallet 1"
+              description="Some description for Wallet 1"
               value={70}
             />
-            <AccountCard
-              title="Account 2"
-              description="Some description for Account 2"
+            <WalletCard
+              title="Wallet 2"
+              description="Some description for Wallet 2"
               value={7}
             />
-            <AccountCard
-              title="Account 3"
-              description="Some description for Account 3"
+            <WalletCard
+              title="Wallet 3"
+              description="Some description for Wallet 3"
               value={50}
             />
           </div>

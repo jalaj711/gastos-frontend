@@ -5,7 +5,7 @@ import Card from "./Card";
 //   ssr: false,
 // });
 
-export default function AccountCard(props: {
+export default function WalletCard(props: {
   title: string;
   description: string;
   value: number;
