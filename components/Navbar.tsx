@@ -2,7 +2,7 @@ import {
   faChartSimple,
   faWallet,
   IconDefinition,
-  faDollarSign,
+  faMoneyBillTransfer,
   faAdd,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -68,7 +68,7 @@ function Navbar() {
     <div className="navbar">
       <NavbarItem href="/dashboard" text="dashboard" icon={faChartSimple} />
       <NavbarItem href="/add" text="add" icon={faAdd} />
-      <NavbarItem href="/transactions" text="transacts" icon={faDollarSign} />
+      <NavbarItem href="/transactions" text="transacts" icon={faMoneyBillTransfer} />
       <NavbarItem href="/wallets" text="wallets" icon={faWallet} />
       <style jsx>
         {`

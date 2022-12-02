@@ -38,7 +38,7 @@ export default function Label(props: {
               : colors.primary
             : color};
           margin: 4px;
-          display: inline;
+          display: inline-flex;
           font-weight: ${props.selected ? 700 : 400};
           cursor: pointer;
         }
