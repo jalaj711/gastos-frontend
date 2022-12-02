@@ -1,9 +1,11 @@
 import Head from "next/head";
 import ProgressBar from "../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import CardWithProgress from "../components/CardWithProgress";
+import TransactionCard from "../components/TransactionCard";
+import Button from "../components/Button";
+import LabelCard from "../components/LabelCard";
 
 function Dashboard() {
   return (
@@ -35,34 +37,112 @@ function Dashboard() {
             </div>
           </div>
         </div>
-          <h3>Recent Transactions</h3>
-        <div className="cardGrid">
-          <CardWithProgress title="Activity 1" description="Some description for activity 1" value={70} />
-          <CardWithProgress title="Activity 2" description="Some description for activity 2" value={7} />
-          <CardWithProgress title="Activity 3" description="Some description for activity 3" value={50} />
-          <CardWithProgress title="Activity 4" description="Some description for activity 4" value={23} />
-          <CardWithProgress title="Activity 5" description="Some description for activity 5" value={45} />
-          <CardWithProgress title="Activity 6" description="Some description for activity 6" value={89} />
+        <div className="section">
+          <h2>Your Accounts</h2>
+          <div className="cardGrid">
+            <TransactionCard
+              title="Account 1"
+              description="Some description for Account 1"
+              value={70}
+            />
+            <TransactionCard
+              title="Account 2"
+              description="Some description for Account 2"
+              value={7}
+            />
+            <TransactionCard
+              title="Account 3"
+              description="Some description for Account 3"
+              value={50}
+            />
+          </div>
         </div>
-          <h3>Your Labels</h3>
-        <div className="cardGrid">
-          <CardWithProgress title="Label 1" description="Some description for Label 1" value={70} />
-          <CardWithProgress title="Label 2" description="Some description for Label 2" value={7} />
-          <CardWithProgress title="Label 3" description="Some description for Label 3" value={50} />
-          <CardWithProgress title="Label 4" description="Some description for Label 4" value={23} />
-          <CardWithProgress title="Label 5" description="Some description for Label 5" value={45} />
-          <CardWithProgress title="Label 6" description="Some description for Label 6" value={89} />
+        <div className="section">
+          <h2>Recent Transactions</h2>
+          <div className="horizontalGrid">
+            <div className="horizontalGridWrapper">
+              <TransactionCard
+                title="Activity 1"
+                description="Some description for activity 1"
+                value={70}
+              />
+              <TransactionCard
+                title="Activity 2"
+                description="Some description for activity 2"
+                value={7}
+              />
+              <TransactionCard
+                title="Activity 3"
+                description="Some description for activity 3"
+                value={50}
+              />
+              <TransactionCard
+                title="Activity 4"
+                description="Some description for activity 4"
+                value={23}
+              />
+              <TransactionCard
+                title="Activity 5"
+                description="Some description for activity 5"
+                value={45}
+              />
+              <TransactionCard
+                title="Activity 6"
+                description="Some description for activity 6"
+                value={89}
+              />
+            </div>
+          </div>
+          <div style={{ float: "right" }}>
+            <Button secondary small endIcon={faAngleRight}>
+              View all
+            </Button>
+          </div>
         </div>
-          <h3>Your Accounts</h3>
-        <div className="cardGrid">
-          <CardWithProgress title="Account 1" description="Some description for Account 1" value={70} />
-          <CardWithProgress title="Account 2" description="Some description for Account 2" value={7} />
-          <CardWithProgress title="Account 3" description="Some description for Account 3" value={50} />
-          <CardWithProgress title="Account 4" description="Some description for Account 4" value={23} />
-          <CardWithProgress title="Account 5" description="Some description for Account 5" value={45} />
-          <CardWithProgress title="Account 6" description="Some description for Account 6" value={89} />
+        <div className="section">
+          <h2>Your Labels</h2>
+          <div className="horizontalGrid">
+            <div className="horizontalGridWrapper">
+              <LabelCard
+                title="Label 1"
+                description="Some description for Label 1"
+                value={70}
+              />
+              <LabelCard
+                title="Label 2"
+                description="Some description for Label 2"
+                value={7}
+              />
+              <LabelCard
+                title="Label 3"
+                description="Some description for Label 3"
+                value={50}
+              />
+              <LabelCard
+                title="Label 4"
+                description="Some description for Label 4"
+                value={23}
+              />
+              <LabelCard
+                title="Label 5"
+                description="Some description for Label 5"
+                value={45}
+              />
+              <LabelCard
+                title="Label 6"
+                description="Some description for Label 6"
+                value={89}
+              />
+            </div>
+          </div>
+          <div style={{ float: "right" }}>
+            <Button secondary small endIcon={faAngleRight}>
+              View all
+            </Button>
+          </div>
         </div>
       </main>
+      <div style={{ width: "100vw", height: "72px"}} />
 
       <style jsx>
         {`
@@ -136,14 +216,23 @@ function Dashboard() {
           }
 
           .cardGrid {
-            
             display: flex;
             flex-wrap: wrap;
             width: 100%;
             justify-content: space-evenly;
           }
-          h3 {
+          .horizontalGrid {
+            max-width: 100vw;
+            overflow-x: auto;
+          }
+          .horizontalGridWrapper {
+            width: max-content;
+            display: flex;
+          }
+          h2 {
             margin-left: 12px;
+          }
+          .section {
           }
 
           @media (max-width: 850px) {
@@ -157,7 +246,16 @@ function Dashboard() {
               margin-top: 32px;
             }
             .progressWrapper > :global(.progressContainer) {
-              margin: 4px;
+              margin: 6px;
+            }
+
+            :global(.progressBar) {
+              width: 30px !important;
+              border-radius: 8px !important;
+            }
+            :global(.progressElement) {
+              width: 24px !important;
+              border-radius: 6px !important;
             }
             .cardContainer {
               padding: 8px;
