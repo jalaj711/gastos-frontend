@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 
 function Card(props: {
   children: ReactNode;
-  bgImage?: boolean;
   extraStyles?: string;
   backgroundColor?: string;
+  small?: boolean;
   onClick?: (evt: Event) => any;
 }) {
   return (
@@ -16,20 +16,14 @@ function Card(props: {
         {`
           .container {
             width: fit-content;
-            ${props.bgImage
-              ? `background-image: url(/assets/CardBg1.svg);
-            background-repeat: no-repeat;
-            background-size: 80px;
-            background-position-x: 95%;`
-              : ""}
-            margin: 12px;
-            border-radius: 16px;
+            margin: ${props.small ? "8px" : "12px"};
+            border-radius: ${props.small ? "12px" : "16px"};
             ${props.extraStyles}
           }
           .wrapper {
-            padding: 24px;
-            border-radius: 16px;
-            background-color: ${props.backgroundColor || 'rgba(0, 0, 0)'} !important;
+            padding: ${props.small ? "12px" : "24px"};
+            border-radius: ${props.small ? "8px" : "16px"};
+            background-color: ${props.backgroundColor || 'rgba(255, 255, 255, 0.05)'} !important;
             background: linear-gradient(
               rgba(255, 255, 255, 0.05),
               rgba(255, 255, 255, 0.05)
