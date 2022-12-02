@@ -1,4 +1,5 @@
 import Card from "./Card";
+import colors from "../utils/colors";
 // import dynamic from "next/dynamic";
 
 // const CircularProgress = dynamic(() => import("./Progress/CircularProgress"), {
@@ -9,6 +10,8 @@ export default function WalletCard(props: {
   title: string;
   description: string;
   value: number;
+  selected?: boolean;
+  small?: boolean;
 }) {
   // const colors = [
   //   "#6bc4abc7",
@@ -18,7 +21,11 @@ export default function WalletCard(props: {
   //   "#a46bc4c7",
   // ];
   return (
-    <Card>
+    <Card
+      small={props.small}
+      extraStyles="min-width: 300px"
+      backgroundColor={props.selected ? colors.dark : undefined}
+    >
       <div
         style={{
           display: "flex",
@@ -29,7 +36,9 @@ export default function WalletCard(props: {
         <h1>${props.value}</h1>
         <div className="content">
           <h3>{props.title}</h3>
-          <p style={{ color: "#fff6" }}>{props.description}</p>
+          {!props.small && (
+            <p style={{ color: "#fff6" }}>{props.description}</p>
+          )}
         </div>
       </div>
       <style jsx>{`
