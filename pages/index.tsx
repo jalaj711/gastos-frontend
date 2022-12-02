@@ -6,6 +6,7 @@ import CircularProgress from "../components/Progress/CircularProgress";
 import Input from "../components/Input";
 import Loader from "../components/Loader";
 import ProgressBar from "../components/Progress/ProgressBar";
+import Label from "../components/Label";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCancel, faCoffee, faCross, faCrosshairs, faXmark } from "@fortawesome/free-solid-svg-icons";
 
@@ -32,6 +33,12 @@ const Home: NextPage = () => {
         <Loader />
         <Card>Some great content for this card in the making.</Card>
 
+        <Label>food</Label>
+        <Label selected>electronics</Label>
+        <Label>food</Label>
+        <Label color="#e65252">stationary</Label>
+        <Label color="#607cea" selected>food</Label>
+        <Label color="#607cea">food</Label>
 
         <Button>normal</Button>
         <Button outlined>outlined</Button>
