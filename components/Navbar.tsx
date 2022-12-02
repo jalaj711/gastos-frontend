@@ -1,9 +1,9 @@
 import {
   faChartSimple,
-  faPlus,
-  faGaugeHigh,
   faUser,
   IconDefinition,
+  faDollarSign,
+  faAdd,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import colors from "../utils/colors";
@@ -67,8 +67,8 @@ function Navbar() {
   return (
     <div className="navbar">
       <NavbarItem href="/dashboard" text="dashboard" icon={faChartSimple} />
-      <NavbarItem href="/add" text="add" icon={faPlus} />
-      <NavbarItem href="/perform" text="perform" icon={faGaugeHigh} />
+      <NavbarItem href="/add" text="add" icon={faAdd} />
+      <NavbarItem href="/transactions" text="transacts" icon={faDollarSign} />
       <NavbarItem href="/profile" text="profile" icon={faUser} />
       <style jsx>
         {`
