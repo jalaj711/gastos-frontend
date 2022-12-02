@@ -29,7 +29,7 @@ const Home: NextPage = () => {
           <ProgressBar value={87} sub="Sat" horizontal showValue />
           <ProgressBar value={99} sub="Sun" horizontal showValue />
         </div>
-        <Loader static />
+        <Loader />
         <Card>Some great content for this card in the making.</Card>
         <Button outlined>test</Button>
         <Button outlined fullRadius icon={faXmark}>

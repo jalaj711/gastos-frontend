@@ -15,7 +15,7 @@ export default function ActivityCard(props: {
 }){
   const colors = ['#6bc4abc7', '#6b8ac4c7', '#a46bc4c7', '#c4be6bc7', '#a46bc4c7']
     return (
-        <Card extraStyles="width: 27vw" backgroundColor={colors[Math.floor(Math.random() * colors.length)]}>
+        <Card extraStyles="min-width: 27vw" backgroundColor={colors[Math.floor(Math.random() * colors.length)]}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ flexBasis: "70%" }}>
                 <h3>{props.title}</h3>

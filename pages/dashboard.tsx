@@ -35,6 +35,25 @@ function Dashboard() {
             </div>
           </div>
         </div>
+          <h3>Recent Transactions</h3>
+        <div className="activityGrid">
+          <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
+          <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
+          <ActivityCard title="Activity 3" description="Some description for activity 3" completed={50} />
+          <ActivityCard title="Activity 4" description="Some description for activity 4" completed={23} />
+          <ActivityCard title="Activity 5" description="Some description for activity 5" completed={45} />
+          <ActivityCard title="Activity 6" description="Some description for activity 6" completed={89} />
+        </div>
+          <h3>Your Labels</h3>
+        <div className="activityGrid">
+          <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
+          <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
+          <ActivityCard title="Activity 3" description="Some description for activity 3" completed={50} />
+          <ActivityCard title="Activity 4" description="Some description for activity 4" completed={23} />
+          <ActivityCard title="Activity 5" description="Some description for activity 5" completed={45} />
+          <ActivityCard title="Activity 6" description="Some description for activity 6" completed={89} />
+        </div>
+          <h3>Your Accounts</h3>
         <div className="activityGrid">
           <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
           <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
@@ -117,14 +136,43 @@ function Dashboard() {
           }
 
           .activityGrid {
-            display: grid;
-            grid-template-columns: 28vw 28vw 28vw;
-            padding: 0 24px;
+            
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
             justify-content: space-evenly;
-            margin-top: 24px;
+          }
+          h3 {
+            margin-left: 12px;
+          }
+
+          @media (max-width: 850px) {
+            .mainWrapper {
+              flex-direction: column;
+            }
+          }
+
+          @media (max-width: 500px) {
+            .mainWrapper {
+              margin-top: 32px;
+            }
+            .progressWrapper > :global(.progressContainer) {
+              margin: 4px;
+            }
+            .cardContainer {
+              padding: 8px;
+              border-radius: 8px;
+            }
+            h1 {
+              font-size: 3rem;
+            }
           }
         `}
       </style>
+      {/* display: grid;
+            grid-template-columns: 28vw 28vw 28vw;
+            padding: 0 24px;
+            margin-top: 24px; */}
     </>
   );
 }
