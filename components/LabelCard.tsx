@@ -21,14 +21,18 @@ export default function LabelCard(props: {
     <Card
       extraStyles="min-width: 27vw"
       backgroundColor={colors[Math.floor(Math.random() * colors.length)]}
+      small
     >
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          flexDirection: "column",
         }}
       >
+        <div style={{ flexBasis: "70%" }}>
+          <h3>{props.title}</h3>
+          <p style={{ color: "#fff6" }}>{props.description}</p>
+        </div>
         <span style={{ flexBasis: "30%" }}>
           <CircularProgress
             value={props.value}
@@ -38,16 +42,12 @@ export default function LabelCard(props: {
               props.title.replace(" ", "") +
               Math.random() * 100
             }
-            dimension={80}
+            dimension={70}
             lineWidth={4}
             offSet={-90}
             colors={{ stroke: "#fff6", backgroundTrack: "#0001" }}
           />
         </span>
-        <div style={{ flexBasis: "70%" }}>
-          <h3>{props.title}</h3>
-          <p style={{ color: "#fff6" }}>{props.description}</p>
-        </div>
       </div>
     </Card>
   );

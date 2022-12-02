@@ -74,10 +74,10 @@ function Performance() {
           <div className="perfStats">
             <div className="perfDone">35m 46s</div>
             <div style={{ display: "inline-flex" }}>
-              <Button icon={faStop} fullRadius outlined>
+              <Button startIcon={faStop} fullRadius outlined>
                 Stop
               </Button>
-              <Button icon={faPause} fullRadius>
+              <Button startIcon={faPause} fullRadius>
                 Pause
               </Button>
             </div>

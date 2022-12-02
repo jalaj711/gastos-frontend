@@ -16,10 +16,14 @@ export default function BackButton() {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            border: 1px solid rgba(160, 160, 160);
+            border: none;
             padding: 8px;
             color: rgba(160, 160, 160);
             background: ${colors.background};
+            background-image: linear-gradient(
+              rgba(255, 255, 255, 0.05),
+              rgba(255, 255, 255, 0.05)
+            );
             position: fixed;
             top: 16px;
             left: 16px;

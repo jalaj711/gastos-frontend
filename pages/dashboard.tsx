@@ -86,12 +86,12 @@ function Dashboard() {
                 title="Activity 5"
                 description="Some description for activity 5"
                 value={-45}
-              /><TransactionCard
-              small
-              title="Activity 5"
-              description="Some description for activity 5"
-              value={-7.99}
-            />
+              />
+              <TransactionCard
+                title="Activity 5"
+                description="Some description for activity 5"
+                value={-7.99}
+              />
               <TransactionCard
                 title="Activity 6"
                 description="Some description for activity 6"
