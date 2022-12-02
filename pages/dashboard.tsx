@@ -3,7 +3,7 @@ import ProgressBar from "../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import ActivityCard from "../components/ActivityCard";
+import CardWithProgress from "../components/CardWithProgress";
 
 function Dashboard() {
   return (
@@ -36,31 +36,31 @@ function Dashboard() {
           </div>
         </div>
           <h3>Recent Transactions</h3>
-        <div className="activityGrid">
-          <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
-          <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
-          <ActivityCard title="Activity 3" description="Some description for activity 3" completed={50} />
-          <ActivityCard title="Activity 4" description="Some description for activity 4" completed={23} />
-          <ActivityCard title="Activity 5" description="Some description for activity 5" completed={45} />
-          <ActivityCard title="Activity 6" description="Some description for activity 6" completed={89} />
+        <div className="cardGrid">
+          <CardWithProgress title="Activity 1" description="Some description for activity 1" value={70} />
+          <CardWithProgress title="Activity 2" description="Some description for activity 2" value={7} />
+          <CardWithProgress title="Activity 3" description="Some description for activity 3" value={50} />
+          <CardWithProgress title="Activity 4" description="Some description for activity 4" value={23} />
+          <CardWithProgress title="Activity 5" description="Some description for activity 5" value={45} />
+          <CardWithProgress title="Activity 6" description="Some description for activity 6" value={89} />
         </div>
           <h3>Your Labels</h3>
-        <div className="activityGrid">
-          <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
-          <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
-          <ActivityCard title="Activity 3" description="Some description for activity 3" completed={50} />
-          <ActivityCard title="Activity 4" description="Some description for activity 4" completed={23} />
-          <ActivityCard title="Activity 5" description="Some description for activity 5" completed={45} />
-          <ActivityCard title="Activity 6" description="Some description for activity 6" completed={89} />
+        <div className="cardGrid">
+          <CardWithProgress title="Label 1" description="Some description for Label 1" value={70} />
+          <CardWithProgress title="Label 2" description="Some description for Label 2" value={7} />
+          <CardWithProgress title="Label 3" description="Some description for Label 3" value={50} />
+          <CardWithProgress title="Label 4" description="Some description for Label 4" value={23} />
+          <CardWithProgress title="Label 5" description="Some description for Label 5" value={45} />
+          <CardWithProgress title="Label 6" description="Some description for Label 6" value={89} />
         </div>
           <h3>Your Accounts</h3>
-        <div className="activityGrid">
-          <ActivityCard title="Activity 1" description="Some description for activity 1" completed={70} />
-          <ActivityCard title="Activity 2" description="Some description for activity 2" completed={7} />
-          <ActivityCard title="Activity 3" description="Some description for activity 3" completed={50} />
-          <ActivityCard title="Activity 4" description="Some description for activity 4" completed={23} />
-          <ActivityCard title="Activity 5" description="Some description for activity 5" completed={45} />
-          <ActivityCard title="Activity 6" description="Some description for activity 6" completed={89} />
+        <div className="cardGrid">
+          <CardWithProgress title="Account 1" description="Some description for Account 1" value={70} />
+          <CardWithProgress title="Account 2" description="Some description for Account 2" value={7} />
+          <CardWithProgress title="Account 3" description="Some description for Account 3" value={50} />
+          <CardWithProgress title="Account 4" description="Some description for Account 4" value={23} />
+          <CardWithProgress title="Account 5" description="Some description for Account 5" value={45} />
+          <CardWithProgress title="Account 6" description="Some description for Account 6" value={89} />
         </div>
       </main>
 
@@ -135,7 +135,7 @@ function Dashboard() {
             display: flex;
           }
 
-          .activityGrid {
+          .cardGrid {
             
             display: flex;
             flex-wrap: wrap;

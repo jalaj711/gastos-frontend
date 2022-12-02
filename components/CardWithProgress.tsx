@@ -8,10 +8,10 @@ const CircularProgress = dynamic(
   }
 );
 
-export default function ActivityCard(props: {
+export default function CardWithProgress(props: {
     title: string;
     description: string;
-    completed: number;
+    value: number;
 }){
   const colors = ['#6bc4abc7', '#6b8ac4c7', '#a46bc4c7', '#c4be6bc7', '#a46bc4c7']
     return (
@@ -23,7 +23,7 @@ export default function ActivityCard(props: {
               </div>
               <span style={{ flexBasis: "30%" }}>
                 <CircularProgress
-                  value={props.completed}
+                  value={props.value}
                   showValue
                   id={"progActivity" + props.title.replace(' ', '') + Math.random()*100}
                   dimension={100}
