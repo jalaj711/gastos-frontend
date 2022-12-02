@@ -31,14 +31,25 @@ const Home: NextPage = () => {
         </div>
         <Loader />
         <Card>Some great content for this card in the making.</Card>
-        <Button outlined>test</Button>
-        <Button outlined fullRadius icon={faXmark}>
-          Cancel
+
+
+        <Button>normal</Button>
+        <Button outlined>outlined</Button>
+        <Button startIcon={faXmark}>
+          starticon
         </Button>
-        <Button fullRadius icon={faCoffee}>
-          test
+        <Button endIcon={faCoffee}>
+          endicon
         </Button>
-        <Button>test</Button>
+        <Button small>small</Button>
+        <Button small fullRadius>small fullradius</Button>
+        <Button secondary>secondary</Button>
+        <Button secondary small>secondary small</Button>
+        <Button secondary outlined>secondary outlined</Button>
+        <Button secondary outlined small>secondary outlined small</Button>
+        <Button secondary fullRadius>secondary fullRadius</Button>
+
+
         <CircularProgress value={60} showValue id="circularprogress" />
         <CircularProgress
           value={60}
