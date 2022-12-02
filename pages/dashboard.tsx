@@ -3,6 +3,7 @@ import ProgressBar from "../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 
+import AccountCard from "../components/AccountCard";
 import TransactionCard from "../components/TransactionCard";
 import Button from "../components/Button";
 import LabelCard from "../components/LabelCard";
@@ -40,17 +41,17 @@ function Dashboard() {
         <div className="section">
           <h2>Your Accounts</h2>
           <div className="cardGrid">
-            <TransactionCard
+            <AccountCard
               title="Account 1"
               description="Some description for Account 1"
               value={70}
             />
-            <TransactionCard
+            <AccountCard
               title="Account 2"
               description="Some description for Account 2"
               value={7}
             />
-            <TransactionCard
+            <AccountCard
               title="Account 3"
               description="Some description for Account 3"
               value={50}
@@ -64,12 +65,12 @@ function Dashboard() {
               <TransactionCard
                 title="Activity 1"
                 description="Some description for activity 1"
-                value={70}
+                value={-70}
               />
               <TransactionCard
                 title="Activity 2"
                 description="Some description for activity 2"
-                value={7}
+                value={-7}
               />
               <TransactionCard
                 title="Activity 3"
@@ -84,8 +85,13 @@ function Dashboard() {
               <TransactionCard
                 title="Activity 5"
                 description="Some description for activity 5"
-                value={45}
-              />
+                value={-45}
+              /><TransactionCard
+              small
+              title="Activity 5"
+              description="Some description for activity 5"
+              value={-7.99}
+            />
               <TransactionCard
                 title="Activity 6"
                 description="Some description for activity 6"
@@ -142,7 +148,7 @@ function Dashboard() {
           </div>
         </div>
       </main>
-      <div style={{ width: "100vw", height: "72px"}} />
+      <div style={{ width: "100vw", height: "72px" }} />
 
       <style jsx>
         {`
