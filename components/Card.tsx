@@ -1,15 +1,15 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
 function Card(props: {
   children: ReactNode;
   extraStyles?: string;
   backgroundColor?: string;
   small?: boolean;
-  onClick?: (evt: Event) => any;
+  onClick?: MouseEventHandler;
 }) {
   return (
     <>
-      <div className="container">
+      <div className="container" onClick={props.onClick}>
         <div className="wrapper">{props.children}</div>
       </div>
       <style jsx>

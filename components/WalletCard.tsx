@@ -1,5 +1,6 @@
 import Card from "./Card";
 import colors from "../utils/colors";
+import { MouseEventHandler } from "react";
 // import dynamic from "next/dynamic";
 
 // const CircularProgress = dynamic(() => import("./Progress/CircularProgress"), {
@@ -12,6 +13,7 @@ export default function WalletCard(props: {
   value: number;
   selected?: boolean;
   small?: boolean;
+  onClick?: MouseEventHandler;
 }) {
   // const colors = [
   //   "#6bc4abc7",
@@ -25,6 +27,7 @@ export default function WalletCard(props: {
       small={props.small}
       extraStyles="min-width: 300px"
       backgroundColor={props.selected ? colors.dark : undefined}
+      onClick={props.onClick}
     >
       <div
         style={{

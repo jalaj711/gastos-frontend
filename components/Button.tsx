@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import colors from "../utils/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -11,10 +11,11 @@ function button(props: {
   fullRadius?: boolean;
   startIcon?: IconDefinition;
   endIcon?: IconDefinition;
+  onClick?: MouseEventHandler
 }) {
   return (
     <>
-      <button>
+      <button onClick={props.onClick}>
         {props.startIcon && (
           <FontAwesomeIcon
             icon={props.startIcon}

@@ -1,16 +1,18 @@
 import colors from "../utils/colors";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MouseEventHandler } from "react";
 
 export default function Label(props: {
   children: string;
   selected?: boolean;
   color?: string;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }) {
   const color = props.color || "rgba(228,228,228)";
   return (
     <>
-      <div>
+      <div onClick={props.onClick}>
         {props.selected && (
           <FontAwesomeIcon icon={faCheck} style={{ marginRight: "4px" }} />
         )}
