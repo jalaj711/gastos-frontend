@@ -6,6 +6,45 @@ import WalletCard from "../components/WalletCard";
 import TransactionCard from "../components/TransactionCard";
 import Button from "../components/Button";
 import LabelCard from "../components/LabelCard";
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  Line,
+  Tooltip,
+} from "recharts";
+import colors from "../utils/colors";
+
+const dummyData = [
+  {
+    name: "Jan",
+    amt: 2400,
+  },
+  {
+    name: "Feb",
+    amt: 2210,
+  },
+  {
+    name: "Mar",
+    amt: 2290,
+  },
+  {
+    name: "Apr",
+    amt: 2000,
+  },
+  {
+    name: "May",
+    amt: 2181,
+  },
+  {
+    name: "Jun",
+    amt: 2500,
+  },
+  {
+    name: "Jul",
+    amt: 2100,
+  },
+];
 
 function Dashboard() {
   return (
@@ -35,26 +74,6 @@ function Dashboard() {
               <FontAwesomeIcon icon={faSearch} strokeWidth={1} />
               <input placeholder="Search..." />
             </div>
-          </div>
-        </div>
-        <div className="section">
-          <h2>Your Wallets</h2>
-          <div className="cardGrid">
-            <WalletCard
-              title="Wallet 1"
-              description="Some description for Wallet 1"
-              value={70}
-            />
-            <WalletCard
-              title="Wallet 2"
-              description="Some description for Wallet 2"
-              value={7}
-            />
-            <WalletCard
-              title="Wallet 3"
-              description="Some description for Wallet 3"
-              value={50}
-            />
           </div>
         </div>
         <div className="section">
@@ -102,6 +121,117 @@ function Dashboard() {
             <Button secondary small endIcon={faAngleRight}>
               View all
             </Button>
+          </div>
+        </div>
+        <div className="section">
+          <h2>Statistics</h2>
+          <div className="cardGrid stats">
+            <div>
+              <h3>Transactions this week</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+            <div>
+              <h3>Spent this week</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+
+            <div>
+              <h3>Transactions this month</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+            <div>
+              <h3>Spent this month</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+          </div>
+          </div>
+
+        <div className="section">
+          <h2>Your Wallets</h2>
+          <div className="cardGrid">
+            <WalletCard
+              title="Wallet 1"
+              description="Some description for Wallet 1"
+              value={70}
+            />
+            <WalletCard
+              title="Wallet 2"
+              description="Some description for Wallet 2"
+              value={7}
+            />
+            <WalletCard
+              title="Wallet 3"
+              description="Some description for Wallet 3"
+              value={50}
+            />
           </div>
         </div>
         <div className="section">
@@ -225,6 +355,12 @@ function Dashboard() {
             flex-wrap: wrap;
             width: 100%;
             justify-content: space-evenly;
+          }
+          .stats h3 {
+            text-align: center;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 900;
           }
           .horizontalGrid {
             max-width: 100vw;

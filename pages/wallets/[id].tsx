@@ -14,7 +14,6 @@ import {
   Tooltip,
 } from "recharts";
 import colors from "../../utils/colors";
-import Card from "../../components/Card";
 
 const dummyData = [
   {
