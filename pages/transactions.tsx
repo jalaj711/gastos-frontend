@@ -1,60 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import Label from "../components/Label";
-import Card from "../components/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import TransactionCard from "../components/TransactionCard";
 
-function Transaction(props: {
-  title: string;
-  description?: string;
-  value: number;
-  labels?: Array<string>;
-}) {
-  return (
-    <Card extraStyles="width: 100%;max-width: 700px;">
-      <div className="wrapper">
-        <div className="content">
-          <h3>{props.title}</h3>
-          <p style={{ color: "#fff6" }}>{props.description}</p>
-          <div>
-            {props.labels &&
-              props.labels.map((label, index) => (
-                <Label key={index}>{label}</Label>
-              ))}
-          </div>
-          <div className="details">
-            <span>12 Nov 22</span>
-            <span>•</span>
-            <span>Wallet 1</span>
-          </div>
-        </div>
-        <h1>${props.value}</h1>
-      </div>
-      <style jsx>{`
-        .wrapper {
-          display: flex;
-          align-items: center;
-        }
-        h3,
-        p {
-          margin: 4px 0;
-        }
-        .content {
-          margin-right: 16px;
-          flex-grow: 1;
-        }
-        .details {
-          font-size: small;
-          color: #fff6;
-        }
-        .details span {
-          margin: 0 2px;
-        }
-      `}</style>
-    </Card>
-  );
-}
 
 function TransactionHistory() {
   return (
@@ -91,52 +41,52 @@ function TransactionHistory() {
           </div>
           <div className="trxns cardGrid">
             <h4>5 Transaction(s)</h4>
-            <Transaction title="trxn 1" value={45} />
-            <Transaction
+            <TransactionCard title="trxn 1" value={45} />
+            <TransactionCard
               title="trxn 2"
               value={65}
               description="some great description"
               labels={["food", "dfc", "food", "dfc", "food", "dfc"]}
             />
-            <Transaction
+            <TransactionCard
               title="trxn 3"
               value={15}
               labels={["stationary", "book"]}
             />
-            <Transaction
-              title="trxn 3"
-              value={15}
-              description="some great description"
-              labels={["stationary", "book"]}
-            />
-            <Transaction
-              title="trxn 3"
-              value={15}
-              labels={["stationary", "book"]}
-            />
-            <Transaction
+            <TransactionCard
               title="trxn 3"
               value={15}
               description="some great description"
               labels={["stationary", "book"]}
             />
-            <Transaction
+            <TransactionCard
               title="trxn 3"
               value={15}
               labels={["stationary", "book"]}
             />
-            <Transaction
+            <TransactionCard
               title="trxn 3"
               value={15}
               description="some great description"
               labels={["stationary", "book"]}
             />
-            <Transaction
+            <TransactionCard
               title="trxn 3"
               value={15}
               labels={["stationary", "book"]}
             />
-            <Transaction
+            <TransactionCard
+              title="trxn 3"
+              value={15}
+              description="some great description"
+              labels={["stationary", "book"]}
+            />
+            <TransactionCard
+              title="trxn 3"
+              value={15}
+              labels={["stationary", "book"]}
+            />
+            <TransactionCard
               title="trxn 3"
               value={15}
               description="some great description"
