@@ -1,16 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import { faMoneyBillTransfer } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Label from "../components/Label";
 import WalletCard from "../components/WalletCard";
 import Card from "../components/Card";
+import colors from "../utils/colors";
 
-function TransactionInput() {
-  const dollars = React.useRef<HTMLDivElement>(null);
-  const cents = React.useRef<HTMLDivElement>(null);
-
+function TransactionInput(props: {
+  dollars: React.RefObject<HTMLDivElement>;
+  cents: React.RefObject<HTMLDivElement>;
+}) {
+  const { dollars, cents } = props;
   const handleDollarChange = () => {
     if (dollars.current) {
       const val = Number(dollars.current.innerText);
@@ -39,17 +41,17 @@ function TransactionInput() {
         <div className="currency">$</div>
         <div
           className="dollars"
-          contentEditable
           ref={dollars}
           onKeyUp={handleDollarChange}
+          contentEditable
         >
           00
         </div>
         <div
           className="cents"
-          contentEditable
           ref={cents}
           onKeyUp={handleCentChange}
+          contentEditable
         >
           00
         </div>
@@ -82,6 +84,34 @@ function TransactionInput() {
 }
 
 function Add() {
+  const [transactionType, setTransactionType] = React.useState(-1);
+  const [wallet, setWallet] = React.useState(1);
+  const [labels, setLabels] = React.useState<Array<string>>([]);
+  const dollars = React.useRef<HTMLDivElement>(null);
+  const cents = React.useRef<HTMLDivElement>(null);
+  const description = React.useRef<HTMLTextAreaElement>(null);
+
+  const toggleLabel = (label: string) => {
+    const index = labels.indexOf(label);
+    const lbl = labels.slice();
+    if (index > -1) {
+      lbl.splice(index, 1);
+    } else {
+      lbl.push(label);
+    }
+    setLabels(lbl);
+  };
+
+  const handleSubmit = () => {
+    console.log({
+      amount: Number(dollars.current?.innerText) + 0.01 * Number(cents.current?.innerText),
+      description: description.current?.value,
+      transactionType,
+      wallet,
+      labels
+    })
+  }
+
   return (
     <>
       <Head>
@@ -92,17 +122,57 @@ function Add() {
 
       <main>
         <div className="mainWrapper">
-          <h1>Add</h1>
+          <h1>Add transcation</h1>
         </div>
         <div className="section">
           <h3>Transaction Amount</h3>
-          <TransactionInput />
-          <Input type="text" placeholder="Description" />
+          <TransactionInput dollars={dollars} cents={cents} />
+          <textarea
+            placeholder="Description"
+            rows={4}
+            className="description"
+            ref={description}
+          />
           <h3>Pick labels:</h3>
           <div>
-            <Label>Food</Label>
-            <Label>Stationary</Label>
-            <Label>Bill</Label>
+            <Label
+              onClick={() => {
+                toggleLabel("food");
+                console.log("fd", labels);
+              }}
+              selected={labels.indexOf("food") > -1}
+            >
+              Food
+            </Label>
+            <Label
+              onClick={() => toggleLabel("stationary")}
+              selected={labels.indexOf("stationary") > -1}
+            >
+              Stationary
+            </Label>
+            <Label
+              onClick={() => toggleLabel("bill")}
+              selected={labels.indexOf("bill") > -1}
+            >
+              Bill
+            </Label>
+          </div>
+          <h3>Is this an expense or an income?</h3>
+          <div className="cardGrid">
+            <Card
+              small
+              onClick={() => setTransactionType(1)}
+              backgroundColor={transactionType === 1 ? colors.dark : undefined}
+            >
+              <h3>Income</h3>
+            </Card>
+            <Card
+              small
+              onClick={() => setTransactionType(-1)}
+              backgroundColor={transactionType === -1 ? colors.dark : undefined}
+            >
+              <h3>Expense</h3>
+            </Card>
           </div>
           <h3>Which wallet to use?</h3>
           <div className="cardGrid">
@@ -111,31 +181,27 @@ function Add() {
               title="Wallet 1"
               description="Some description for Wallet 1"
               value={70}
-              selected
+              selected={wallet === 1}
+              onClick={() => setWallet(1)}
             />
             <WalletCard
               small
               title="Wallet 2"
               description="Some description for Wallet 2"
               value={7}
+              selected={wallet === 2}
+              onClick={() => setWallet(2)}
             />
             <WalletCard
               small
               title="Wallet 3"
               description="Some description for Wallet 3"
               value={50}
+              selected={wallet === 3}
+              onClick={() => setWallet(3)}
             />
           </div>
-          <h3>Is this an expense or an income?</h3>
-          <div className="cardGrid">
-            <Card small backgroundColor="#6bc479c7">
-              <h3>Income</h3>
-            </Card>
-            <Card small backgroundColor="#f44336c7">
-              <h3>Expense</h3>
-            </Card>
-          </div>
-          <Button startIcon={faMoneyBillTransfer}>Add transaction</Button>
+          <Button startIcon={faCheck} onClick={handleSubmit}>Add transaction</Button>
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
@@ -179,6 +245,18 @@ function Add() {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+          }
+          .description {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+            margin-top:12px;
+          }
+
+          .description:focus {
+            outline: none;
           }
 
           @media (max-width: 500px) {
