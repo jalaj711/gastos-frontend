@@ -1,11 +1,11 @@
 import Head from "next/head";
-import ProgressBar from "../components/Progress/ProgressBar";
+import ProgressBar from "../../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
-import WalletCard from "../components/WalletCard";
-import TransactionCard from "../components/TransactionCard";
-import Button from "../components/Button";
-import LabelCard from "../components/LabelCard";
+import WalletCard from "../../components/WalletCard";
+import TransactionCard from "../../components/TransactionCard";
+import Button from "../../components/Button";
+import LabelCard from "../../components/LabelCard";
 
 function Wallets() {
   return (
