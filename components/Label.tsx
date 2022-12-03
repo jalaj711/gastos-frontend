@@ -33,7 +33,6 @@ export default function Label(props: {
           font-size: 12px;
           text-transform: uppercase;
           background: rgba(255, 255, 255, 0.05);
-          width: min-content;
           color: ${props.selected
             ? props.color
               ? color
