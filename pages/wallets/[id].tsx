@@ -47,6 +47,33 @@ const dummyData = [
   },
 ];
 
+function TransactionInput(props: { dollars: number; cents: number }) {
+  return (
+    <>
+      <div className="transaction-wrapper">
+        <div className="currency">$</div>
+        <div className="dollars">{props.dollars}</div>
+        <div className="cents">{props.cents}</div>
+      </div>
+      <style jsx>{`
+        .transaction-wrapper {
+          font-size: 4rem;
+          display: flex;
+          font-weight: 700;
+          display: flex;
+        }
+        .currency {
+          margin-right: 8px;
+        }
+        .cents {
+          font-size: 2rem;
+          align-self: flex-start;
+        }
+      `}</style>
+    </>
+  );
+}
+
 function Wallet() {
   return (
     <>
@@ -59,8 +86,128 @@ function Wallet() {
       <main>
         <div className="mainWrapper">
           <h1>Wallet 1</h1>
+          <div className="primaryContainer">
+            <div className="cardContainer">
+              <div className="progressWrapper">
+                <span className="button-like">current balance</span>
+                <TransactionInput dollars={543} cents={67} />
+                <div className="stats">
+                  <div>
+                    <span className="button-like">Spent today:</span>
+                    <span className="value button-like">$53</span>
+                  </div>
+                  <div>
+                    <span className="button-like">spent this week:</span>
+                    <span className="value button-like">$93</span>
+                  </div>
+                  <div>
+                    <span className="button-like">spent this month:</span>
+                    <span className="value button-like">$153</span>
+                  </div>
+                  <div>
+                    <span className="button-like">
+                      total transactions this month:
+                    </span>
+                    <span className="value button-like">53</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="search">
+              <FontAwesomeIcon icon={faSearch} strokeWidth={1} />
+              <input placeholder="Search..." />
+            </div>
+          </div>
         </div>
         <div className="section">
+          <h2>Statistics</h2>
+          <div className="cardGrid">
+            <div>
+              <h3>Average Monthly balance</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+            <div>
+              <h3>Average Weekly balance</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+
+            <div>
+              <h3>Average Monthly Spend</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+            <div>
+              <h3>Average Weekly Spend</h3>
+              <LineChart
+                width={300}
+                height={200}
+                data={dummyData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip
+                  wrapperStyle={{ borderRadius: "8px" }}
+                  contentStyle={{
+                    background: "#000",
+                    borderRadius: "16px",
+                    border: "none",
+                  }}
+                />
+                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
+              </LineChart>
+            </div>
+          </div>
           <div>
             <h2>Recent Transactions</h2>
             <div className="horizontalGrid">
@@ -108,134 +255,6 @@ function Wallet() {
               </Button>
             </div>
           </div>
-          <h2>Statistics</h2>
-          <div className="cardGrid">
-            <Card small backgroundColor="rgba(255, 255, 255, 0.01)">
-              <h3>Average Monthly balance</h3>
-              <AreaChart
-                width={300}
-                height={200}
-                data={dummyData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="colorAmt" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor={colors.primary}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={colors.primary}
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip
-                  wrapperStyle={{ borderRadius: "8px" }}
-                  contentStyle={{
-                    background: "#000",
-                    borderRadius: "16px",
-                    border: "none",
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="amt"
-                  stroke={colors.primary}
-                  fillOpacity={1}
-                  fill="url(#colorAmt)"
-                />
-              </AreaChart>
-            </Card>
-            <Card small backgroundColor="rgba(255, 255, 255, 0.01)">
-              <h3>Average Weekly balance</h3>
-              <LineChart
-                width={300}
-                height={200}
-                data={dummyData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip
-                  wrapperStyle={{ borderRadius: "8px" }}
-                  contentStyle={{
-                    background: "#000",
-                    borderRadius: "16px",
-                    border: "none",
-                  }}
-                />
-                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
-              </LineChart>
-            </Card>
-
-            <Card small backgroundColor="rgba(255, 255, 255, 0.01)">
-              <h3>Average Monthly Spend</h3>
-              <AreaChart
-                width={300}
-                height={200}
-                data={dummyData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-              >
-                <defs>
-                  <linearGradient id="colorAmt" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor={colors.primary}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={colors.primary}
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip
-                  wrapperStyle={{ borderRadius: "8px" }}
-                  contentStyle={{
-                    background: "#000",
-                    borderRadius: "16px",
-                    border: "none",
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="amt"
-                  stroke={colors.primary}
-                  fillOpacity={1}
-                  fill="url(#colorAmt)"
-                />
-              </AreaChart>
-            </Card>
-            <Card small backgroundColor="rgba(255, 255, 255, 0.01)">
-              <h3>Average Weekly Spend</h3>
-              <LineChart
-                width={300}
-                height={200}
-                data={dummyData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip
-                  wrapperStyle={{ borderRadius: "8px" }}
-                  contentStyle={{
-                    background: "#000",
-                    borderRadius: "16px",
-                    border: "none",
-                  }}
-                />
-                <Line type="monotone" dataKey="amt" stroke={colors.primary} />
-              </LineChart>
-            </Card>
-          </div>
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
@@ -245,31 +264,104 @@ function Wallet() {
           main {
             padding: 12px;
           }
-
           h1 {
             font-weight: 700;
             color: white;
             font-size: 4rem;
             text-align: center;
           }
+
           .mainWrapper {
             width: 100%;
             align-items: center;
-            display: flex;
-            justify-content: center;
           }
 
-          .mainWrapper h1 {
+          .mainWrapper h1,
+          .mainWrapper .primaryContainer {
+            flex-basis: 50%;
             justify-content: center;
             align-self: center;
+          }
+
+          .primaryContainer {
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+          }
+          .cardContainer {
+            padding: 16px;
+            border-radius: 16px;
+          }
+
+          .progressWrapper {
+            justify-content: space-between;
+          }
+
+          .search {
+            width: 100%;
+            padding: 0px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-top: 8px;
+          }
+
+          .search input {
+            margin-left: 8px;
+            padding: 12px 8px;
+            background: transparent;
+            border: none;
+            width: 80%;
+            color: #fff8;
+          }
+
+          .search input:hover,
+          .search input:focus {
+            outline: none;
+          }
+
+          .search svg {
+            stroke-width: 1px;
+          }
+
+          .mainWrapper,
+          .progressWrapper {
+            display: flex;
+          }
+          .progressWrapper {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
           }
 
           .cardGrid {
             display: flex;
             flex-wrap: wrap;
             width: 100%;
-            justify-content: space-evenly;
+            justify-content: space-between;
           }
+
+          .cardGrid h3 {
+            text-align: center;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 900;
+          }
+          .stats {
+            width: 100%;
+            margin-top: 32px;
+          }
+          .button-like {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 900;
+            font-size: 12px;
+          }
+
+          .value {
+            color: rgba(255, 255, 255, 0.7);
+            float: right;
+          }
+
           .horizontalGrid {
             max-width: 100vw;
             overflow-x: auto;
@@ -316,10 +408,6 @@ function Wallet() {
           }
         `}
       </style>
-      {/* display: grid;
-            grid-template-columns: 28vw 28vw 28vw;
-            padding: 0 24px;
-            margin-top: 24px; */}
     </>
   );
 }
