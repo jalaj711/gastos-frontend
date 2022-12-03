@@ -1,5 +1,6 @@
 import Card from "./Card";
 import dynamic from "next/dynamic";
+import { MouseEventHandler } from "react";
 
 const CircularProgress = dynamic(() => import("./Progress/CircularProgress"), {
   ssr: false,
@@ -9,6 +10,7 @@ export default function LabelCard(props: {
   title: string;
   description: string;
   value: number;
+  onClick?:MouseEventHandler;
 }) {
   const colors = [
     "#6bc4abc7",
@@ -22,6 +24,7 @@ export default function LabelCard(props: {
       extraStyles="min-width: 27vw"
       backgroundColor={colors[Math.floor(Math.random() * colors.length)]}
       small
+      onClick={props.onClick}
     >
       <div
         style={{
