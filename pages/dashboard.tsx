@@ -6,14 +6,9 @@ import WalletCard from "../components/WalletCard";
 import TransactionCard from "../components/TransactionCard";
 import Button from "../components/Button";
 import LabelCard from "../components/LabelCard";
-import {
-  LineChart,
-  XAxis,
-  YAxis,
-  Line,
-  Tooltip,
-} from "recharts";
+import { LineChart, XAxis, YAxis, Line, Tooltip } from "recharts";
 import colors from "../utils/colors";
+import Router from "next/router";
 
 const dummyData = [
   {
@@ -118,7 +113,12 @@ function Dashboard() {
             </div>
           </div>
           <div style={{ float: "right" }}>
-            <Button secondary small endIcon={faAngleRight}>
+            <Button
+              secondary
+              small
+              endIcon={faAngleRight}
+              onClick={() => Router.push("/transactions")}
+            >
               View all
             </Button>
           </div>
@@ -212,7 +212,7 @@ function Dashboard() {
               </LineChart>
             </div>
           </div>
-          </div>
+        </div>
 
         <div className="section">
           <h2>Your Wallets</h2>
@@ -221,16 +221,19 @@ function Dashboard() {
               title="Wallet 1"
               description="Some description for Wallet 1"
               value={70}
+              onClick={() => Router.push("/wallets/1")}
             />
             <WalletCard
               title="Wallet 2"
               description="Some description for Wallet 2"
               value={7}
+              onClick={() => Router.push("/wallets/2")}
             />
             <WalletCard
               title="Wallet 3"
               description="Some description for Wallet 3"
               value={50}
+              onClick={() => Router.push("/wallets/3")}
             />
           </div>
         </div>
@@ -242,36 +245,42 @@ function Dashboard() {
                 title="Label 1"
                 description="Some description for Label 1"
                 value={70}
+                onClick={() => Router.push("/labels/1")}
               />
               <LabelCard
                 title="Label 2"
                 description="Some description for Label 2"
                 value={7}
+                onClick={() => Router.push("/labels/2")}
               />
               <LabelCard
                 title="Label 3"
                 description="Some description for Label 3"
                 value={50}
+                onClick={() => Router.push("/labels/3")}
               />
               <LabelCard
                 title="Label 4"
                 description="Some description for Label 4"
                 value={23}
+                onClick={() => Router.push("/labels/4")}
               />
               <LabelCard
                 title="Label 5"
                 description="Some description for Label 5"
                 value={45}
+                onClick={() => Router.push("/labels/5")}
               />
               <LabelCard
                 title="Label 6"
                 description="Some description for Label 6"
                 value={89}
+                onClick={() => Router.push("/labels/6")}
               />
             </div>
           </div>
           <div style={{ float: "right" }}>
-            <Button secondary small endIcon={faAngleRight}>
+            <Button secondary small endIcon={faAngleRight} onClick={() => Router.push("/labels")}>
               View all
             </Button>
           </div>
