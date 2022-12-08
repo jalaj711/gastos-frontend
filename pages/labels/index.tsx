@@ -1,7 +1,6 @@
 import Head from "next/head";
-import ProgressBar from "../../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import LabelCard from "../../components/LabelCard";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import Router from "next/router";
