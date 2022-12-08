@@ -1,25 +1,26 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import colors from "../utils/colors";
 
-function input(
+function Input(
   props: DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
-  >
+  > & { outlined ?: boolean}
 ) {
+  const { outlined, ...othProps } = props;
   return (
     <>
-      <input {...props} />
+      <input {...othProps} />
       <style jsx>{`
         input {
           padding: 12px 8px;
           min-width: 150px;
           max-width: 300px;
           border-radius: 8px;
-          border: 1px solid #aaa;
+          border: ${outlined ? "1px solid #aaa" : "1px solid transparent"};
           transition: 0.1s;
           outline: none;
-          background: transparent;
+          background: ${outlined ? "transparent" : "rgba(255, 255, 255, 0.05)"};
           color: white;
         }
 
@@ -40,4 +41,4 @@ function input(
   );
 }
 
-export default input;
+export default Input;
