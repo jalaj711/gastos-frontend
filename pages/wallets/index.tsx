@@ -1,11 +1,8 @@
 import Head from "next/head";
-import ProgressBar from "../../components/Progress/ProgressBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import WalletCard from "../../components/WalletCard";
-import TransactionCard from "../../components/TransactionCard";
 import Button from "../../components/Button";
-import LabelCard from "../../components/LabelCard";
+import Router from "next/router";
 
 function Wallets() {
   return (
@@ -19,6 +16,10 @@ function Wallets() {
       <main>
         <div className="mainWrapper">
           <h1>My Wallets</h1>
+
+          <Button startIcon={faAdd} fullRadius>
+            Create New
+          </Button>
         </div>
         <div className="section">
           <div className="cardGrid">
@@ -26,16 +27,19 @@ function Wallets() {
               title="Wallet 1"
               description="Some description for Wallet 1"
               value={70}
+              onClick={() => Router.push("/wallets/1")}
             />
             <WalletCard
               title="Wallet 2"
               description="Some description for Wallet 2"
               value={7}
+              onClick={() => Router.push("/wallets/1")}
             />
             <WalletCard
               title="Wallet 3"
               description="Some description for Wallet 3"
               value={50}
+              onClick={() => Router.push("/wallets/1")}
             />
           </div>
         </div>
@@ -53,17 +57,16 @@ function Wallets() {
             color: white;
             font-size: 4rem;
             text-align: center;
+            margin-bottom: 16px;
           }
 
           .mainWrapper {
             width: 100%;
             align-items: center;
-          }
-
-          .mainWrapper h1 {
-            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-self: center;
+            margin-bottom: 32px;
           }
 
           .search {
@@ -97,12 +100,6 @@ function Wallets() {
             width: 100%;
             justify-content: space-evenly;
           }
-          @media (max-width: 850px) {
-            .mainWrapper {
-              flex-direction: column;
-            }
-          }
-
           @media (max-width: 500px) {
             .mainWrapper {
               margin-top: 32px;

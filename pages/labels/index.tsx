@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import LabelCard from "../../components/LabelCard";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import Router from "next/router";
 
 const data01 = [
   {
@@ -89,16 +90,19 @@ function Wallets() {
               title="Label 1"
               description="Some description for Label 1"
               value={70}
+              onClick={() => Router.push("/labels/1")}
             />
             <LabelCard
               title="Label 2"
               description="Some description for Label 2"
               value={7}
+              onClick={() => Router.push("/labels/1")}
             />
             <LabelCard
               title="Label 3"
               description="Some description for Label 3"
               value={50}
+              onClick={() => Router.push("/labels/1")}
             />
           </div>
         </div>
