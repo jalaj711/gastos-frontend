@@ -1,35 +1,45 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface authState {
-    logged_in: boolean;
-    user_data: null | {
-        first_name: string;
-        last_name: string;
-    };
-    token: null | string;
+  logged_in: boolean;
+  user_data: null | {
+    username: string;
+    email: string;
+    date_joined: string;
+    first_name: string;
+    last_name: string;
+  };
+  token: null | string;
 }
 
 const initialState = <authState>{
-    logged_in: false,
-    user_data: null,
-    token: null,
-  }
+  logged_in: false,
+  user_data: null,
+  token: null,
+};
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<string>) => {
+    login: (
+      state,
+      action: PayloadAction<{
+        token: string;
+        user_data: authState["user_data"];
+      }>
+    ) => {
       state.logged_in = true;
-      state.token = action.payload;
+      state.token = action.payload.token;
+      state.user_data = action.payload.user_data;
     },
     logout: (state) => {
       state.logged_in = false;
       state.token = null;
-    }
+    },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { login, logout } = authSlice.actions
+export const { login, logout } = authSlice.actions;
 
-export default authSlice.reducer
+export default authSlice.reducer;

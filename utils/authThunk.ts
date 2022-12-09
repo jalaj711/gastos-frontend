@@ -27,7 +27,7 @@ export const loginWithUsernameAndPassword = (
 
     if (response.status == 200) {
       const json = await response.json();
-      dispatch(login(json.token));
+      dispatch(login(json));
     }
   };
   return loginThunkAction;
