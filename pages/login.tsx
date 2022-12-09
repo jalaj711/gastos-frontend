@@ -1,10 +1,28 @@
+import { useRef } from "react";
 import Head from "next/head";
-import Input from "../components/Input";
-import Button from "../components/Button";
 // import { faGoogle } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import { useAppDispatch } from "../utils/reduxHooks";
+import { loginWithUsernameAndPassword } from "../utils/authThunk";
 
 function Login() {
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
+  const handleLoginWithUsernamePassword = () => {
+    if (usernameRef.current && passwordRef.current) {
+      dispatch(
+        loginWithUsernameAndPassword(
+          usernameRef.current.value,
+          passwordRef.current.value
+        )
+      );
+    }
+  };
+
   return (
     <>
       <Head>
@@ -18,10 +36,13 @@ function Login() {
           <h1>Login</h1>
         </div>
         <div className="section">
-          <form className="formElement">
-            <Input type="text" placeholder="Email" />
-            <Input type="password" placeholder="Password" />
-            <Button>Log in</Button>
+          <form
+            className="formElement"
+            onSubmit={(evt) => evt.preventDefault()}
+          >
+            <Input type="text" placeholder="Email" ref={usernameRef} />
+            <Input type="password" placeholder="Password" ref={passwordRef} />
+            <Button onClick={handleLoginWithUsernamePassword}>Log in</Button>
             <Link href="#" className="form-link">
               Forgot Password?
             </Link>
@@ -37,8 +58,12 @@ function Login() {
           <div className="social-logins">
             <span>Continue with</span>
             <div>
-              <Button secondary outlined>google</Button>
-              <Button secondary outlined>facebook</Button>
+              <Button secondary outlined>
+                google
+              </Button>
+              <Button secondary outlined>
+                facebook
+              </Button>
             </div>
           </div>
         </div>

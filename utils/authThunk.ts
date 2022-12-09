@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "./store";
-import URLs from "./endpoints";
+import URLs, { API_BASE } from "./endpoints";
 import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { AnyAction } from "@reduxjs/toolkit";
 import { login } from "./authSlice";
@@ -14,7 +14,7 @@ export const loginWithUsernameAndPassword = (
     unknown,
     AnyAction
   > = async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>) => {
-    const response = await fetch(URLs.AUTH.LOGIN, {
+    const response = await fetch(API_BASE + URLs.AUTH.LOGIN, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

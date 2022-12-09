@@ -1,4 +1,4 @@
-export const API_BASE = process.env.API_BASE || "/api/"
+export const API_BASE = process.env.API_BASE || "/finance-tracker/api"
 
 export const USER_URLS = {
     GET: "/user/get/",
