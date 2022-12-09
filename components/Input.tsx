@@ -1,16 +1,22 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import {
+  DetailedHTMLProps,
+  ForwardedRef,
+  forwardRef,
+  InputHTMLAttributes,
+} from "react";
 import colors from "../utils/colors";
 
-function Input(
+function _Input(
   props: DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
-  > & { outlined ?: boolean}
+  > & { outlined?: boolean },
+  ref?: ForwardedRef<HTMLInputElement>
 ) {
   const { outlined, ...othProps } = props;
   return (
     <>
-      <input {...othProps} />
+      <input {...othProps} ref={ref} />
       <style jsx>{`
         input {
           padding: 12px 8px;
@@ -41,4 +47,5 @@ function Input(
   );
 }
 
+export const Input = forwardRef(_Input);
 export default Input;
