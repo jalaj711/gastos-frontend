@@ -8,7 +8,7 @@ export default function LabelCard(props: {
 }) {
   return (
     <Card
-      extraStyles={`min-width: 27vw;border: 1px sloid ${props.data.color};color: ${props.data.color}`}
+      extraStyles={`min-width: 27vw;color: ${props.data.color}`}
       small
       onClick={props.onClick}
     >

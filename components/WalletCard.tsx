@@ -1,6 +1,7 @@
 import Card from "./Card";
 import colors from "../utils/colors";
 import { MouseEventHandler } from "react";
+import { WalletType } from "../utils/types";
 // import dynamic from "next/dynamic";
 
 // const CircularProgress = dynamic(() => import("./Progress/CircularProgress"), {
@@ -8,9 +9,7 @@ import { MouseEventHandler } from "react";
 // });
 
 export default function WalletCard(props: {
-  title: string;
-  description: string;
-  value: number;
+  data: WalletType;
   selected?: boolean;
   small?: boolean;
   onClick?: MouseEventHandler;
@@ -36,13 +35,14 @@ export default function WalletCard(props: {
           flexDirection: "column",
         }}
       >
-        <h1>${props.value}</h1>
+        <h1>${props.data.balance}</h1>
         <div className="content">
-          <h3>{props.title}</h3>
+          <h3>{props.data.name}</h3>
           {!props.small && (
-            <p style={{ color: "#fff6" }}>{props.description}</p>
+            <p style={{ color: "#fff6" }}>{props.data.description}</p>
           )}
         </div>
+        { /** TODO: Show created_on here */}
       </div>
       <style jsx>{`
         .content {
