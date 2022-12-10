@@ -1,5 +1,6 @@
 import Card from "./Card";
 import Label from "./Label";
+import { TransactionType } from "../utils/types";
 // import dynamic from "next/dynamic";
 
 // const CircularProgress = dynamic(() => import("./Progress/CircularProgress"), {
@@ -7,30 +8,27 @@ import Label from "./Label";
 // });
 
 export default function TransactionCard(props: {
-  title: string;
-  description?: string;
-  value: number;
-  labels?: Array<string>;
+  data: TransactionType;
 }) {
   return (
     <Card extraStyles="width: 100%;max-width: 700px;">
       <div className="wrapper">
         <div className="content">
-          <h3>{props.title}</h3>
-          <p style={{ color: "#fff6" }}>{props.description}</p>
+          <h3>{props.data.name}</h3>
+          <p style={{ color: "#fff6" }}>{props.data.description}</p>
           <div>
-            {props.labels &&
-              props.labels.map((label, index) => (
-                <Label key={index}>{label}</Label>
+            {props.data.labels &&
+              props.data.labels.map((label, index) => (
+                <Label key={index}>{label.name}</Label>
               ))}
           </div>
           <div className="details">
-            <span>12 Nov 22</span>
+            <span>{props.data.date_time}</span>
             <span>•</span>
-            <span>Wallet 1</span>
+            <span>{props.data.wallet.name}</span>
           </div>
         </div>
-        <h1>${props.value}</h1>
+        <h1>{props.data.is_expense && "-"} ${props.data.amount}</h1>
       </div>
       <style jsx>{`
         .wrapper {
