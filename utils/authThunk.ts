@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from "./store";
+import { RootState } from "./store";
 import URLs, { API_BASE } from "./endpoints";
 import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { AnyAction } from "@reduxjs/toolkit";
