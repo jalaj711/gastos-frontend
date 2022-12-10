@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../utils/reduxHooks";
 import { showSnackbarThunk } from "./snackbarThunk";
+import { hideSnackbar } from "./snackbarSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import colors from "../../utils/colors";
@@ -12,17 +13,14 @@ export default function Snackbar() {
   useEffect(() => console.log(state), [state]);
 
   return (
-    <div>
-      <button onClick={() => dispatch(showSnackbarThunk("Some text"))}>
-        Show snackbar
+    <div className="snackbar">
+      <span>{state.text}</span>
+      {state.actionButtonText && (
+        <button className="actionButton">{state.actionButtonText}</button>
+      )}
+      <button className="closeButton" onClick={() => dispatch(hideSnackbar())}>
+        <FontAwesomeIcon icon={faClose} />
       </button>
-      <div className="snackbar">
-        <span>some text for snackbar</span>
-        <button className="actionButton">button</button>
-        <button className="closeButton">
-          <FontAwesomeIcon icon={faClose} />
-        </button>
-      </div>
       <style jsx>{`
         .snackbar {
           padding: 8px 16px;
@@ -41,8 +39,7 @@ export default function Snackbar() {
           width: max-content;
           max-width: 40%;
 
-          animation: ${state.show ? "show" : "hide" } 200ms ease-out;
-          animation-fill-mode: forwards;
+          animation: ${state.show ? "show" : "hide"} 200ms ease-out forwards;
         }
         .actionButton,
         .closeButton {
@@ -52,6 +49,10 @@ export default function Snackbar() {
           background: transparent;
           border: none;
           margin: 4px;
+        }
+
+        .snackbar span {
+            flex-grow: 1;
         }
 
         .actionButton {
