@@ -1,12 +1,11 @@
-export interface TransactionType {
+export interface MinimalLabelType {
     id: number;
     name: string;
-    description?: string;
-    amount: number;
-    date_time: string;
-    is_expense: boolean;
-    labels: number[];
-    wallet?: number;
+}
+
+export interface MinimalWalletType {
+    id: number;
+    name: string;
 }
 
 export interface LabelType {
@@ -26,3 +25,13 @@ export interface WalletType {
     description?: string;
 }
 
+export interface TransactionType {
+    id: number;
+    name: string;
+    description?: string;
+    amount: number;
+    date_time: string;
+    is_expense: boolean;
+    labels: MinimalLabelType[];
+    wallet: MinimalWalletType;
+}
