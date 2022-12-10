@@ -4,6 +4,7 @@ import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { AnyAction } from "@reduxjs/toolkit";
 import { login } from "./authSlice";
 import { showSnackbarThunk } from "../components/Snackbar/snackbarThunk";
+import { hideGloablLoader, showGloablLoader } from "../components/GlobalLoader/loaderSlice";
 
 export const loginWithUsernameAndPassword = (
   username: string,
@@ -16,6 +17,7 @@ export const loginWithUsernameAndPassword = (
     AnyAction
   > = async (dispatch: ThunkDispatch<RootState, unknown, AnyAction>) => {
     const authenticate = async () => {
+      dispatch(showGloablLoader("verifying your credentials..."))
       const response = await fetch(API_BASE + URLs.AUTH.LOGIN, {
         method: "POST",
         headers: {
@@ -27,6 +29,7 @@ export const loginWithUsernameAndPassword = (
         }),
       });
 
+      dispatch(hideGloablLoader())
       if (response.status == 200) {
         const json = await response.json();
         dispatch(login(json));
