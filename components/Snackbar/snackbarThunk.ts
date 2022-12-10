@@ -1,36 +1,48 @@
 import { RootState } from "../../utils/store";
-import { ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { ThunkAction } from "@reduxjs/toolkit";
 import { AnyAction } from "@reduxjs/toolkit";
 import { showSnackbar, hideSnackbar } from "./snackbarSlice";
+import { MouseEventHandler } from "react";
 
 export const showSnackbarThunk = (
   text: string,
   actionButtonText?: string,
-  onCloseCallback?: (_: any) => any,
+  onCloseCallback?: () => any,
+  actionButtonCallback?: MouseEventHandler,
   autoCloseTimeout?: number
 ) => {
+  // Close in specified time or 3s
   autoCloseTimeout = autoCloseTimeout || 3000;
+
   const showSnackbarAction: ThunkAction<
     void,
     RootState,
     unknown,
     AnyAction
   > = async (dispatch, getState) => {
-    const c_state = getState().snackbar;
+
+    // Function to dispatch snackbar/show action
     const dispatchSnackbarShow = () => {
+
+      // Set auto close timer
       const autoCloseTimeoutId = setTimeout(() => {
         dispatch(hideSnackbar());
       }, autoCloseTimeout);
+
+
       dispatch(
         showSnackbar({
           text,
           actionButtonText,
           onCloseCallback,
           autoCloseTimeoutId,
+          actionButtonCallback
         })
       );
     };
-    if (c_state.show == true) {
+
+    // If a snackbar is already visible
+    if (getState().snackbar.show == true) {
       // First close the previous snackbar then show new one
       dispatch(hideSnackbar());
       setTimeout(dispatchSnackbarShow, 200);

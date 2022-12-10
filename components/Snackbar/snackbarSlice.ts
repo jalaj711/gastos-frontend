@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { MouseEventHandler } from "react";
 interface snackbarState {
   show: boolean;
   text: string;
   actionButtonText?:  string;
-  onCloseCallback?: ((_: any) => any);
+  onCloseCallback?: (() => any);
+  actionButtonCallback?: MouseEventHandler;
   autoCloseTimeoutId?: NodeJS.Timeout;
 }
 
@@ -12,6 +14,7 @@ const initialState: snackbarState = {
   text: "",
   actionButtonText: undefined,
   onCloseCallback: undefined,
+  actionButtonCallback: undefined,
   autoCloseTimeoutId: undefined,
 };
 
@@ -24,17 +27,22 @@ export const snackbarState = createSlice({
       action: PayloadAction<{
         text: string;
         actionButtonText?: string;
-        onCloseCallback?: ((_: any) => any);
+        onCloseCallback?: (() => any);
+        actionButtonCallback?: MouseEventHandler;
         autoCloseTimeoutId?: NodeJS.Timeout;
       }>
     ) => {
       state.show = true;
       state.text = action.payload.text;
       state.actionButtonText = action.payload.actionButtonText;
+      state.actionButtonCallback = action.payload.actionButtonCallback;
       state.onCloseCallback = action.payload.onCloseCallback;
       state.autoCloseTimeoutId = action.payload.autoCloseTimeoutId;
     },
     hide: (state) => {
+      if (state.onCloseCallback) {
+        state.onCloseCallback()
+      }
       clearTimeout(state.autoCloseTimeoutId);
       return initialState;
     },

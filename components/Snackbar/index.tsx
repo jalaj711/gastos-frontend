@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../utils/reduxHooks";
-import { showSnackbarThunk } from "./snackbarThunk";
 import { hideSnackbar } from "./snackbarSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
@@ -10,13 +8,18 @@ export default function Snackbar() {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.snackbar);
 
-  useEffect(() => console.log(state), [state]);
-
   return (
     <div className="snackbar">
       <span>{state.text}</span>
       {state.actionButtonText && (
-        <button className="actionButton">{state.actionButtonText}</button>
+        <button
+          className="actionButton"
+          onClick={(evt) =>
+            state.actionButtonCallback && state.actionButtonCallback(evt)
+          }
+        >
+          {state.actionButtonText}
+        </button>
       )}
       <button className="closeButton" onClick={() => dispatch(hideSnackbar())}>
         <FontAwesomeIcon icon={faClose} />
