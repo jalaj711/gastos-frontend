@@ -12,8 +12,8 @@ import Router from "next/router";
 import { ReactNode, useEffect } from "react";
 import { useAppDispatch } from "../utils/reduxHooks";
 import {
-  hideGloablLoader,
-  showGloablLoader,
+  hideGlobalLoader,
+  showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
 
 config.autoAddCss = false;
@@ -21,8 +21,8 @@ config.autoAddCss = false;
 const PageTransitionAnimation = (props: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    Router.events.on("routeChangeStart", () => dispatch(showGloablLoader()));
-    Router.events.on("routeChangeComplete", () => dispatch(hideGloablLoader()));
+    Router.events.on("routeChangeStart", () => dispatch(showGlobalLoader()));
+    Router.events.on("routeChangeComplete", () => dispatch(hideGlobalLoader()));
   }, [dispatch]);
   return <>{props.children}</>;
 };

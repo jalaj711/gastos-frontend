@@ -10,7 +10,7 @@ const initialState: gloablLoaderState = {
   text: "",
 };
 
-export const gloablLoaderState = createSlice({
+export const globalLoaderState = createSlice({
   name: "globalLoader",
   initialState,
   reducers: {
@@ -28,7 +28,7 @@ export const gloablLoaderState = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const showGloablLoader = gloablLoaderState.actions.show;
-export const hideGloablLoader = gloablLoaderState.actions.hide;
+export const showGlobalLoader = globalLoaderState.actions.show;
+export const hideGlobalLoader = globalLoaderState.actions.hide;
 
-export default gloablLoaderState.reducer;
+export default globalLoaderState.reducer;
