@@ -7,6 +7,7 @@ import BackButton from "../components/BackButton";
 import store from "../utils/store";
 import { Provider } from "react-redux";
 import Snackbar from "../components/Snackbar";
+import GlobalLoader from "../components/GlobalLoader";
 
 config.autoAddCss = false;
 
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
         <Snackbar />
         <Navbar />
+        <GlobalLoader />
       </Provider>
     </>
   );
