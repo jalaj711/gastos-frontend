@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Label from "../components/Label";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,20 +11,67 @@ import {
   hideGlobalLoader,
   showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
+import Button from "../components/Button";
+
+interface TransactionHistorySearchParams {
+  [param: string]: string;
+}
 
 function TransactionHistory() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  const [labels, setLabels] = useState<number[]>([]);
+  const [wallets, setWallets] = useState<number[]>([]);
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
+
+  const toggleLabel = (label: number) => {
+    const index = labels.indexOf(label);
+    const lbl = labels.slice();
+    if (index > -1) {
+      lbl.splice(index, 1);
+    } else {
+      lbl.push(label);
+    }
+    setLabels(lbl);
+  };
+
+  const toggleWallet = (wallet: number) => {
+    const index = wallets.indexOf(wallet);
+    const wlt = wallets.slice();
+    if (index > -1) {
+      wlt.splice(index, 1);
+    } else {
+      wlt.push(wallet);
+    }
+    setWallets(wlt);
+  };
 
   const getTransactions = () => {
     // Todo: Change this to a local loader
+    const search_filters: TransactionHistorySearchParams = {
+      labels: labels.toString(),
+      wallets: wallets.toString(),
+    };
+    if (
+      searchRef.current?.value !== undefined &&
+      searchRef.current?.value !== ""
+    ) {
+      search_filters.search = searchRef.current?.value;
+    }
     dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.TRANSACTIONS.SEARCH, {
-      headers: {
-        Authorization: "Token " + auth.token,
-      },
-    })
+    fetch(
+      API_BASE +
+        URLs.TRANSACTIONS.SEARCH +
+        "?" +
+        new URLSearchParams(search_filters).toString(),
+      {
+        headers: {
+          Authorization: "Token " + auth.token,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((res) => {
         dispatch(hideGlobalLoader());
@@ -54,17 +101,17 @@ function TransactionHistory() {
             <div className="filters">
               <div className="search">
                 <FontAwesomeIcon icon={faSearch} strokeWidth={1} />
-                <input placeholder="Search..." />
+                <input placeholder="Search..." ref={searchRef} />
               </div>
               <h4>Filter by labels</h4>
               <div className="horizontalScroll">
                 {auth.user_data.labels.map((elem) => (
                   <Label
                     key={elem.id}
-                    // onClick={() => {
-                    //   toggleLabel(elem.id);
-                    // }}
-                    // selected={labels.indexOf(elem.id) > -1}
+                    onClick={() => {
+                      toggleLabel(elem.id);
+                    }}
+                    selected={labels.indexOf(elem.id) > -1}
                     color={elem.color}
                   >
                     {elem.name}
@@ -76,22 +123,25 @@ function TransactionHistory() {
                 {auth.user_data.wallets.map((elem) => (
                   <Label
                     key={elem.id}
-                    // onClick={() => {
-                    //   toggleLabel(elem.id);
-                    // }}
-                    // selected={labels.indexOf(elem.id) > -1}
+                    onClick={() => {
+                      toggleWallet(elem.id);
+                    }}
+                    selected={wallets.indexOf(elem.id) > -1}
                   >
                     {elem.name}
                   </Label>
                 ))}
               </div>
+              <Button onClick={getTransactions}>Apply filters</Button>
             </div>
             <div className="trxns cardGrid">
-              <h4>5 Transaction(s)</h4>
               {transactions.length !== 0 ? (
-                transactions.map((elem) => (
-                  <TransactionCard data={elem} key={elem.id} />
-                ))
+                <>
+                  <h4>{transactions.length  } Transaction(s)</h4>
+                  {transactions.map((elem) => (
+                    <TransactionCard data={elem} key={elem.id} />
+                  ))}
+                </>
               ) : (
                 <i>No transactions found</i>
               )}
@@ -158,6 +208,8 @@ function TransactionHistory() {
               flex-wrap: wrap;
               width: 100%;
               max-width: 724px;
+              align-items: center;
+              justify-content: center;
             }
             .section {
               display: flex;
