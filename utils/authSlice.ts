@@ -1,13 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserDataType } from "./types"
+
 interface authState {
   logged_in: boolean;
-  user_data: null | {
-    username: string;
-    email: string;
-    date_joined: string;
-    first_name: string;
-    last_name: string;
-  };
+  user_data: null | UserDataType;
   token: null | string;
 }
 
