@@ -19,7 +19,7 @@ export default function TransactionCard(props: {
           <div>
             {props.data.labels &&
               props.data.labels.map((label, index) => (
-                <Label key={index}>{label.name}</Label>
+                <Label key={index} color={label.color}>{label.name}</Label>
               ))}
           </div>
           <div className="details">

@@ -6,8 +6,8 @@ export const USER_URLS = {
 }
 
 export const TRANSACTION_URLS = {
-    CREATE: "/trxn/create/",
-    SEARCH: "/trxn/search/",
+    CREATE: "/transactions/create/",
+    SEARCH: "/transactions/search/",
 }
 
 export const LABEL_URLS = {
