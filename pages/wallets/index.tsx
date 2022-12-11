@@ -3,8 +3,30 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import WalletCard from "../../components/WalletCard";
 import Button from "../../components/Button";
 import Router from "next/router";
+import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
+import { useEffect, useState } from "react";
+import { WalletType } from "../../utils/types";
+import URLs, { API_BASE } from "../../utils/endpoints";
+import { hideGlobalLoader, showGlobalLoader } from "../../components/GlobalLoader/loaderSlice";
 
 function Wallets() {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+
+  const [wallets, setWallets] = useState<WalletType[]>([])
+ 
+  useEffect(() => {
+    dispatch(showGlobalLoader())
+    fetch(API_BASE + URLs.WALLET.GET,
+      {
+        headers: {
+          Authorization: "Token " + auth.token,
+        },
+    }).then(res => res.json()).then(res => {
+      dispatch(hideGlobalLoader())
+      setWallets(res.wallets);
+    })
+  }, [auth, dispatch]);
   return (
     <>
       <Head>
@@ -23,24 +45,13 @@ function Wallets() {
         </div>
         <div className="section">
           <div className="cardGrid">
-            <WalletCard
-              title="Wallet 1"
-              description="Some description for Wallet 1"
-              value={70}
-              onClick={() => Router.push("/wallets/1")}
-            />
-            <WalletCard
-              title="Wallet 2"
-              description="Some description for Wallet 2"
-              value={7}
-              onClick={() => Router.push("/wallets/1")}
-            />
-            <WalletCard
-              title="Wallet 3"
-              description="Some description for Wallet 3"
-              value={50}
-              onClick={() => Router.push("/wallets/1")}
-            />
+            {
+              wallets.length !== 0 && wallets.map(elem => <WalletCard
+                data={elem}
+                key={elem.id}
+                onClick={() => Router.push("/wallets/" + elem.id)}
+              />)
+            }
           </div>
         </div>
       </main>
