@@ -12,6 +12,7 @@ import {
   showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
 import Button from "../components/Button";
+import Paginator from "../components/Paginator";
 
 interface TransactionHistorySearchParams {
   [param: string]: string;
@@ -177,6 +178,7 @@ function TransactionHistory() {
               ) : (
                 <i>No transactions found</i>
               )}
+              <Paginator />
             </div>
           </div>
         </main>
@@ -242,6 +244,7 @@ function TransactionHistory() {
               max-width: 724px;
               align-items: center;
               justify-content: center;
+              flex-direction: column;
             }
             .section {
               display: flex;
