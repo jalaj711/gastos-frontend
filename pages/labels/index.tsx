@@ -4,6 +4,11 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import LabelCard from "../../components/LabelCard";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import Router from "next/router";
+import { useState, useEffect } from "react";
+import { showGlobalLoader, hideGlobalLoader } from "../../components/GlobalLoader/loaderSlice";
+import URLs, { API_BASE } from "../../utils/endpoints";
+import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
+import { LabelType, WalletType } from "../../utils/types";
 
 const data01 = [
   {
@@ -32,7 +37,24 @@ const data01 = [
   },
 ];
 
-function Wallets() {
+function Labels() {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+
+  const [labels, setLabels] = useState<LabelType[]>([])
+ 
+  useEffect(() => {
+    dispatch(showGlobalLoader())
+    fetch(API_BASE + URLs.LABELS.GET,
+      {
+        headers: {
+          Authorization: "Token " + auth.token,
+        },
+    }).then(res => res.json()).then(res => {
+      dispatch(hideGlobalLoader())
+      setLabels(res.labels);
+    })
+  }, [auth, dispatch]);
   return (
     <>
       <Head>
@@ -85,24 +107,13 @@ function Wallets() {
         </div>
         <div className="section">
           <div className="cardGrid">
-            <LabelCard
-              title="Label 1"
-              description="Some description for Label 1"
-              value={70}
-              onClick={() => Router.push("/labels/1")}
-            />
-            <LabelCard
-              title="Label 2"
-              description="Some description for Label 2"
-              value={7}
-              onClick={() => Router.push("/labels/1")}
-            />
-            <LabelCard
-              title="Label 3"
-              description="Some description for Label 3"
-              value={50}
-              onClick={() => Router.push("/labels/1")}
-            />
+          {
+              labels.length !== 0 && labels.map(elem => <LabelCard
+                data={elem}
+                key={elem.id}
+                onClick={() => Router.push("/labels/" + elem.id)}
+              />)
+            }
           </div>
         </div>
       </main>
@@ -207,4 +218,4 @@ function Wallets() {
   );
 }
 
-export default Wallets;
+export default Labels;

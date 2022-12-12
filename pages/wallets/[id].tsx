@@ -80,8 +80,6 @@ function Wallet() {
         setWalletStats(res.data);
       });
   }, [auth, dispatch]);
-  console.log(walletStats)
-  console.log(walletStats && 1)
   return (
     walletStats && (
       <>
