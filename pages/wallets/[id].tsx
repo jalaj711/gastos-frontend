@@ -4,13 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import TransactionCard from "../../components/TransactionCard";
 import Button from "../../components/Button";
-import {
-  LineChart,
-  XAxis,
-  YAxis,
-  Line,
-  Tooltip,
-} from "recharts";
+import { LineChart, XAxis, YAxis, Line, Tooltip } from "recharts";
 import { useRouter } from "next/router";
 import colors from "../../utils/colors";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
@@ -104,7 +98,7 @@ function Wallet() {
                     <div>
                       <span className="button-like">Spent today:</span>
                       <span className="value button-like">
-                        ${walletStats.transactions.today[0].spent}
+                        ${walletStats.transactions.today[0] && walletStats.transactions.today[0].spent}
                       </span>
                     </div>
                     <div>
@@ -226,7 +220,16 @@ function Wallet() {
                 </div>
               </div>
               <div style={{ float: "right" }}>
-                <Button secondary small endIcon={faAngleRight}>
+                <Button
+                  secondary
+                  small
+                  endIcon={faAngleRight}
+                  onClick={() =>
+                    router.push(
+                      "/transactions?labels=1,2&search=trxn&wallets=" + walletStats.wallet.id
+                    )
+                  }
+                >
                   View all
                 </Button>
               </div>

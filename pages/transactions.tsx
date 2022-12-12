@@ -60,12 +60,14 @@ function TransactionHistory() {
     ) {
       search_filters.search = searchRef.current?.value;
     }
+    const search_params = new URLSearchParams(search_filters).toString();
+    // window.location.search = search_params;
     dispatch(showGlobalLoader());
     fetch(
       API_BASE +
         URLs.TRANSACTIONS.SEARCH +
         "?" +
-        new URLSearchParams(search_filters).toString(),
+        search_params,
       {
         headers: {
           Authorization: "Token " + auth.token,
@@ -83,7 +85,39 @@ function TransactionHistory() {
       });
   };
 
-  useEffect(getTransactions, [dispatch, auth.token]);
+  useEffect(() => {
+    // On initial load we also need to extract data from the URL, if any.
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("search") && searchRef.current){
+      searchRef.current.value = params.get("search") || ""
+    }
+    if(params.get("labels")){
+      try {
+        var lbls: Array<number | string> = params.get("labels")?.split(",") || [];
+        var i;
+        for(i=0;i<lbls?.length;i++){
+          lbls[i] = Number(lbls[i]);
+        }
+        setLabels(lbls as number[]);
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    if(params.get("wallets")){
+      try {
+        var wlts: Array<number | string> = params.get("wallets")?.split(",") || [];
+        var i;
+        for(i=0;i<wlts?.length;i++){
+          wlts[i] = Number(wlts[i]);
+        }
+        setWallets(wlts as number[]);
+      } catch(e) {
+        console.error(e);
+      }
+    }
+
+    getTransactions();
+}, [dispatch, auth.token]);
   return (
     auth.user_data && (
       <>

@@ -189,7 +189,11 @@ function Label() {
                 </div>
               </div>
               <div style={{ float: "right" }}>
-                <Button secondary small endIcon={faAngleRight}>
+                <Button secondary small endIcon={faAngleRight}onClick={() =>
+                    router.push(
+                      "/transactions?labels=" + labelStats.label.id
+                    )
+                  }>
                   View all
                 </Button>
               </div>
