@@ -3,7 +3,7 @@ import colors from "../utils/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-function button(props: {
+function Button(props: {
   children: ReactNode;
   outlined?: boolean;
   small?: boolean;
@@ -11,11 +11,12 @@ function button(props: {
   fullRadius?: boolean;
   startIcon?: IconDefinition;
   endIcon?: IconDefinition;
+  disabled?: boolean;
   onClick?: MouseEventHandler
 }) {
   return (
     <>
-      <button onClick={props.onClick}>
+      <button onClick={props.disabled ? () => {} : props.onClick}>
         {props.startIcon && (
           <FontAwesomeIcon
             icon={props.startIcon}
@@ -50,18 +51,23 @@ function button(props: {
           color: ${props.secondary ? "white" : colors.textOnPrimary};
           border: ${props.outlined ? "1px solid rgb(150, 150, 150)" : "none"};
           margin: 4px;
+          cursor: ${props.disabled ? "not-allowed" : "pointer" };
+          ${
+            props.disabled && "filter: brightness(0.5);"
+          }
         }
 
         button:hover {
-          cursor: pointer;
-          background-image: linear-gradient(
+          ${
+            !props.disabled && `background-image: linear-gradient(
             rgba(255, 255, 255, ${props.secondary ? 0.1 : 0.3}),
             rgba(255, 255, 255, ${props.secondary ? 0.1 : 0.3})
-          );
+          );`
+          }
         }
       `}</style>
     </>
   );
 }
 
-export default button;
+export default Button;
