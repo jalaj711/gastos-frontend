@@ -25,6 +25,10 @@ function TransactionHistory() {
   const searchRef = useRef<HTMLInputElement>(null);
   const [labels, setLabels] = useState<number[]>([]);
   const [wallets, setWallets] = useState<number[]>([]);
+  const [page, setPage] = useState<{ current: number; total: number }>({
+    current: 1,
+    total: 1,
+  });
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
 
   const toggleLabel = (label: number) => {
@@ -49,11 +53,12 @@ function TransactionHistory() {
     setWallets(wlt);
   };
 
-  const getTransactions = () => {
-    // Todo: Change this to a local loader
+  const getTransactions = (_?: any, page_no?: number) => {
+    // Construct the search filters
     const search_filters: TransactionHistorySearchParams = {
       labels: labels.toString(),
       wallets: wallets.toString(),
+      page: (page_no || page.current).toString(),
     };
     if (
       searchRef.current?.value !== undefined &&
@@ -61,9 +66,20 @@ function TransactionHistory() {
     ) {
       search_filters.search = searchRef.current?.value;
     }
-    const search_params = new URLSearchParams(search_filters).toString();
-    // window.location.search = search_params;
+
+    // Push the search filters into users browser's URL & search history
+    const url = new URLSearchParams(window.location.search);
+    for (let i = 0; i < Object.keys(search_filters).length; i++) {
+      const filter = Object.keys(search_filters)[i];
+      url.set(filter, search_filters[filter]);
+    }
+    window.history.pushState(null, "", url.toString());
+
+    // Todo: Change this to a local loader
     dispatch(showGlobalLoader());
+
+    // Fetch the transactions
+    const search_params = new URLSearchParams(search_filters).toString();
     fetch(API_BASE + URLs.TRANSACTIONS.SEARCH + "?" + search_params, {
       headers: {
         Authorization: "Token " + auth.token,
@@ -72,6 +88,7 @@ function TransactionHistory() {
       .then((res) => res.json())
       .then((res) => {
         dispatch(hideGlobalLoader());
+        setPage(res.page);
         setTransactions(res.trxns);
       })
       .catch((error) => {
@@ -170,7 +187,13 @@ function TransactionHistory() {
             <div className="trxns cardGrid">
               {transactions.length !== 0 ? (
                 <>
-                  <h4>{transactions.length} Transaction(s)</h4>
+                  <h4>
+                    Showing {transactions.length} of{" "}
+                    {
+                      page.total * 15 // TODO: replace 15 with number of rows per page
+                    }{" "}
+                    Transaction(s)
+                  </h4>
                   {transactions.map((elem) => (
                     <TransactionCard
                       data={elem}
@@ -183,7 +206,11 @@ function TransactionHistory() {
               ) : (
                 <i>No transactions found</i>
               )}
-              <Paginator />
+              <Paginator
+                setActive={(pg) => getTransactions(null, pg)}
+                lastPage={page.total}
+                active={page.current}
+              />
             </div>
           </div>
         </main>

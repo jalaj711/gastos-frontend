@@ -1,9 +1,8 @@
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import Button from "./Button";
 
-function _Paginator(props: {
+function Paginator(props: {
   lastPage: number;
   active: number;
   setActive: (page: number) => any;
@@ -21,7 +20,7 @@ function _Paginator(props: {
         fullRadius
         secondary
         onClick={() => props.setActive(props.active - 1)}
-        disabled={props.active === firstPage}
+        disabled={!firstPage || props.active === firstPage}
       >
         <FontAwesomeIcon icon={faAngleLeft} />
       </Button>
@@ -65,7 +64,4 @@ function _Paginator(props: {
   );
 }
 
-export default function Paginator() {
-  const [active, setActive] = useState(1);
-  return <_Paginator active={active} lastPage={11} setActive={setActive} />;
-}
+export default Paginator;
