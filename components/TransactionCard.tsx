@@ -10,35 +10,54 @@ import { TransactionType } from "../utils/types";
 export default function TransactionCard(props: {
   data: TransactionType;
   fullWidth?: boolean;
+  mx ?: number;
+  my?: number
 }) {
   return (
-    <Card extraStyles={`max-width: 700px;${props.fullWidth ? "width: 100%;" : ""}`}>
+    <Card
+      extraStyles={`max-width: 700px;${props.fullWidth ? "width: 100%;" : ""}`}
+      mx={props.mx} my={props.my}
+    >
       <div className="wrapper">
-        <div className="content">
-          <h3>{props.data.name}</h3>
-          <p style={{ color: "#fff6" }}>{props.data.description}</p>
-          <div>
-            {props.data.labels &&
-              props.data.labels.map((label, index) => (
-                <Label key={index} color={label.color}>{label.name}</Label>
-              ))}
+        <div className="name-amount">
+          <div className="content">
+            <h3>{props.data.name}</h3>
+            <p style={{ color: "#fff6" }}>{props.data.description}</p>
           </div>
-          <div className="details">
-            <span>{props.data.date_time}</span>
-            <span>•</span>
-            <span>{props.data.wallet.name}</span>
-          </div>
+          <h1>
+            {props.data.is_expense && "-"} ${props.data.amount}
+          </h1>
         </div>
-        <h1>{props.data.is_expense && "-"} ${props.data.amount}</h1>
+        <div>
+          {props.data.labels &&
+            props.data.labels.map((label, index) => (
+              <Label key={index} color={label.color}>
+                {label.name}
+              </Label>
+            ))}
+        </div>
+        <div className="details">
+          <span>{props.data.date_time}</span>
+          <span>•</span>
+          <span>{props.data.wallet.name}</span>
+        </div>
       </div>
       <style jsx>{`
         .wrapper {
           display: flex;
-          align-items: center;
+          flex-direction: column;
         }
         h3,
         p {
           margin: 4px 0;
+        }
+        h1 {
+          min-width: max-content;
+        }
+        .name-amount {
+          display: flex;
+          align-items: center;
+          width: 100%;
         }
         .content {
           margin-right: 16px;

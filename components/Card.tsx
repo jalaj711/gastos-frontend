@@ -6,7 +6,11 @@ function Card(props: {
   backgroundColor?: string;
   small?: boolean;
   onClick?: MouseEventHandler;
+  mx?: number;
+  my?: number;
 }) {
+  const mx = props.mx !== undefined ? props.mx : props.small ? 8 : 12;
+  const my = props.my !== undefined ? props.my : props.small ? 8 : 12;
   return (
     <>
       <div className="container" onClick={props.onClick}>
@@ -16,14 +20,15 @@ function Card(props: {
         {`
           .container {
             width: fit-content;
-            margin: ${props.small ? "8px" : "12px"};
+            margin: ${my}px ${mx}px;
             border-radius: ${props.small ? "12px" : "16px"};
             ${props.extraStyles}
           }
           .wrapper {
             padding: ${props.small ? "12px" : "24px"};
             border-radius: ${props.small ? "8px" : "16px"};
-            background-color: ${props.backgroundColor || 'rgba(255, 255, 255, 0.05)'} !important;
+            background-color: ${props.backgroundColor ||
+            "rgba(255, 255, 255, 0.05)"} !important;
             background: linear-gradient(
               rgba(255, 255, 255, 0.05),
               rgba(255, 255, 255, 0.05)

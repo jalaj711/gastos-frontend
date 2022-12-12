@@ -172,7 +172,12 @@ function TransactionHistory() {
                 <>
                   <h4>{transactions.length} Transaction(s)</h4>
                   {transactions.map((elem) => (
-                    <TransactionCard data={elem} key={elem.id} fullWidth />
+                    <TransactionCard
+                      data={elem}
+                      key={elem.id}
+                      fullWidth
+                      mx={0}
+                    />
                   ))}
                 </>
               ) : (
@@ -245,6 +250,7 @@ function TransactionHistory() {
               align-items: center;
               justify-content: center;
               flex-direction: column;
+              margin-left: 12px;
             }
             .section {
               display: flex;
@@ -288,6 +294,9 @@ function TransactionHistory() {
               .filters {
                 width: 700px;
                 margin: 8px;
+              }
+              .cardGrid {
+                margin-left: 0px;
               }
             }
             @media (max-width: 700px) {
