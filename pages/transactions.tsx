@@ -63,17 +63,11 @@ function TransactionHistory() {
     const search_params = new URLSearchParams(search_filters).toString();
     // window.location.search = search_params;
     dispatch(showGlobalLoader());
-    fetch(
-      API_BASE +
-        URLs.TRANSACTIONS.SEARCH +
-        "?" +
-        search_params,
-      {
-        headers: {
-          Authorization: "Token " + auth.token,
-        },
-      }
-    )
+    fetch(API_BASE + URLs.TRANSACTIONS.SEARCH + "?" + search_params, {
+      headers: {
+        Authorization: "Token " + auth.token,
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         dispatch(hideGlobalLoader());
@@ -88,36 +82,38 @@ function TransactionHistory() {
   useEffect(() => {
     // On initial load we also need to extract data from the URL, if any.
     const params = new URLSearchParams(window.location.search);
-    if(params.get("search") && searchRef.current){
-      searchRef.current.value = params.get("search") || ""
+    if (params.get("search") && searchRef.current) {
+      searchRef.current.value = params.get("search") || "";
     }
-    if(params.get("labels")){
+    if (params.get("labels")) {
       try {
-        var lbls: Array<number | string> = params.get("labels")?.split(",") || [];
+        var lbls: Array<number | string> =
+          params.get("labels")?.split(",") || [];
         var i;
-        for(i=0;i<lbls?.length;i++){
+        for (i = 0; i < lbls?.length; i++) {
           lbls[i] = Number(lbls[i]);
         }
         setLabels(lbls as number[]);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
     }
-    if(params.get("wallets")){
+    if (params.get("wallets")) {
       try {
-        var wlts: Array<number | string> = params.get("wallets")?.split(",") || [];
+        var wlts: Array<number | string> =
+          params.get("wallets")?.split(",") || [];
         var i;
-        for(i=0;i<wlts?.length;i++){
+        for (i = 0; i < wlts?.length; i++) {
           wlts[i] = Number(wlts[i]);
         }
         setWallets(wlts as number[]);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
     }
 
     getTransactions();
-}, [dispatch, auth.token]);
+  }, [dispatch, auth.token]);
   return (
     auth.user_data && (
       <>
@@ -166,14 +162,16 @@ function TransactionHistory() {
                   </Label>
                 ))}
               </div>
-              <Button onClick={getTransactions}>Apply filters</Button>
+              <div className="applyFilters">
+                <Button onClick={getTransactions}>search</Button>
+              </div>
             </div>
             <div className="trxns cardGrid">
               {transactions.length !== 0 ? (
                 <>
-                  <h4>{transactions.length  } Transaction(s)</h4>
+                  <h4>{transactions.length} Transaction(s)</h4>
                   {transactions.map((elem) => (
-                    <TransactionCard data={elem} key={elem.id} />
+                    <TransactionCard data={elem} key={elem.id} fullWidth />
                   ))}
                 </>
               ) : (
@@ -262,6 +260,13 @@ function TransactionHistory() {
               text-transform: uppercase;
               font-weight: 700;
               font-size: 12px;
+            }
+            .applyFilters {
+              width: 100%;
+              margin-top: 16px;
+            }
+            .applyFilters > :global(button) {
+              width: 100%;
             }
             @media (max-width: 500px) {
               .mainWrapper {

@@ -9,9 +9,10 @@ import { TransactionType } from "../utils/types";
 
 export default function TransactionCard(props: {
   data: TransactionType;
+  fullWidth?: boolean;
 }) {
   return (
-    <Card extraStyles="width: 100%;max-width: 700px;">
+    <Card extraStyles={`max-width: 700px;${props.fullWidth ? "width: 100%;" : ""}`}>
       <div className="wrapper">
         <div className="content">
           <h3>{props.data.name}</h3>

@@ -226,7 +226,7 @@ function Wallet() {
                   endIcon={faAngleRight}
                   onClick={() =>
                     router.push(
-                      "/transactions?labels=1,2&search=trxn&wallets=" + walletStats.wallet.id
+                      "/transactions?wallets=" + walletStats.wallet.id
                     )
                   }
                 >
