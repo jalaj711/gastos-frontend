@@ -1,60 +1,71 @@
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import LabelCard from "../../components/LabelCard";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import Router from "next/router";
-import { useState, useEffect } from "react";
-import { showGlobalLoader, hideGlobalLoader } from "../../components/GlobalLoader/loaderSlice";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import {
+  showGlobalLoader,
+  hideGlobalLoader,
+} from "../../components/GlobalLoader/loaderSlice";
 import URLs, { API_BASE } from "../../utils/endpoints";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
-import { LabelType, WalletType } from "../../utils/types";
-
-const data01 = [
-  {
-    name: "Group A",
-    value: 400,
-  },
-  {
-    name: "Group B",
-    value: 300,
-  },
-  {
-    name: "Group C",
-    value: 300,
-  },
-  {
-    name: "Group D",
-    value: 200,
-  },
-  {
-    name: "Group E",
-    value: 278,
-  },
-  {
-    name: "Group F",
-    value: 189,
-  },
-];
+import { LabelType } from "../../utils/types";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
 
 function Labels() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+  const [showCreator, setShowCreator] = useState(false);
+  const newLabelNameRef = useRef<HTMLInputElement>(null);
+  const newLabelDescRef = useRef<HTMLTextAreaElement>(null);
+  const newLabelColorRef = useRef<HTMLInputElement>(null);
 
-  const [labels, setLabels] = useState<LabelType[]>([])
- 
+  const [labels, setLabels] = useState<LabelType[]>([]);
+
   useEffect(() => {
-    dispatch(showGlobalLoader())
-    fetch(API_BASE + URLs.LABELS.GET,
-      {
-        headers: {
-          Authorization: "Token " + auth.token,
-        },
-    }).then(res => res.json()).then(res => {
-      dispatch(hideGlobalLoader())
-      setLabels(res.labels);
+    dispatch(showGlobalLoader());
+    fetch(API_BASE + URLs.LABELS.GET, {
+      headers: {
+        Authorization: "Token " + auth.token,
+      },
     })
+      .then((res) => res.json())
+      .then((res) => {
+        dispatch(hideGlobalLoader());
+        setLabels(res.labels);
+      });
   }, [auth, dispatch]);
+
+  const createLabel = () => {
+    dispatch(showGlobalLoader());
+    fetch(API_BASE + URLs.LABELS.CREATE, {
+      method: "POST",
+      headers: {
+        Authorization: "Token " + auth.token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newLabelNameRef.current?.value,
+        description: newLabelDescRef.current?.value,
+        color: newLabelColorRef.current?.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        dispatch(hideGlobalLoader());
+        dispatch(showSnackbarThunk("New label created!"));
+        setLabels([...labels, res.label]);
+        setShowCreator(false);
+      });
+  };
+
+  useLayoutEffect(() => {
+    if (newLabelColorRef.current) newLabelColorRef.current.value = "#ffffff";
+  }, []);
+
   return (
     <>
       <Head>
@@ -66,55 +77,52 @@ function Labels() {
       <main>
         <div className="mainWrapper">
           <h1>My Labels</h1>
-          <div className="primaryContainer">
-            <div className="cardContainer">
-              <PieChart width={300} height={300}>
-                <Pie
-                  data={data01}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={80}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  strokeWidth="2px"
-                  stroke="#121212"
-                  label
-                >
-                  {data01.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={
-                        [
-                          "#6bc4abc7",
-                          "#6b8ac4c7",
-                          "#a46bc4c7",
-                          "#c4be6bc7",
-                          "#a46bc4c7",
-                        ][Math.floor(Math.random() * 4)]
-                      }
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </div>
-            <div className="search">
-              <FontAwesomeIcon icon={faSearch} strokeWidth={1} />
-              <input placeholder="Search..." />
-            </div>
-          </div>
+
+          <Button
+            startIcon={faAdd}
+            fullRadius
+            onClick={() => setShowCreator(true)}
+          >
+            Create New
+          </Button>
         </div>
         <div className="section">
           <div className="cardGrid">
-          {
-              labels.length !== 0 && labels.map(elem => <LabelCard
-                data={elem}
-                key={elem.id}
-                onClick={() => Router.push("/labels/" + elem.id)}
-              />)
-            }
+            {labels.length !== 0 &&
+              labels.map((elem) => (
+                <LabelCard
+                  data={elem}
+                  key={elem.id}
+                  onClick={() => Router.push("/labels/" + elem.id)}
+                />
+              ))}
           </div>
+        </div>
+        <div
+          className="create"
+          style={{ display: showCreator ? "block" : "none" }}
+        >
+          <div className="title">
+            <h2>New Label</h2>
+            <FontAwesomeIcon
+              icon={faClose}
+              onClick={() => setShowCreator(false)}
+            />
+          </div>
+          <h3>Give it a name</h3>
+          <Input ref={newLabelNameRef} type="text" placeholder="Name" />
+          <h3>Give it an optional description</h3>
+          <textarea
+            placeholder="Description"
+            rows={4}
+            className="description"
+            ref={newLabelDescRef}
+          />
+          <h3>Pick a color for your label</h3>
+          <Input type="color" ref={newLabelColorRef} />
+          <Button startIcon={faCheck} onClick={createLabel}>
+            Create
+          </Button>
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
@@ -130,35 +138,16 @@ function Labels() {
             color: white;
             font-size: 4rem;
             text-align: center;
+            margin-bottom: 16px;
           }
 
           .mainWrapper {
             width: 100%;
             align-items: center;
-          }
-
-          .mainWrapper h1,
-          .mainWrapper .primaryContainer {
-            flex-basis: 50%;
-            justify-content: center;
-            align-self: center;
-          }
-
-          .primaryContainer {
-            max-width: 500px;
             display: flex;
             flex-direction: column;
-          }
-          .cardContainer {
-            padding: 16px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-          }
-
-          .progressWrapper {
-            justify-content: space-between;
+            margin-bottom: 32px;
           }
 
           .search {
@@ -201,15 +190,100 @@ function Labels() {
           .section {
             margin-top: 32px;
           }
-          @media (max-width: 850px) {
-            .mainWrapper {
-              flex-direction: column;
-            }
+          .create {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 350px;
+            background-color: rgba(0, 0, 0, 0.9);
+            background-image: linear-gradient(
+              rgba(255, 255, 255, 0.1),
+              rgba(255, 255, 255, 0.1)
+            );
+            backdrop-filter: blur(8px);
+            padding: 24px 32px;
+            border-radius: 12px 0 0 12px;
+            animation: slide-from-right 0.3s ease-out forwards;
           }
 
+          .create > .title {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+          .title > :global(svg) {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+          }
+
+          .create > :global(input),
+          .create > :global(button),
+          .description {
+            width: 100%;
+            margin: 12px 0;
+          }
+
+          .create h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: "Roboto";
+            font-weight: 700;
+            margin-top: 12px;
+            margin-bottom: 0px;
+          }
+
+          .description {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+            margin-top: 12px;
+          }
+
+          .description:focus {
+            outline: none;
+          }
           @media (max-width: 500px) {
             .mainWrapper {
               margin-top: 32px;
+            }
+            .create {
+              width: 100vw;
+              height: fit-content;
+              top: auto;
+              bottom: 0;
+              border-radius: 12px 12px 0 0;
+              padding-bottom: 84px;
+              animation: slide-from-bottom 0.3s ease-out forwards;
+            }
+          }
+
+          @keyframes slide-from-right {
+            from {
+              transform: translateX(100%);
+            }
+            90% {
+              transform: translateX(-5%);
+            }
+            to {
+              transform: translateX(0);
+            }
+          }
+          @keyframes slide-from-bottom {
+            from {
+              transform: translateY(100%);
+            }
+            90% {
+              transform: translateY(-5%);
+            }
+            to {
+              transform: translateY(0);
             }
           }
         `}
