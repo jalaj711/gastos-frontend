@@ -127,7 +127,7 @@ function Add() {
           0.01 * Number(cents.current?.innerText),
         name: nameRef.current?.value,
         description: description.current?.value,
-        isExpense,
+        is_expense: isExpense,
         wallet,
         labels,
       }),
