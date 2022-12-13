@@ -14,6 +14,7 @@ import {
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+import { updateWallets } from "../../utils/authSlice";
 
 function Wallets() {
   const dispatch = useAppDispatch();
@@ -57,6 +58,7 @@ function Wallets() {
         if (res.success) {
           dispatch(showSnackbarThunk("New wallet created!"));
           setWallets([res.wallet, ...wallets]);
+          dispatch(updateWallets([res.wallet, ...wallets]))
           setShowCreator(false);
           if (newWalletDescRef.current && newWalletNameRef.current) {
             newWalletDescRef.current.value = "";

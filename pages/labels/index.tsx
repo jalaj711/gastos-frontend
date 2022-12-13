@@ -14,6 +14,7 @@ import { LabelType } from "../../utils/types";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+import { updateLabels } from "../../utils/authSlice";
 
 function Labels() {
   const dispatch = useAppDispatch();
@@ -59,6 +60,7 @@ function Labels() {
         if (res.success) {
           dispatch(showSnackbarThunk("New label created!"));
           setLabels([res.label, ...labels]);
+          dispatch(updateLabels([res.label, ...labels]))
           setShowCreator(false);
           if (
             newLabelColorRef.current &&
