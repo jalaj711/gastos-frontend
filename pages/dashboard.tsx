@@ -217,6 +217,17 @@ function Dashboard() {
                 />
               ))}
             </div>
+
+            <div style={{ float: "right" }}>
+              <Button
+                secondary
+                small
+                endIcon={faAngleRight}
+                onClick={() => Router.push("/wallets")}
+              >
+                View all
+              </Button>
+            </div>
           </div>
           <div className="section">
             <h2>Your Labels</h2>

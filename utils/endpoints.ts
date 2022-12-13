@@ -31,7 +31,7 @@ export const AUTH_URLS = {
     },
     LOGIN: "/auth/login/",
     LOGOUT: "/auth/logout/",
-    SIGNUP: "/auth/signup/",
+    SIGNUP: "/auth/register/",
     FORGOT_PASSWORD: "/auth/forgot-password/",
 }
 

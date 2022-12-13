@@ -290,7 +290,8 @@ function TransactionHistory() {
               height: fit-content;
               flex-grow: 0;
               margin-top: 8px;
-              min-width: max-content;
+              width: max-content;
+              max-width: 400px;
             }
             .filters h4 {
               text-transform: uppercase;
@@ -319,7 +320,8 @@ function TransactionHistory() {
                 align-items: center;
               }
               .filters {
-                width: 700px;
+                max-width: 650px;
+                width: 650px;
                 margin: 8px;
               }
               .cardGrid {
