@@ -44,19 +44,29 @@ function Wallets() {
       method: "POST",
       headers: {
         Authorization: "Token " + auth.token,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: newWalletNameRef.current?.value,
-        description: newWalletDescRef.current?.value
-      })
-    }).then(res => res.json()).then(res => {
-      dispatch(hideGlobalLoader());
-      dispatch(showSnackbarThunk("New wallet created!"));
-      setWallets([...wallets, res.wallet]);
-      setShowCreator(false)
+        description: newWalletDescRef.current?.value,
+      }),
     })
-  }
+      .then((res) => res.json())
+      .then((res) => {
+        dispatch(hideGlobalLoader());
+        if (res.success) {
+          dispatch(showSnackbarThunk("New wallet created!"));
+          setWallets([res.wallet, ...wallets]);
+          setShowCreator(false);
+          if (newWalletDescRef.current && newWalletNameRef.current) {
+            newWalletDescRef.current.value = "";
+            newWalletNameRef.current.value = "";
+          }
+        } else {
+          dispatch(showSnackbarThunk(res.message));
+        }
+      });
+  };
 
   return (
     <>
@@ -70,7 +80,11 @@ function Wallets() {
         <div className="mainWrapper">
           <h1>My Wallets</h1>
 
-          <Button startIcon={faAdd} fullRadius onClick={() => setShowCreator(true)}>
+          <Button
+            startIcon={faAdd}
+            fullRadius
+            onClick={() => setShowCreator(true)}
+          >
             Create New
           </Button>
         </div>
@@ -86,10 +100,16 @@ function Wallets() {
               ))}
           </div>
         </div>
-        <div className="create" style={{ display: showCreator ? "block" : "none" }}>
+        <div
+          className="create"
+          style={{ display: showCreator ? "block" : "none" }}
+        >
           <div className="title">
             <h2>New Wallet</h2>
-            <FontAwesomeIcon icon={faClose}  onClick={() => setShowCreator(false)}/>
+            <FontAwesomeIcon
+              icon={faClose}
+              onClick={() => setShowCreator(false)}
+            />
           </div>
           <h3>Give it a name:</h3>
           <Input ref={newWalletNameRef} type="text" placeholder="Name" />
@@ -100,7 +120,9 @@ function Wallets() {
             className="description"
             ref={newWalletDescRef}
           />
-          <Button startIcon={faCheck} onClick={createWallet}>Create</Button>
+          <Button startIcon={faCheck} onClick={createWallet}>
+            Create
+          </Button>
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />

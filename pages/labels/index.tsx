@@ -56,9 +56,22 @@ function Labels() {
       .then((res) => res.json())
       .then((res) => {
         dispatch(hideGlobalLoader());
-        dispatch(showSnackbarThunk("New label created!"));
-        setLabels([...labels, res.label]);
-        setShowCreator(false);
+        if (res.success) {
+          dispatch(showSnackbarThunk("New label created!"));
+          setLabels([res.label, ...labels]);
+          setShowCreator(false);
+          if (
+            newLabelColorRef.current &&
+            newLabelDescRef.current &&
+            newLabelNameRef.current
+          ) {
+            newLabelColorRef.current.value = "#ffffff";
+            newLabelDescRef.current.value = "";
+            newLabelNameRef.current.value = "";
+          }
+        } else {
+          dispatch(showSnackbarThunk(res.message));
+        }
       });
   };
 
