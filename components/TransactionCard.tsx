@@ -1,6 +1,7 @@
 import Card from "./Card";
 import Label from "./Label";
 import { TransactionType } from "../utils/types";
+import {format} from "date-fns";
 // import dynamic from "next/dynamic";
 
 // const CircularProgress = dynamic(() => import("./Progress/CircularProgress"), {
@@ -37,7 +38,7 @@ export default function TransactionCard(props: {
             ))}
         </div>
         <div className="details">
-          <span>{props.data.date_time}</span>
+          <span>{format(new Date(props.data.date_time), "dd MMM 'at' HH:mm")}</span>
           <span>•</span>
           <span>{props.data.wallet.name}</span>
         </div>
