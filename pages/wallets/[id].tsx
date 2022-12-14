@@ -70,6 +70,9 @@ function Wallet() {
     })
       .then((res) => res.json())
       .then((res) => {
+        res.data.daily.sort((d1: any, d2: any) => (d1.day > d2.day ? 1 : -1));
+        res.data.weekly.sort((w1: any, w2: any) => (w1.week > w2.week ? 1 : -1));
+        res.data.monthly.sort((m1: any, m2: any) => (m1.month >m2.month? 1 : -1));
         dispatch(hideGlobalLoader());
         setWalletStats(res.data);
       });

@@ -18,22 +18,26 @@ import {
 } from "../components/GlobalLoader/loaderSlice";
 import { TransactionType, WalletType, LabelType } from "../utils/types";
 
+interface DashboardDataType {
+  wallets: WalletType[];
+  labels: LabelType[];
+  recents: TransactionType[];
+  daily: { day: number; spent: number; count: number }[];
+  weekly: { week: number; spent: number; count: number }[];
+  monthly: { month: number; spent: number; count: number }[];
+  transactions: {
+    today: { day: number; spent: number; count: number }[];
+    this_week: { week: number; spent: number; count: number }[];
+    this_month: { month: number; spent: number; count: number }[];
+  };
+}
+
 function Dashboard() {
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.auth.token);
-  const [dashboardData, setDashboardData] = useState<{
-    wallets: WalletType[];
-    labels: LabelType[];
-    recents: TransactionType[];
-    daily: { day: number; spent: number; count: number }[];
-    weekly: { week: number; spent: number; count: number }[];
-    monthly: { month: number; spent: number; count: number }[];
-    transactions: {
-      today: { day: number; spent: number; count: number }[];
-      this_week: { week: number; spent: number; count: number }[];
-      this_month: { month: number; spent: number; count: number }[];
-    };
-  } | null>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardDataType | null>(
+    null
+  );
 
   useEffect(() => {
     dispatch(showGlobalLoader());
@@ -44,7 +48,9 @@ function Dashboard() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.data);
+        res.data.daily.sort((d1: any, d2: any) => (d1.day > d2.day ? 1 : -1));
+        res.data.weekly.sort((w1: any, w2: any) => (w1.week > w2.week ? 1 : -1));
+        res.data.monthly.sort((m1: any, m2: any) => (m1.month >m2.month? 1 : -1));
         setDashboardData(res.data);
         dispatch(hideGlobalLoader());
       });
