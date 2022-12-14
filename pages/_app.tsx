@@ -4,7 +4,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Navbar from "../components/Navbar";
 import BackButton from "../components/BackButton";
-import store from "../utils/store";
+import store, { persistor } from "../utils/store";
 import { Provider } from "react-redux";
 import Snackbar from "../components/Snackbar";
 import GlobalLoader from "../components/GlobalLoader";
@@ -15,6 +15,7 @@ import {
   hideGlobalLoader,
   showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
+import { PersistGate } from "redux-persist/integration/react";
 
 config.autoAddCss = false;
 
@@ -31,13 +32,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Provider store={store}>
-        <PageTransitionAnimation>
-          <BackButton />
-          <Component {...pageProps} />
-          <Snackbar />
-          <Navbar />
-        </PageTransitionAnimation>
-        <GlobalLoader />
+        <PersistGate persistor={persistor}>
+          <PageTransitionAnimation>
+            <BackButton />
+            <Component {...pageProps} />
+            <Snackbar />
+            <Navbar />
+          </PageTransitionAnimation>
+          <GlobalLoader />
+        </PersistGate>
       </Provider>
     </>
   );
