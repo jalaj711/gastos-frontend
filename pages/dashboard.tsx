@@ -49,8 +49,12 @@ function Dashboard() {
       .then((res) => res.json())
       .then((res) => {
         res.data.daily.sort((d1: any, d2: any) => (d1.day > d2.day ? 1 : -1));
-        res.data.weekly.sort((w1: any, w2: any) => (w1.week > w2.week ? 1 : -1));
-        res.data.monthly.sort((m1: any, m2: any) => (m1.month >m2.month? 1 : -1));
+        res.data.weekly.sort((w1: any, w2: any) =>
+          w1.week > w2.week ? 1 : -1
+        );
+        res.data.monthly.sort((m1: any, m2: any) =>
+          m1.month > m2.month ? 1 : -1
+        );
         setDashboardData(res.data);
         dispatch(hideGlobalLoader());
       });
@@ -70,13 +74,36 @@ function Dashboard() {
             <div className="primaryContainer">
               <div className="cardContainer">
                 <div className="progressWrapper">
-                  <ProgressBar sub="Mon" value={91} />
-                  <ProgressBar sub="Tue" value={87} />
-                  <ProgressBar sub="Wed" value={75} />
-                  <ProgressBar sub="Thu" value={80} />
-                  <ProgressBar sub="Fri" value={30} />
-                  <ProgressBar sub="Sat" value={0} />
-                  <ProgressBar sub="Sun" value={0} />
+                  <div className="stats">
+                    <div>
+                      <span className="button-like">Spent today:</span>
+                      <span className="value button-like">
+                        $
+                        {dashboardData.transactions.today[0] &&
+                          dashboardData.transactions.today[0].spent}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="button-like">spent this week:</span>
+                      <span className="value button-like">
+                        ${dashboardData.transactions.this_week[0].spent}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="button-like">spent this month:</span>
+                      <span className="value button-like">
+                        ${dashboardData.transactions.this_month[0].spent}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="button-like">
+                        total transactions this month:
+                      </span>
+                      <span className="value button-like">
+                        {dashboardData.transactions.this_month[0].count}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="search">
@@ -295,7 +322,6 @@ function Dashboard() {
             .cardContainer {
               padding: 16px;
               border-radius: 16px;
-              background: rgba(255, 255, 255, 0.05);
             }
 
             .progressWrapper {
@@ -331,6 +357,26 @@ function Dashboard() {
             .mainWrapper,
             .progressWrapper {
               display: flex;
+            }
+            .progressWrapper {
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+            }
+            .stats {
+              width: 100%;
+              margin-top: 32px;
+            }
+            .button-like {
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              font-weight: 900;
+              font-size: 12px;
+            }
+
+            .value {
+              color: rgba(255, 255, 255, 0.7);
+              float: right;
             }
 
             .cardGrid {
