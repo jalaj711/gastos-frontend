@@ -1,7 +1,10 @@
 import Head from "next/head";
-import ProgressBar from "../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faSearch,
+  faAdd,
+} from "@fortawesome/free-solid-svg-icons";
 import WalletCard from "../components/WalletCard";
 import TransactionCard from "../components/TransactionCard";
 import Button from "../components/Button";
@@ -114,13 +117,29 @@ function Dashboard() {
           </div>
           <div className="section">
             <h2>Recent Transactions</h2>
-            <div className="horizontalGrid">
-              <div className="horizontalGridWrapper">
-                {dashboardData.recents.map((elem) => (
-                  <TransactionCard key={elem.id} data={elem} />
-                ))}
+            {dashboardData.recents.length === 0 ? (
+              <div className="no-data">
+                <span>
+                  Seems like you haven&apos;t added any transactions yet.
+                </span>
+                <Button
+                  startIcon={faAdd}
+                  small
+                  secondary
+                  onClick={() => Router.push("/add")}
+                >
+                  Create one now!
+                </Button>
               </div>
-            </div>
+            ) : (
+              <div className="horizontalGrid">
+                <div className="horizontalGridWrapper">
+                  {dashboardData.recents.map((elem) => (
+                    <TransactionCard key={elem.id} data={elem} />
+                  ))}
+                </div>
+              </div>
+            )}
             <div style={{ float: "right" }}>
               <Button
                 secondary
@@ -241,15 +260,29 @@ function Dashboard() {
 
           <div className="section">
             <h2>Your Wallets</h2>
-            <div className="cardGrid">
-              {dashboardData.wallets.map((elem) => (
-                <WalletCard
-                  key={elem.id}
-                  data={elem}
-                  onClick={() => Router.push("/wallets/" + elem.id)}
-                />
-              ))}
-            </div>
+            {dashboardData.wallets.length === 0 ? (
+              <div className="no-data">
+                <span>Seems like you don&apos;t have any wallets yet.</span>
+                <Button
+                  startIcon={faAdd}
+                  small
+                  secondary
+                  onClick={() => Router.push("/wallets")}
+                >
+                  Add one
+                </Button>
+              </div>
+            ) : (
+              <div className="cardGrid">
+                {dashboardData.wallets.map((elem) => (
+                  <WalletCard
+                    key={elem.id}
+                    data={elem}
+                    onClick={() => Router.push("/wallets/" + elem.id)}
+                  />
+                ))}
+              </div>
+            )}
 
             <div style={{ float: "right" }}>
               <Button
@@ -264,17 +297,31 @@ function Dashboard() {
           </div>
           <div className="section">
             <h2>Your Labels</h2>
-            <div className="horizontalGrid">
-              <div className="horizontalGridWrapper">
-                {dashboardData.labels.map((elem) => (
-                  <LabelCard
-                    key={elem.id}
-                    data={elem}
-                    onClick={() => Router.push("/labels/" + elem.id)}
-                  />
-                ))}
+            {dashboardData.labels.length === 0 ? (
+              <div className="no-data">
+                <span>Seems like you don&apos;t have any labels yet.</span>
+                <Button
+                  startIcon={faAdd}
+                  small
+                  secondary
+                  onClick={() => Router.push("/labels")}
+                >
+                  Add one
+                </Button>
               </div>
-            </div>
+            ) : (
+              <div className="horizontalGrid">
+                <div className="horizontalGridWrapper">
+                  {dashboardData.labels.map((elem) => (
+                    <LabelCard
+                      key={elem.id}
+                      data={elem}
+                      onClick={() => Router.push("/labels/" + elem.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
             <div style={{ float: "right" }}>
               <Button
                 secondary
@@ -402,7 +449,15 @@ function Dashboard() {
             h2 {
               margin-left: 12px;
             }
-            .section {
+            .no-data {
+              width: 100%;
+              height: 150px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              text-align: center;
+              color: rgba(228, 228, 228, 0.8);
             }
 
             @media (max-width: 850px) {

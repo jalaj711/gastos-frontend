@@ -16,7 +16,7 @@ export default function TransactionCard(props: {
 }) {
   return (
     <Card
-      extraStyles={`max-width: 700px;${props.fullWidth ? "width: 100%;" : ""}`}
+      extraStyles={`min-width: 350px;max-width: 700px;${props.fullWidth ? "width: 100%;" : ""}`}
       mx={props.mx} my={props.my}
     >
       <div className="wrapper">
