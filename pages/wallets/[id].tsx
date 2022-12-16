@@ -1,9 +1,10 @@
 import Head from "next/head";
-import ProgressBar from "../../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAdd,
   faAngleRight,
+  faCheck,
+  faClose,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import TransactionCard from "../../components/TransactionCard";
@@ -12,13 +13,28 @@ import { LineChart, XAxis, YAxis, Line, Tooltip } from "recharts";
 import { useRouter } from "next/router";
 import colors from "../../utils/colors";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TransactionType, WalletType } from "../../utils/types";
 import URLs, { API_BASE } from "../../utils/endpoints";
 import {
   hideGlobalLoader,
   showGlobalLoader,
 } from "../../components/GlobalLoader/loaderSlice";
+import Input from "../../components/Input";
+import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+
+interface WalletStatsType {
+  wallet: WalletType;
+  recents: TransactionType[];
+  daily: { day: number; spent: number; count: number }[];
+  weekly: { week: number; spent: number; count: number }[];
+  monthly: { month: number; spent: number; count: number }[];
+  transactions: {
+    today: { day: number; spent: number; count: number }[];
+    this_week: { week: number; spent: number; count: number }[];
+    this_month: { month: number; spent: number; count: number }[];
+  };
+}
 
 function TransactionInput(props: { dollars: number; cents: number }) {
   return (
@@ -51,19 +67,11 @@ function Wallet() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+  const [showCreator, setShowCreator] = useState(false);
+  const newWalletNameRef = useRef<HTMLInputElement>(null);
+  const newWalletDescRef = useRef<HTMLTextAreaElement>(null);
 
-  const [walletStats, setWalletStats] = useState<{
-    wallet: WalletType;
-    recents: TransactionType[];
-    daily: { day: number; spent: number; count: number }[];
-    weekly: { week: number; spent: number; count: number }[];
-    monthly: { month: number; spent: number; count: number }[];
-    transactions: {
-      today: { day: number; spent: number; count: number }[];
-      this_week: { week: number; spent: number; count: number }[];
-      this_month: { month: number; spent: number; count: number }[];
-    };
-  } | null>(null);
+  const [walletStats, setWalletStats] = useState<WalletStatsType | null>(null);
 
   useEffect(() => {
     dispatch(showGlobalLoader());
@@ -85,6 +93,38 @@ function Wallet() {
         setWalletStats(res.data);
       });
   }, [auth, dispatch]);
+
+  const updateWallet = () => {
+    dispatch(showGlobalLoader());
+    fetch(API_BASE + URLs.WALLET.UPDATE, {
+      method: "POST",
+      headers: {
+        Authorization: "Token " + auth.token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        wallet: walletStats?.wallet.id,
+        new_data: {
+          name: newWalletNameRef.current?.value,
+          description: newWalletDescRef.current?.value,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        dispatch(hideGlobalLoader());
+        if (res.success) {
+          dispatch(showSnackbarThunk("Wallet data updated"));
+          setShowCreator(false);
+          setWalletStats(
+            (st) => ({ ...st, wallet: res.wallet } as WalletStatsType)
+          );
+        } else {
+          dispatch(showSnackbarThunk(res.message));
+        }
+      });
+  };
+
   return (
     walletStats && (
       <>
@@ -96,7 +136,7 @@ function Wallet() {
 
         <main>
           <div className="mainWrapper">
-            <div className="title">
+            <div className="title" onClick={() => setShowCreator(true)}>
               <div>
                 <h1>{walletStats.wallet.name}</h1>
                 <h3>{walletStats.wallet.description}</h3>
@@ -269,6 +309,36 @@ function Wallet() {
               </div>
             </div>
           </div>
+          <div
+            className="create"
+            style={{ display: showCreator ? "block" : "none" }}
+          >
+            <div className="title">
+              <h2>Edit Wallet</h2>
+              <FontAwesomeIcon
+                icon={faClose}
+                onClick={() => setShowCreator(false)}
+              />
+            </div>
+            <h3>Name:</h3>
+            <Input
+              ref={newWalletNameRef}
+              defaultValue={walletStats.wallet.name}
+              type="text"
+              placeholder="Name"
+            />
+            <h3>Description</h3>
+            <textarea
+              placeholder="Description"
+              rows={4}
+              className="description"
+              ref={newWalletDescRef}
+              defaultValue={walletStats.wallet.description}
+            />
+            <Button startIcon={faCheck} onClick={updateWallet}>
+              Update
+            </Button>
+          </div>
         </main>
         <div style={{ width: "100vw", height: "72px" }} />
 
@@ -425,6 +495,88 @@ function Wallet() {
               text-align: center;
               color: rgba(228, 228, 228, 0.8);
             }
+            .create {
+              position: fixed;
+              top: 0;
+              right: 0;
+              height: 100vh;
+              width: 350px;
+              background-color: rgba(0, 0, 0, 0.9);
+              background-image: linear-gradient(
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.1)
+              );
+              backdrop-filter: blur(8px);
+              padding: 24px 32px;
+              border-radius: 12px 0 0 12px;
+              animation: slide-from-right 0.3s ease-out forwards;
+            }
+
+            .create > .title {
+              display: flex;
+              width: 100%;
+              align-items: center;
+              justify-content: space-between;
+            }
+
+            .title > :global(svg) {
+              width: 24px;
+              height: 24px;
+              cursor: pointer;
+            }
+
+            .create > :global(input),
+            .create > :global(button),
+            .description {
+              width: 100%;
+              margin: 12px 0;
+            }
+
+            .create h3 {
+              font-size: 12px;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              font-family: "Roboto";
+              font-weight: 700;
+              margin-top: 12px;
+              margin-bottom: 0px;
+            }
+
+            .description {
+              background: rgba(255, 255, 255, 0.1);
+              border: none;
+              border-radius: 8px;
+              color: white;
+              padding: 12px;
+              margin-top: 12px;
+            }
+
+            .description:focus {
+              outline: none;
+            }
+
+            @keyframes slide-from-right {
+              from {
+                transform: translateX(100%);
+              }
+              90% {
+                transform: translateX(-5%);
+              }
+              to {
+                transform: translateX(0);
+              }
+            }
+            @keyframes slide-from-bottom {
+              from {
+                transform: translateY(100%);
+              }
+              90% {
+                transform: translateY(-5%);
+              }
+              to {
+                transform: translateY(0);
+              }
+            }
 
             @media (max-width: 850px) {
               .mainWrapper {
@@ -435,6 +587,16 @@ function Wallet() {
             @media (max-width: 500px) {
               .mainWrapper {
                 margin-top: 32px;
+              }
+
+              .create {
+                width: 100vw;
+                height: fit-content;
+                top: auto;
+                bottom: 0;
+                border-radius: 12px 12px 0 0;
+                padding-bottom: 84px;
+                animation: slide-from-bottom 0.3s ease-out forwards;
               }
               .progressWrapper > :global(.progressContainer) {
                 margin: 6px;

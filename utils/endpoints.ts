@@ -15,6 +15,7 @@ export const LABEL_URLS = {
     GET: "/label/get/",
     STATS: "/label/stats/",
     SEARCH: "/label/search/",
+    UPDATE: "/label/update/"
 }
 
 export const WALLET_URLS ={
@@ -22,6 +23,7 @@ export const WALLET_URLS ={
     GET: "/wallet/get/",
     STATS: "/wallet/stats/",
     SEARCH: "/wallet/search/",
+    UPDATE: "/wallet/update/"
 }
 
 export const AUTH_URLS = {
