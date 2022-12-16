@@ -60,7 +60,7 @@ function Labels() {
         if (res.success) {
           dispatch(showSnackbarThunk("New label created!"));
           setLabels([res.label, ...labels]);
-          dispatch(updateLabels([res.label, ...labels]))
+          dispatch(updateLabels([res.label, ...labels]));
           setShowCreator(false);
           if (
             newLabelColorRef.current &&
@@ -102,16 +102,22 @@ function Labels() {
           </Button>
         </div>
         <div className="section">
-          <div className="cardGrid">
-            {labels.length !== 0 &&
-              labels.map((elem) => (
-                <LabelCard
-                  data={elem}
-                  key={elem.id}
-                  onClick={() => Router.push("/labels/" + elem.id)}
-                />
-              ))}
-          </div>
+          {labels.length === 0 ? (
+            <div className="no-data">
+              <span>Seems like you don&apos;t have any labels yet.</span>
+            </div>
+          ) : (
+            <div className="cardGrid">
+              {labels.length !== 0 &&
+                labels.map((elem) => (
+                  <LabelCard
+                    data={elem}
+                    key={elem.id}
+                    onClick={() => Router.push("/labels/" + elem.id)}
+                  />
+                ))}
+            </div>
+          )}
         </div>
         <div
           className="create"
@@ -204,6 +210,16 @@ function Labels() {
           }
           .section {
             margin-top: 32px;
+          }
+          .no-data {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            color: rgba(228, 228, 228, 0.8);
           }
           .create {
             position: fixed;

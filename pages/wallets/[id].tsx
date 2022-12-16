@@ -1,7 +1,11 @@
 import Head from "next/head";
 import ProgressBar from "../../components/Progress/ProgressBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAdd,
+  faAngleRight,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import TransactionCard from "../../components/TransactionCard";
 import Button from "../../components/Button";
 import { LineChart, XAxis, YAxis, Line, Tooltip } from "recharts";
@@ -71,8 +75,12 @@ function Wallet() {
       .then((res) => res.json())
       .then((res) => {
         res.data.daily.sort((d1: any, d2: any) => (d1.day > d2.day ? 1 : -1));
-        res.data.weekly.sort((w1: any, w2: any) => (w1.week > w2.week ? 1 : -1));
-        res.data.monthly.sort((m1: any, m2: any) => (m1.month >m2.month? 1 : -1));
+        res.data.weekly.sort((w1: any, w2: any) =>
+          w1.week > w2.week ? 1 : -1
+        );
+        res.data.monthly.sort((m1: any, m2: any) =>
+          m1.month > m2.month ? 1 : -1
+        );
         dispatch(hideGlobalLoader());
         setWalletStats(res.data);
       });
@@ -101,7 +109,9 @@ function Wallet() {
                     <div>
                       <span className="button-like">Spent today:</span>
                       <span className="value button-like">
-                        ${walletStats.transactions.today[0] && walletStats.transactions.today[0].spent}
+                        $
+                        {walletStats.transactions.today[0] &&
+                          walletStats.transactions.today[0].spent}
                       </span>
                     </div>
                     <div>
@@ -215,13 +225,29 @@ function Wallet() {
             </div>
             <div>
               <h2>Recent Transactions</h2>
-              <div className="horizontalGrid">
-                <div className="horizontalGridWrapper">
-                  {walletStats.recents.map((elem) => (
-                    <TransactionCard data={elem} key={elem.id} />
-                  ))}
+              {walletStats.recents.length === 0 ? (
+                <div className="no-data">
+                  <span>
+                    Seems like you haven&apos;t added any transactions yet.
+                  </span>
+                  <Button
+                    startIcon={faAdd}
+                    small
+                    secondary
+                    onClick={() => router.push("/add")}
+                  >
+                    Create one now!
+                  </Button>
                 </div>
-              </div>
+              ) : (
+                <div className="horizontalGrid">
+                  <div className="horizontalGridWrapper">
+                    {walletStats.recents.map((elem) => (
+                      <TransactionCard data={elem} key={elem.id} />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div style={{ float: "right" }}>
                 <Button
                   secondary
@@ -355,7 +381,16 @@ function Wallet() {
             h2 {
               margin-left: 12px;
             }
-            .section {
+
+            .no-data {
+              width: 100%;
+              height: 150px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              text-align: center;
+              color: rgba(228, 228, 228, 0.8);
             }
 
             @media (max-width: 850px) {

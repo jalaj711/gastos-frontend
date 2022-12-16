@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faAngleRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import TransactionCard from "../../components/TransactionCard";
 import Button from "../../components/Button";
 import {
@@ -184,13 +184,29 @@ function Label() {
             </div>
             <div>
               <h2>Recent Transactions</h2>
-              <div className="horizontalGrid">
-                <div className="horizontalGridWrapper">
-                  {labelStats.recents.map((elem) => (
-                    <TransactionCard data={elem} key={elem.id} />
-                  ))}
+              {labelStats.recents.length === 0 ? (
+                <div className="no-data">
+                  <span>
+                    Seems like you haven&apos;t added any transactions yet.
+                  </span>
+                  <Button
+                    startIcon={faAdd}
+                    small
+                    secondary
+                    onClick={() => router.push("/add")}
+                  >
+                    Create one now!
+                  </Button>
                 </div>
-              </div>
+              ) : (
+                <div className="horizontalGrid">
+                  <div className="horizontalGridWrapper">
+                    {labelStats.recents.map((elem) => (
+                      <TransactionCard data={elem} key={elem.id} />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div style={{ float: "right" }}>
                 <Button secondary small endIcon={faAngleRight}onClick={() =>
                     router.push(
@@ -319,8 +335,17 @@ function Label() {
           h2 {
             margin-left: 12px;
           }
-          .section {
-          }
+          
+          .no-data {
+              width: 100%;
+              height: 150px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              text-align: center;
+              color: rgba(228, 228, 228, 0.8);
+            }
 
           @media (max-width: 850px) {
             .mainWrapper {

@@ -58,7 +58,7 @@ function Wallets() {
         if (res.success) {
           dispatch(showSnackbarThunk("New wallet created!"));
           setWallets([res.wallet, ...wallets]);
-          dispatch(updateWallets([res.wallet, ...wallets]))
+          dispatch(updateWallets([res.wallet, ...wallets]));
           setShowCreator(false);
           if (newWalletDescRef.current && newWalletNameRef.current) {
             newWalletDescRef.current.value = "";
@@ -91,16 +91,22 @@ function Wallets() {
           </Button>
         </div>
         <div className="section">
-          <div className="cardGrid">
-            {wallets.length !== 0 &&
-              wallets.map((elem) => (
-                <WalletCard
-                  data={elem}
-                  key={elem.id}
-                  onClick={() => Router.push("/wallets/" + elem.id)}
-                />
-              ))}
-          </div>
+          {wallets.length === 0 ? (
+            <div className="no-data">
+              <span>Seems like you don&apos;t have any wallets yet.</span>
+            </div>
+          ) : (
+            <div className="cardGrid">
+              {wallets.length !== 0 &&
+                wallets.map((elem) => (
+                  <WalletCard
+                    data={elem}
+                    key={elem.id}
+                    onClick={() => Router.push("/labels/" + elem.id)}
+                  />
+                ))}
+            </div>
+          )}
         </div>
         <div
           className="create"
@@ -182,6 +188,16 @@ function Wallets() {
             flex-wrap: wrap;
             width: 100%;
             justify-content: space-evenly;
+          }
+          .no-data {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            color: rgba(228, 228, 228, 0.8);
           }
           .create {
             position: fixed;

@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faCheck } from "@fortawesome/free-solid-svg-icons";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Label from "../components/Label";
@@ -93,7 +93,6 @@ function TransactionInput(props: {
 
 function Add() {
   const [isExpense, setisExpense] = React.useState(true);
-  const [wallet, setWallet] = React.useState(1);
   const [labels, setLabels] = React.useState<Array<number>>([]);
   const dollars = React.useRef<HTMLDivElement>(null);
   const cents = React.useRef<HTMLDivElement>(null);
@@ -101,6 +100,9 @@ function Add() {
   const nameRef = React.useRef<HTMLInputElement>(null);
   const user = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const [wallet, setWallet] = React.useState<number>(
+    (user.user_data && user.user_data.wallets[0].id) || 1
+  );
 
   const toggleLabel = (label: number) => {
     const index = labels.indexOf(label);
@@ -170,18 +172,32 @@ function Add() {
             />
             <h3>Pick labels:</h3>
             <div>
-              {user.user_data.labels.map((elem) => (
-                <Label
-                  key={elem.id}
-                  onClick={() => {
-                    toggleLabel(elem.id);
-                  }}
-                  selected={labels.indexOf(elem.id) > -1}
-                  color={elem.color}
-                >
-                  {elem.name}
-                </Label>
-              ))}
+              {user.user_data.labels.length === 0 ? (
+                <div className="no-data">
+                  <span>Seems like you don&apos;t added any labels yet.</span>
+                  <Button
+                    startIcon={faAdd}
+                    small
+                    secondary
+                    onClick={() => Router.push("/labels")}
+                  >
+                    Create one
+                  </Button>
+                </div>
+              ) : (
+                user.user_data.labels.map((elem) => (
+                  <Label
+                    key={elem.id}
+                    onClick={() => {
+                      toggleLabel(elem.id);
+                    }}
+                    selected={labels.indexOf(elem.id) > -1}
+                    color={elem.color}
+                  >
+                    {elem.name}
+                  </Label>
+                ))
+              )}
             </div>
             <h3>Is this an expense or an income?</h3>
             <div className="cardGrid">
@@ -271,6 +287,16 @@ function Add() {
 
             .description:focus {
               outline: none;
+            }
+            .no-data {
+              width: 100%;
+              height: 150px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              text-align: center;
+              color: rgba(228, 228, 228, 0.8);
             }
 
             @media (max-width: 500px) {
