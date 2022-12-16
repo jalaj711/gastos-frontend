@@ -102,7 +102,7 @@ function Wallets() {
                   <WalletCard
                     data={elem}
                     key={elem.id}
-                    onClick={() => Router.push("/labels/" + elem.id)}
+                    onClick={() => Router.push("/wallets/" + elem.id)}
                   />
                 ))}
             </div>

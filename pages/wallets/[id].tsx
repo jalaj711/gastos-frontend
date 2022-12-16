@@ -96,7 +96,12 @@ function Wallet() {
 
         <main>
           <div className="mainWrapper">
-            <h1>{walletStats.wallet.name}</h1>
+            <div className="title">
+              <div>
+                <h1>{walletStats.wallet.name}</h1>
+                <h3>{walletStats.wallet.description}</h3>
+              </div>
+            </div>
             <div className="primaryContainer">
               <div className="cardContainer">
                 <div className="progressWrapper">
@@ -284,11 +289,39 @@ function Wallet() {
               align-items: center;
             }
 
-            .mainWrapper h1,
+            .mainWrapper .title,
             .mainWrapper .primaryContainer {
               flex-basis: 50%;
               justify-content: center;
               align-self: center;
+            }
+
+            .title div {
+              text-align: center;
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 12px 0;
+            }
+
+            .title h1,
+            .title h3 {
+              max-width: 350px;
+              text-align: center;
+              margin-top: 0;
+              margin-bottom: 8px;
+            }
+
+            .title h1 {
+              font-weight: 700;
+              color: white;
+              font-size: 4rem;
+            }
+
+            .title h3 {
+              color: rgba(150, 150, 150, 0.8);
             }
 
             .primaryContainer {
@@ -420,7 +453,7 @@ function Wallet() {
                 border-radius: 8px;
               }
               h1 {
-                font-size: 3rem;
+                font-size: 3rem !important;
               }
             }
           `}
