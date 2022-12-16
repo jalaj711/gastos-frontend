@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAdd,
   faAngleRight,
+  faCheck,
+  faClose,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import TransactionCard from "../../components/TransactionCard";
@@ -10,7 +12,7 @@ import Button from "../../components/Button";
 import { LineChart, XAxis, YAxis, Line, Tooltip } from "recharts";
 import colors from "../../utils/colors";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   showGlobalLoader,
   hideGlobalLoader,
@@ -18,24 +20,32 @@ import {
 import URLs, { API_BASE } from "../../utils/endpoints";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { TransactionType, LabelType } from "../../utils/types";
+import Input from "../../components/Input";
+import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+
+interface LabelStatsType {
+  label: LabelType;
+  recents: TransactionType[];
+  daily: { day: number; spent: number; count: number }[];
+  weekly: { week: number; spent: number; count: number }[];
+  monthly: { month: number; spent: number; count: number }[];
+  transactions: {
+    today: { day: number; spent: number; count: number }[];
+    this_week: { week: number; spent: number; count: number }[];
+    this_month: { month: number; spent: number; count: number }[];
+  };
+}
 
 function Label() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+  const [showCreator, setShowCreator] = useState(false);
+  const newLabelNameRef = useRef<HTMLInputElement>(null);
+  const newLabelDescRef = useRef<HTMLTextAreaElement>(null);
+  const newLabelColorRef = useRef<HTMLInputElement>(null);
 
-  const [labelStats, setLabelStats] = useState<{
-    label: LabelType;
-    recents: TransactionType[];
-    daily: { day: number; spent: number; count: number }[];
-    weekly: { week: number; spent: number; count: number }[];
-    monthly: { month: number; spent: number; count: number }[];
-    transactions: {
-      today: { day: number; spent: number; count: number }[];
-      this_week: { week: number; spent: number; count: number }[];
-      this_month: { month: number; spent: number; count: number }[];
-    };
-  } | null>(null);
+  const [labelStats, setLabelStats] = useState<LabelStatsType | null>(null);
 
   useEffect(() => {
     dispatch(showGlobalLoader());
@@ -57,6 +67,37 @@ function Label() {
         setLabelStats(res.data);
       });
   }, [auth, dispatch]);
+  const updateLabel = () => {
+    dispatch(showGlobalLoader());
+    fetch(API_BASE + URLs.LABELS.UPDATE, {
+      method: "POST",
+      headers: {
+        Authorization: "Token " + auth.token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        label: labelStats?.label.id,
+        new_data: {
+          name: newLabelNameRef.current?.value,
+          description: newLabelDescRef.current?.value,
+          color: newLabelColorRef.current?.value,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        dispatch(hideGlobalLoader());
+        if (res.success) {
+          dispatch(showSnackbarThunk("Label data updated"));
+          setShowCreator(false);
+          setLabelStats(
+            (st) => ({ ...st, label: res.label } as LabelStatsType)
+          );
+        } else {
+          dispatch(showSnackbarThunk(res.message));
+        }
+      });
+  };
   return (
     labelStats && (
       <>
@@ -68,7 +109,7 @@ function Label() {
 
         <main>
           <div className="mainWrapper">
-            <div className="title">
+            <div className="title" onClick={() => setShowCreator(true)}>
               <div>
                 <h1>{labelStats.label.name}</h1>
                 <h3>{labelStats.label.description}</h3>
@@ -234,6 +275,43 @@ function Label() {
               </div>
             </div>
           </div>
+
+          <div
+            className="create"
+            style={{ display: showCreator ? "block" : "none" }}
+          >
+            <div className="title">
+              <h2>Update Label</h2>
+              <FontAwesomeIcon
+                icon={faClose}
+                onClick={() => setShowCreator(false)}
+              />
+            </div>
+            <h3>Name</h3>
+            <Input
+              ref={newLabelNameRef}
+              defaultValue={labelStats.label.name}
+              type="text"
+              placeholder="Name"
+            />
+            <h3>Description</h3>
+            <textarea
+              placeholder="Description"
+              rows={4}
+              className="description"
+              ref={newLabelDescRef}
+              defaultValue={labelStats.label.description}
+            />
+            <h3>Pick a color for your label</h3>
+            <Input
+              type="color"
+              ref={newLabelColorRef}
+              defaultValue={labelStats.label.color}
+            />
+            <Button startIcon={faCheck} onClick={updateLabel}>
+              Update
+            </Button>
+          </div>
         </main>
         <div style={{ width: "100vw", height: "72px" }} />
 
@@ -291,7 +369,7 @@ function Label() {
               display: inline-block;
               border: 2px solid white;
               transform: translateX(-48px);
-              position: absolute; 
+              position: absolute;
               margin-top: 24px;
             }
 
@@ -397,6 +475,89 @@ function Label() {
               color: rgba(228, 228, 228, 0.8);
             }
 
+            .create {
+              position: fixed;
+              top: 0;
+              right: 0;
+              height: 100vh;
+              width: 350px;
+              background-color: rgba(0, 0, 0, 0.9);
+              background-image: linear-gradient(
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.1)
+              );
+              backdrop-filter: blur(8px);
+              padding: 24px 32px;
+              border-radius: 12px 0 0 12px;
+              animation: slide-from-right 0.3s ease-out forwards;
+            }
+
+            .create > .title {
+              display: flex;
+              width: 100%;
+              align-items: center;
+              justify-content: space-between;
+            }
+
+            .title > :global(svg) {
+              width: 24px;
+              height: 24px;
+              cursor: pointer;
+            }
+
+            .create > :global(input),
+            .create > :global(button),
+            .description {
+              width: 100%;
+              margin: 12px 0;
+            }
+
+            .create h3 {
+              font-size: 12px;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+              font-family: "Roboto";
+              font-weight: 700;
+              margin-top: 12px;
+              margin-bottom: 0px;
+            }
+
+            .description {
+              background: rgba(255, 255, 255, 0.1);
+              border: none;
+              border-radius: 8px;
+              color: white;
+              padding: 12px;
+              margin-top: 12px;
+            }
+
+            .description:focus {
+              outline: none;
+            }
+
+            @keyframes slide-from-right {
+              from {
+                transform: translateX(100%);
+              }
+              90% {
+                transform: translateX(-5%);
+              }
+              to {
+                transform: translateX(0);
+              }
+            }
+            @keyframes slide-from-bottom {
+              from {
+                transform: translateY(100%);
+              }
+              90% {
+                transform: translateY(-5%);
+              }
+              to {
+                transform: translateY(0);
+              }
+            }
+
             @media (max-width: 850px) {
               .mainWrapper {
                 flex-direction: column;
@@ -406,6 +567,15 @@ function Label() {
             @media (max-width: 500px) {
               .mainWrapper {
                 margin-top: 32px;
+              }
+              .create {
+                width: 100vw;
+                height: fit-content;
+                top: auto;
+                bottom: 0;
+                border-radius: 12px 12px 0 0;
+                padding-bottom: 84px;
+                animation: slide-from-bottom 0.3s ease-out forwards;
               }
               .progressWrapper > :global(.progressContainer) {
                 margin: 6px;
