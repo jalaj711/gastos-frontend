@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Label from "../components/Label";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faSearch } from "@fortawesome/free-solid-svg-icons";
 import TransactionCard from "../components/TransactionCard";
 import { useAppDispatch, useAppSelector } from "../utils/reduxHooks";
 import { TransactionType } from "../utils/types";
@@ -13,9 +13,13 @@ import {
 } from "../components/GlobalLoader/loaderSlice";
 import Button from "../components/Button";
 import Paginator from "../components/Paginator";
+import Router from "next/router";
 
 interface TransactionHistorySearchParams {
-  [param: string]: string;
+  labels?: string;
+  wallets?: string;
+  search?: string;
+  page?: string;
 }
 
 function TransactionHistory() {
@@ -53,33 +57,26 @@ function TransactionHistory() {
     setWallets(wlt);
   };
 
-  const getTransactions = (_?: any, page_no?: number) => {
-    // Construct the search filters
-    const search_filters: TransactionHistorySearchParams = {
-      labels: labels.toString(),
-      wallets: wallets.toString(),
-      page: (page_no || page.current).toString(),
-    };
-    if (
-      searchRef.current?.value !== undefined &&
-      searchRef.current?.value !== ""
-    ) {
-      search_filters.search = searchRef.current?.value;
-    }
+  const getTransactions = (search_filters: TransactionHistorySearchParams) => {
+    
 
     // Push the search filters into users browser's URL & search history
-    const url = new URLSearchParams(window.location.search);
+    const search = new URLSearchParams(window.location.search);
     for (let i = 0; i < Object.keys(search_filters).length; i++) {
       const filter = Object.keys(search_filters)[i];
-      url.set(filter, search_filters[filter]);
+      //@ts-ignore
+      search.set(filter, search_filters[filter]);
     }
+    const url = new URL(window.location.href);
+    url.search = search.toString();
+    console.log(search_filters, url.toString())
     window.history.pushState(null, "", url.toString());
 
     // Todo: Change this to a local loader
     dispatch(showGlobalLoader());
 
     // Fetch the transactions
-    const search_params = new URLSearchParams(search_filters).toString();
+    const search_params = new URLSearchParams(search_filters as {[index: string]: string}).toString();
     fetch(API_BASE + URLs.TRANSACTIONS.SEARCH + "?" + search_params, {
       headers: {
         Authorization: "Token " + auth.token,
@@ -97,11 +94,29 @@ function TransactionHistory() {
       });
   };
 
+  const getTransactionsFromState = (_?: any, page_no?: number) => {
+    // Construct the search filters
+    const search_filters: TransactionHistorySearchParams = {
+      labels: labels.toString(),
+      wallets: wallets.toString(),
+      page: (page_no || page.current).toString(),
+    };
+    if (
+      searchRef.current?.value !== undefined &&
+      searchRef.current?.value !== ""
+    ) {
+      search_filters.search = searchRef.current?.value;
+    }
+    getTransactions(search_filters);
+  }
+
   useEffect(() => {
     // On initial load we also need to extract data from the URL, if any.
     const params = new URLSearchParams(window.location.search);
+    var search_filters : TransactionHistorySearchParams = {}
     if (params.get("search") && searchRef.current) {
       searchRef.current.value = params.get("search") || "";
+      search_filters.search = params.get("search") || "";
     }
     if (params.get("labels")) {
       try {
@@ -112,6 +127,7 @@ function TransactionHistory() {
           lbls[i] = Number(lbls[i]);
         }
         setLabels(lbls as number[]);
+        search_filters.labels = params.get("labels") || "";
       } catch (e) {
         console.error(e);
       }
@@ -125,12 +141,13 @@ function TransactionHistory() {
           wlts[i] = Number(wlts[i]);
         }
         setWallets(wlts as number[]);
+        search_filters.wallets = params.get("wallets") || "";
       } catch (e) {
         console.error(e);
       }
     }
 
-    getTransactions();
+    getTransactions(search_filters);
   }, [dispatch, auth.token]);
   return (
     auth.user_data && (
@@ -153,7 +170,20 @@ function TransactionHistory() {
               </div>
               <h4>Filter by labels</h4>
               <div className="horizontalScroll">
-                {auth.user_data.labels.map((elem) => (
+              {auth.user_data.labels.length === 0 ? (
+                <div className="no-data">
+                  <span>Seems like you don&apos;t added any labels yet.</span>
+                  <Button
+                    startIcon={faAdd}
+                    small
+                    secondary
+                    onClick={() => Router.push("/labels")}
+                  >
+                    Create one
+                  </Button>
+                </div>
+              ) : (
+                auth.user_data.labels.map((elem) => (
                   <Label
                     key={elem.id}
                     onClick={() => {
@@ -164,7 +194,8 @@ function TransactionHistory() {
                   >
                     {elem.name}
                   </Label>
-                ))}
+                ))
+              )}
               </div>
               <h4>Filter by wallet</h4>
               <div className="horizontalScroll">
@@ -181,7 +212,7 @@ function TransactionHistory() {
                 ))}
               </div>
               <div className="applyFilters">
-                <Button onClick={getTransactions}>search</Button>
+                <Button onClick={getTransactionsFromState}>search</Button>
               </div>
             </div>
             <div className="trxns cardGrid">
@@ -207,7 +238,7 @@ function TransactionHistory() {
                 <i>No transactions found</i>
               )}
               <Paginator
-                setActive={(pg) => getTransactions(null, pg)}
+                setActive={(pg) => getTransactionsFromState(null, pg)}
                 lastPage={page.total}
                 active={page.current}
               />
@@ -304,6 +335,16 @@ function TransactionHistory() {
             }
             .applyFilters > :global(button) {
               width: 100%;
+            }
+            .no-data {
+              width: 100%;
+              height: 100px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              text-align: center;
+              color: rgba(228, 228, 228, 0.8);
             }
             @media (max-width: 500px) {
               .mainWrapper {
