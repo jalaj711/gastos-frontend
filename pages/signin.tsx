@@ -83,7 +83,7 @@ function Login() {
               Already have an account? Login here
             </Link>
           </form>
-          <div className="divider">
+          {/* <div className="divider">
             <hr />
             or
             <hr />
@@ -98,7 +98,7 @@ function Login() {
                 facebook
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />

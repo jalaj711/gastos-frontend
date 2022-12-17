@@ -50,7 +50,7 @@ function Login() {
               New User? Create an account
             </Link>
           </form>
-          <div className="divider">
+          {/* <div className="divider">
             <hr />
             or
             <hr />
@@ -65,7 +65,7 @@ function Login() {
                 facebook
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
