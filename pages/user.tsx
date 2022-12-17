@@ -4,13 +4,21 @@ import Button from "../components/Button";
 import { useAppDispatch, useAppSelector } from "../utils/reduxHooks";
 import Navbar from "../components/Navbar";
 import { logout } from "../utils/authThunk";
+import { useEffect } from "react";
+import Router from "next/router";
+import { showSnackbarThunk } from "../components/Snackbar/snackbarThunk";
 
 function Wallets() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth);
   const labels = useAppSelector((state) => state.labels.labels.length);
   const wallets = useAppSelector((state) => state.wallets.wallets.length);
-
+  useEffect(() => {
+    if (!user.token) {
+      Router.push("/login");
+      dispatch(showSnackbarThunk("Please login before accessing this page"));
+    }
+  }, [user.token, dispatch]);
   return (
     <>
       <Head>

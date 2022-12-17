@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { faAdd, faCheck } from "@fortawesome/free-solid-svg-icons";
 import Input from "../components/Input";
@@ -154,6 +154,13 @@ function Add() {
         console.error(error);
       });
   };
+
+  useEffect(() => {
+    if (!token) {
+      Router.push("/login");
+      dispatch(showSnackbarThunk("Please login before accessing this page"));
+    }
+  }, [token, dispatch]);
 
   return (
     <>

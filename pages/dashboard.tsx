@@ -21,6 +21,7 @@ import {
 } from "../components/GlobalLoader/loaderSlice";
 import { TransactionType, WalletType, LabelType } from "../utils/types";
 import Navbar from "../components/Navbar";
+import { showSnackbarThunk } from "../components/Snackbar/snackbarThunk";
 
 interface DashboardDataType {
   recents: TransactionType[];
@@ -44,13 +45,24 @@ function Dashboard() {
   );
 
   useEffect(() => {
+    if (!token) {
+      Router.push("/login");
+      dispatch(showSnackbarThunk("Please login before accessing this page"));
+    }
     dispatch(showGlobalLoader());
     fetch(API_BASE + URLs.USER.DASHBOARD_STATS, {
       headers: {
         Authorization: "Token " + token,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          Router.push("/login");
+          dispatch(
+            showSnackbarThunk("Please login before accessing this page")
+          );
+        } else return res.json();
+      })
       .then((res) => {
         res.data.daily.sort((d1: any, d2: any) => (d1.day > d2.day ? 1 : -1));
         res.data.weekly.sort((w1: any, w2: any) =>

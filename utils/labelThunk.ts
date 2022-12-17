@@ -14,6 +14,7 @@ import {
   deleteLabel as _delete,
 } from "./labelSlice";
 import { LabelType } from "./types";
+import Router from "next/router";
 
 export const refreshLabels = () => {
   const refreshLabelsThunkAction: ThunkAction<
@@ -32,7 +33,13 @@ export const refreshLabels = () => {
         Authorization: "Token " + state.auth.token,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 401) {
+          Router.push("/login");
+          dispatch(showSnackbarThunk("Please login before accessing this page"));
+        }
+        else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         if (res.success) {
@@ -72,7 +79,13 @@ export const createLabel = (
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 401) {
+          Router.push("/login");
+          dispatch(showSnackbarThunk("Please login before accessing this page"));
+        }
+        else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         if (res.success) {
@@ -115,13 +128,19 @@ export const updateLabel = (
       },
       body: JSON.stringify({ label: labelId, new_data: updateData }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 401) {
+          Router.push("/login");
+          dispatch(showSnackbarThunk("Please login before accessing this page"));
+        }
+        else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         if (res.success) {
           dispatch(showSnackbarThunk("Label updated!"));
           dispatch(_update({ id: res.label.id, newData: res.label }));
-          if(onSuccessCallback) onSuccessCallback(res.label);
+          if (onSuccessCallback) onSuccessCallback(res.label);
         } else {
           dispatch(showSnackbarThunk(res.message));
         }

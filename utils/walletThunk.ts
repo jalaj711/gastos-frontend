@@ -14,6 +14,7 @@ import {
   deleteWallet as _delete,
 } from "./walletSlice";
 import { WalletType } from "./types";
+import Router from "next/router";
 
 export const refreshWallets = () => {
   const refreshWalletsThunkAction: ThunkAction<
@@ -32,7 +33,13 @@ export const refreshWallets = () => {
         Authorization: "Token " + state.auth.token,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 401) {
+          Router.push("/login");
+          dispatch(showSnackbarThunk("Please login before accessing this page"));
+        }
+        else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         if (res.success) {
@@ -71,7 +78,13 @@ export const createWallet = (
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 401) {
+          Router.push("/login");
+          dispatch(showSnackbarThunk("Please login before accessing this page"));
+        }
+        else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         if (res.success) {
@@ -113,7 +126,13 @@ export const updateWallet = (
       },
       body: JSON.stringify({ wallet: walletId, new_data: updateData }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status === 401) {
+          Router.push("/login");
+          dispatch(showSnackbarThunk("Please login before accessing this page"));
+        }
+        else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         if (res.success) {

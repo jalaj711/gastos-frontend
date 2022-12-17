@@ -15,6 +15,7 @@ import Button from "../components/Button";
 import Paginator from "../components/Paginator";
 import Router from "next/router";
 import Navbar from "../components/Navbar";
+import { showSnackbarThunk } from "../components/Snackbar/snackbarThunk";
 
 interface TransactionHistorySearchParams {
   labels?: string;
@@ -85,7 +86,14 @@ function TransactionHistory() {
         Authorization: "Token " + auth.token,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          Router.push("/login");
+          dispatch(
+            showSnackbarThunk("Please login before accessing this page")
+          );
+        } else return res.json();
+      })
       .then((res) => {
         dispatch(hideGlobalLoader());
         setPage(res.page);
@@ -114,6 +122,11 @@ function TransactionHistory() {
   };
 
   useEffect(() => {
+    if (!auth.token) {
+      Router.push("/login");
+      dispatch(showSnackbarThunk("Please login before accessing this page"));
+      return;
+    }
     // On initial load we also need to extract data from the URL, if any.
     const params = new URLSearchParams(window.location.search);
     var search_filters: TransactionHistorySearchParams = {};
