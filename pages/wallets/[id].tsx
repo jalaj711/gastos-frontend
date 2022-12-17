@@ -22,6 +22,7 @@ import {
 } from "../../components/GlobalLoader/loaderSlice";
 import Input from "../../components/Input";
 import { updateWallet as updateWalletGlobal } from "../../utils/walletThunk";
+import Navbar from "../../components/Navbar";
 
 interface WalletStatsType {
   wallet: WalletType;
@@ -329,6 +330,7 @@ function Wallet() {
           </div>
         </main>
         <div style={{ width: "100vw", height: "72px" }} />
+        <Navbar />
 
         <style jsx>
           {`

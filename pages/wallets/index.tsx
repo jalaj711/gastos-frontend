@@ -8,9 +8,8 @@ import { useRef, useState } from "react";
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
-import {
-  createWallet as createWalletGlobal
-} from "../../utils/walletThunk";
+import { createWallet as createWalletGlobal } from "../../utils/walletThunk";
+import Navbar from "../../components/Navbar";
 
 function Wallets() {
   const dispatch = useAppDispatch();
@@ -106,6 +105,7 @@ function Wallets() {
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
+      <Navbar />
 
       <style jsx>
         {`

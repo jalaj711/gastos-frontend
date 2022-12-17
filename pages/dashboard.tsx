@@ -20,6 +20,7 @@ import {
   showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
 import { TransactionType, WalletType, LabelType } from "../utils/types";
+import Navbar from "../components/Navbar";
 
 interface DashboardDataType {
   recents: TransactionType[];
@@ -335,6 +336,7 @@ function Dashboard() {
           </div>
         </main>
         <div style={{ width: "100vw", height: "84px" }} />
+        <Navbar />
 
         <style jsx>
           {`

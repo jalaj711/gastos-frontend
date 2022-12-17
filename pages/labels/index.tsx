@@ -7,10 +7,9 @@ import { useState, useRef, useLayoutEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import {
-  createLabel as createLabelGlobal,
-} from "../../utils/labelThunk";
+import { createLabel as createLabelGlobal } from "../../utils/labelThunk";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+import Navbar from "../../components/Navbar";
 
 function Labels() {
   const dispatch = useAppDispatch();
@@ -118,6 +117,7 @@ function Labels() {
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
+      <Navbar />
 
       <style jsx>
         {`

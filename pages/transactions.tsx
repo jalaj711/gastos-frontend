@@ -14,6 +14,7 @@ import {
 import Button from "../components/Button";
 import Paginator from "../components/Paginator";
 import Router from "next/router";
+import Navbar from "../components/Navbar";
 
 interface TransactionHistorySearchParams {
   labels?: string;
@@ -60,8 +61,6 @@ function TransactionHistory() {
   };
 
   const getTransactions = (search_filters: TransactionHistorySearchParams) => {
-    
-
     // Push the search filters into users browser's URL & search history
     const search = new URLSearchParams(window.location.search);
     for (let i = 0; i < Object.keys(search_filters).length; i++) {
@@ -71,14 +70,16 @@ function TransactionHistory() {
     }
     const url = new URL(window.location.href);
     url.search = search.toString();
-    console.log(search_filters, url.toString())
+    console.log(search_filters, url.toString());
     window.history.pushState(null, "", url.toString());
 
     // Todo: Change this to a local loader
     dispatch(showGlobalLoader());
 
     // Fetch the transactions
-    const search_params = new URLSearchParams(search_filters as {[index: string]: string}).toString();
+    const search_params = new URLSearchParams(
+      search_filters as { [index: string]: string }
+    ).toString();
     fetch(API_BASE + URLs.TRANSACTIONS.SEARCH + "?" + search_params, {
       headers: {
         Authorization: "Token " + auth.token,
@@ -110,12 +111,12 @@ function TransactionHistory() {
       search_filters.search = searchRef.current?.value;
     }
     getTransactions(search_filters);
-  }
+  };
 
   useEffect(() => {
     // On initial load we also need to extract data from the URL, if any.
     const params = new URLSearchParams(window.location.search);
-    var search_filters : TransactionHistorySearchParams = {}
+    var search_filters: TransactionHistorySearchParams = {};
     if (params.get("search") && searchRef.current) {
       searchRef.current.value = params.get("search") || "";
       search_filters.search = params.get("search") || "";
@@ -172,61 +173,60 @@ function TransactionHistory() {
               </div>
               <h4>Filter by labels</h4>
               <div className="horizontalScroll">
-              {userLabels.length === 0 ? (
-                <div className="no-data">
-                  <span>Seems like you don&apos;t have any labels yet.</span>
-                  <Button
-                    startIcon={faAdd}
-                    small
-                    secondary
-                    onClick={() => Router.push("/labels")}
-                  >
-                    Create one
-                  </Button>
-                </div>
-              ) : (
-                userLabels.map((elem) => (
-                  <Label
-                    key={elem.id}
-                    onClick={() => {
-                      toggleLabel(elem.id);
-                    }}
-                    selected={labels.indexOf(elem.id) > -1}
-                    color={elem.color}
-                  >
-                    {elem.name}
-                  </Label>
-                ))
-              )}
+                {userLabels.length === 0 ? (
+                  <div className="no-data">
+                    <span>Seems like you don&apos;t have any labels yet.</span>
+                    <Button
+                      startIcon={faAdd}
+                      small
+                      secondary
+                      onClick={() => Router.push("/labels")}
+                    >
+                      Create one
+                    </Button>
+                  </div>
+                ) : (
+                  userLabels.map((elem) => (
+                    <Label
+                      key={elem.id}
+                      onClick={() => {
+                        toggleLabel(elem.id);
+                      }}
+                      selected={labels.indexOf(elem.id) > -1}
+                      color={elem.color}
+                    >
+                      {elem.name}
+                    </Label>
+                  ))
+                )}
               </div>
               <h4>Filter by wallet</h4>
               <div className="horizontalScroll">
-              {userWallets.length === 0 ? (
-                <div className="no-data">
-                  <span>Seems like you don&apos;t have any wallets yet.</span>
-                  <Button
-                    startIcon={faAdd}
-                    small
-                    secondary
-                    onClick={() => Router.push("/wallets")}
-                  >
-                    Create one
-                  </Button>
-                </div>
-              ) : (
-                userWallets.map((elem) => (
-                  <Label
-                    key={elem.id}
-                    onClick={() => {
-                      toggleWallet(elem.id);
-                    }}
-                    selected={wallets.indexOf(elem.id) > -1}
-                  >
-                    {elem.name}
-                  </Label>
-                ))
-              )}
-                
+                {userWallets.length === 0 ? (
+                  <div className="no-data">
+                    <span>Seems like you don&apos;t have any wallets yet.</span>
+                    <Button
+                      startIcon={faAdd}
+                      small
+                      secondary
+                      onClick={() => Router.push("/wallets")}
+                    >
+                      Create one
+                    </Button>
+                  </div>
+                ) : (
+                  userWallets.map((elem) => (
+                    <Label
+                      key={elem.id}
+                      onClick={() => {
+                        toggleWallet(elem.id);
+                      }}
+                      selected={wallets.indexOf(elem.id) > -1}
+                    >
+                      {elem.name}
+                    </Label>
+                  ))
+                )}
               </div>
               <div className="applyFilters">
                 <Button onClick={getTransactionsFromState}>search</Button>
@@ -256,6 +256,7 @@ function TransactionHistory() {
           </div>
         </main>
         <div style={{ width: "100vw", height: "72px" }} />
+        <Navbar />
 
         <style jsx>
           {`

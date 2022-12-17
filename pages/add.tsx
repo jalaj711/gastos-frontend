@@ -16,6 +16,7 @@ import {
 import { showSnackbarThunk } from "../components/Snackbar/snackbarThunk";
 import Router from "next/router";
 import { refreshWallets } from "../utils/walletThunk";
+import Navbar from "../components/Navbar";
 
 function TransactionInput(props: {
   dollars: React.RefObject<HTMLDivElement>;
@@ -143,7 +144,7 @@ function Add() {
       .then((res) => res.json())
       .then((res) => {
         dispatch(hideGlobalLoader());
-        dispatch(refreshWallets())
+        dispatch(refreshWallets());
         dispatch(showSnackbarThunk("Transaction created successfully!"));
         Router.push("/transactions");
       })
@@ -241,6 +242,7 @@ function Add() {
         </div>
       </main>
       <div style={{ width: "100vw", height: "72px" }} />
+      <Navbar />
 
       <style jsx>
         {`

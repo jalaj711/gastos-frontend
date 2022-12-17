@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import Navbar from "../components/Navbar";
 import BackButton from "../components/BackButton";
 import store, { persistor } from "../utils/store";
 import { Provider } from "react-redux";
@@ -42,7 +41,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <BackButton />
             <Component {...pageProps} />
             <Snackbar />
-            <Navbar />
           </PageTransitionAnimation>
           <GlobalLoader />
         </PersistGate>

@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { TransactionType, LabelType } from "../../utils/types";
 import Input from "../../components/Input";
 import { updateLabel as updateLabelGlobal } from "../../utils/labelThunk";
+import Navbar from "../../components/Navbar";
 
 interface LabelStatsType {
   label: LabelType;
@@ -302,6 +303,7 @@ function Label() {
           </div>
         </main>
         <div style={{ width: "100vw", height: "72px" }} />
+        <Navbar />
 
         <style jsx>
           {`
