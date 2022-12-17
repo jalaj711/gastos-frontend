@@ -98,7 +98,9 @@ function Add() {
   const cents = React.useRef<HTMLDivElement>(null);
   const description = React.useRef<HTMLTextAreaElement>(null);
   const nameRef = React.useRef<HTMLInputElement>(null);
+  // TODO: change user to only user.token
   const user = useAppSelector((state) => state.auth);
+  const userLabels = useAppSelector((state) => state.labels.labels);
   const dispatch = useAppDispatch();
   const [wallet, setWallet] = React.useState<number>(
     (user.user_data && user.user_data.wallets[0].id) || 1
@@ -172,7 +174,7 @@ function Add() {
             />
             <h3>Pick labels:</h3>
             <div>
-              {user.user_data.labels.length === 0 ? (
+              {userLabels.length === 0 ? (
                 <div className="no-data">
                   <span>Seems like you don&apos;t added any labels yet.</span>
                   <Button
@@ -185,7 +187,7 @@ function Add() {
                   </Button>
                 </div>
               ) : (
-                user.user_data.labels.map((elem) => (
+                userLabels.map((elem) => (
                   <Label
                     key={elem.id}
                     onClick={() => {

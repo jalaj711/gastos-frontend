@@ -4,77 +4,53 @@ import { faAdd, faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import LabelCard from "../../components/LabelCard";
 import Router from "next/router";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import {
-  showGlobalLoader,
-  hideGlobalLoader,
-} from "../../components/GlobalLoader/loaderSlice";
-import URLs, { API_BASE } from "../../utils/endpoints";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
-import { LabelType } from "../../utils/types";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import {
+  createLabel as createLabelGlobal,
+  refreshLabels as refreshLabelsGlobal,
+} from "../../utils/labelThunk";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
-import { updateLabels } from "../../utils/authSlice";
 
 function Labels() {
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
+  const labels = useAppSelector((state) => state.labels.labels);
   const [showCreator, setShowCreator] = useState(false);
   const newLabelNameRef = useRef<HTMLInputElement>(null);
   const newLabelDescRef = useRef<HTMLTextAreaElement>(null);
   const newLabelColorRef = useRef<HTMLInputElement>(null);
 
-  const [labels, setLabels] = useState<LabelType[]>([]);
-
   useEffect(() => {
-    dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.LABELS.GET, {
-      headers: {
-        Authorization: "Token " + auth.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(hideGlobalLoader());
-        setLabels(res.labels);
-      });
-  }, [auth, dispatch]);
+    dispatch(refreshLabelsGlobal());
+  }, [dispatch]);
 
   const createLabel = () => {
-    dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.LABELS.CREATE, {
-      method: "POST",
-      headers: {
-        Authorization: "Token " + auth.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: newLabelNameRef.current?.value,
-        description: newLabelDescRef.current?.value,
-        color: newLabelColorRef.current?.value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(hideGlobalLoader());
-        if (res.success) {
-          dispatch(showSnackbarThunk("New label created!"));
-          setLabels([res.label, ...labels]);
-          dispatch(updateLabels([res.label, ...labels]));
-          setShowCreator(false);
-          if (
-            newLabelColorRef.current &&
-            newLabelDescRef.current &&
-            newLabelNameRef.current
-          ) {
-            newLabelColorRef.current.value = "#ffffff";
-            newLabelDescRef.current.value = "";
-            newLabelNameRef.current.value = "";
+    if (newLabelNameRef.current?.value && newLabelColorRef.current?.value) {
+      dispatch(
+        createLabelGlobal(
+          {
+            name: newLabelNameRef.current.value,
+            color: newLabelColorRef.current.value,
+            description: newLabelDescRef.current?.value,
+          },
+          () => {
+            setShowCreator(false);
+            if (
+              newLabelColorRef.current &&
+              newLabelDescRef.current &&
+              newLabelNameRef.current
+            ) {
+              newLabelColorRef.current.value = "#ffffff";
+              newLabelDescRef.current.value = "";
+              newLabelNameRef.current.value = "";
+            }
           }
-        } else {
-          dispatch(showSnackbarThunk(res.message));
-        }
-      });
+        )
+      );
+    } else {
+      dispatch(showSnackbarThunk("Name & color are required fields!"));
+    }
   };
 
   useLayoutEffect(() => {

@@ -25,6 +25,7 @@ interface TransactionHistorySearchParams {
 function TransactionHistory() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+  const userLabels = useAppSelector((state) => state.labels.labels);
 
   const searchRef = useRef<HTMLInputElement>(null);
   const [labels, setLabels] = useState<number[]>([]);
@@ -170,7 +171,7 @@ function TransactionHistory() {
               </div>
               <h4>Filter by labels</h4>
               <div className="horizontalScroll">
-              {auth.user_data.labels.length === 0 ? (
+              {userLabels.length === 0 ? (
                 <div className="no-data">
                   <span>Seems like you don&apos;t added any labels yet.</span>
                   <Button
@@ -183,7 +184,7 @@ function TransactionHistory() {
                   </Button>
                 </div>
               ) : (
-                auth.user_data.labels.map((elem) => (
+                userLabels.map((elem) => (
                   <Label
                     key={elem.id}
                     onClick={() => {

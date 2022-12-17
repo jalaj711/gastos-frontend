@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { TransactionType, LabelType } from "../../utils/types";
 import Input from "../../components/Input";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+import { updateLabel as updateLabelGlobal } from "../../utils/labelThunk";
 
 interface LabelStatsType {
   label: LabelType;
@@ -68,35 +69,23 @@ function Label() {
       });
   }, [auth, dispatch]);
   const updateLabel = () => {
-    dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.LABELS.UPDATE, {
-      method: "POST",
-      headers: {
-        Authorization: "Token " + auth.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        label: labelStats?.label.id,
-        new_data: {
-          name: newLabelNameRef.current?.value,
-          description: newLabelDescRef.current?.value,
-          color: newLabelColorRef.current?.value,
-        },
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(hideGlobalLoader());
-        if (res.success) {
-          dispatch(showSnackbarThunk("Label data updated"));
-          setShowCreator(false);
-          setLabelStats(
-            (st) => ({ ...st, label: res.label } as LabelStatsType)
-          );
-        } else {
-          dispatch(showSnackbarThunk(res.message));
-        }
-      });
+    if (labelStats)
+      dispatch(
+        updateLabelGlobal(
+          labelStats?.label.id,
+          {
+            name: newLabelNameRef.current?.value,
+            description: newLabelDescRef.current?.value,
+            color: newLabelColorRef.current?.value,
+          },
+          (newLabel) => {
+            setShowCreator(false);
+            setLabelStats(
+              (st) => ({ ...st, label: newLabel } as LabelStatsType)
+            );
+          }
+        )
+      );
   };
   return (
     labelStats && (
