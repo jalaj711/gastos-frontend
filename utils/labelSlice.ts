@@ -35,12 +35,10 @@ export const labelSlice = createSlice({
       action: PayloadAction<number>
     ) => {
       var index = 0;
-      console.log("called", index);
       while(index < state.labels.length && state.labels[index].id != action.payload) {
         index++;
-        console.log(index, state.labels[index], state.labels[index+1]);
       }
-      if(index != -1) {
+      if(index != state.labels.length) {
         state.labels = state.labels.slice(0, index).concat(state.labels.slice(index+1));
       }
       index = 0;

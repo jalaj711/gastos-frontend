@@ -21,7 +21,6 @@ import URLs, { API_BASE } from "../../utils/endpoints";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import { TransactionType, LabelType } from "../../utils/types";
 import Input from "../../components/Input";
-import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
 import { updateLabel as updateLabelGlobal } from "../../utils/labelThunk";
 
 interface LabelStatsType {

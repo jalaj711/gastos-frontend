@@ -21,7 +21,7 @@ import {
   showGlobalLoader,
 } from "../../components/GlobalLoader/loaderSlice";
 import Input from "../../components/Input";
-import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
+import { updateWallet as updateWalletGlobal } from "../../utils/walletThunk";
 
 interface WalletStatsType {
   wallet: WalletType;
@@ -95,34 +95,22 @@ function Wallet() {
   }, [auth, dispatch]);
 
   const updateWallet = () => {
-    dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.WALLET.UPDATE, {
-      method: "POST",
-      headers: {
-        Authorization: "Token " + auth.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        wallet: walletStats?.wallet.id,
-        new_data: {
-          name: newWalletNameRef.current?.value,
-          description: newWalletDescRef.current?.value,
-        },
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(hideGlobalLoader());
-        if (res.success) {
-          dispatch(showSnackbarThunk("Wallet data updated"));
-          setShowCreator(false);
-          setWalletStats(
-            (st) => ({ ...st, wallet: res.wallet } as WalletStatsType)
-          );
-        } else {
-          dispatch(showSnackbarThunk(res.message));
-        }
-      });
+    if (walletStats)
+      dispatch(
+        updateWalletGlobal(
+          walletStats?.wallet.id,
+          {
+            name: newWalletNameRef.current?.value,
+            description: newWalletDescRef.current?.value,
+          },
+          (newWallet) => {
+            setShowCreator(false);
+            setWalletStats(
+              (st) => ({ ...st, wallet: newWallet } as WalletStatsType)
+            );
+          }
+        )
+      );
   };
 
   return (

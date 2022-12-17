@@ -101,6 +101,7 @@ function Add() {
   // TODO: change user to only user.token
   const user = useAppSelector((state) => state.auth);
   const userLabels = useAppSelector((state) => state.labels.labels);
+  const userWallets = useAppSelector((state) => state.wallets.wallets);
   const dispatch = useAppDispatch();
   const [wallet, setWallet] = React.useState<number>(
     (user.user_data && user.user_data.wallets[0].id) || 1
@@ -220,7 +221,7 @@ function Add() {
             </div>
             <h3>Which wallet to use?</h3>
             <div className="cardGrid">
-              {user.user_data.wallets.map((elem) => (
+              {userWallets.map((elem) => (
                 <WalletCard
                   key={elem.id}
                   small

@@ -14,60 +14,43 @@ import {
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
-import { updateWallets } from "../../utils/authSlice";
+import {
+  createWallet as createWalletGlobal,
+  refreshWallets as refreshWalletsGlobal,
+} from "../../utils/walletThunk";
 
 function Wallets() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
+  const wallets = useAppSelector((state) => state.wallets.wallets);
   const [showCreator, setShowCreator] = useState(false);
   const newWalletNameRef = useRef<HTMLInputElement>(null);
   const newWalletDescRef = useRef<HTMLTextAreaElement>(null);
 
-  const [wallets, setWallets] = useState<WalletType[]>([]);
-
   useEffect(() => {
-    dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.WALLET.GET, {
-      headers: {
-        Authorization: "Token " + auth.token,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(hideGlobalLoader());
-        setWallets(res.wallets);
-      });
+    dispatch(refreshWalletsGlobal());
   }, [auth, dispatch]);
 
   const createWallet = () => {
-    dispatch(showGlobalLoader());
-    fetch(API_BASE + URLs.WALLET.CREATE, {
-      method: "POST",
-      headers: {
-        Authorization: "Token " + auth.token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: newWalletNameRef.current?.value,
-        description: newWalletDescRef.current?.value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(hideGlobalLoader());
-        if (res.success) {
-          dispatch(showSnackbarThunk("New wallet created!"));
-          setWallets([res.wallet, ...wallets]);
-          dispatch(updateWallets([res.wallet, ...wallets]));
-          setShowCreator(false);
-          if (newWalletDescRef.current && newWalletNameRef.current) {
-            newWalletDescRef.current.value = "";
-            newWalletNameRef.current.value = "";
+    if (newWalletNameRef.current?.value) {
+      dispatch(
+        createWalletGlobal(
+          {
+            name: newWalletNameRef.current?.value,
+            description: newWalletDescRef.current?.value,
+          },
+          () => {
+            setShowCreator(false);
+            if (newWalletDescRef.current && newWalletNameRef.current) {
+              newWalletDescRef.current.value = "";
+              newWalletNameRef.current.value = "";
+            }
           }
-        } else {
-          dispatch(showSnackbarThunk(res.message));
-        }
-      });
+        )
+      );
+    } else {
+      dispatch(showSnackbarThunk("Name & color are required fields!"));
+    }
   };
 
   return (

@@ -26,6 +26,7 @@ function TransactionHistory() {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.auth);
   const userLabels = useAppSelector((state) => state.labels.labels);
+  const userWallets = useAppSelector((state) => state.wallets.wallets);
 
   const searchRef = useRef<HTMLInputElement>(null);
   const [labels, setLabels] = useState<number[]>([]);
@@ -173,7 +174,7 @@ function TransactionHistory() {
               <div className="horizontalScroll">
               {userLabels.length === 0 ? (
                 <div className="no-data">
-                  <span>Seems like you don&apos;t added any labels yet.</span>
+                  <span>Seems like you don&apos;t have any labels yet.</span>
                   <Button
                     startIcon={faAdd}
                     small
@@ -200,7 +201,20 @@ function TransactionHistory() {
               </div>
               <h4>Filter by wallet</h4>
               <div className="horizontalScroll">
-                {auth.user_data.wallets.map((elem) => (
+              {userWallets.length === 0 ? (
+                <div className="no-data">
+                  <span>Seems like you don&apos;t have any wallets yet.</span>
+                  <Button
+                    startIcon={faAdd}
+                    small
+                    secondary
+                    onClick={() => Router.push("/wallets")}
+                  >
+                    Create one
+                  </Button>
+                </div>
+              ) : (
+                userWallets.map((elem) => (
                   <Label
                     key={elem.id}
                     onClick={() => {
@@ -210,7 +224,9 @@ function TransactionHistory() {
                   >
                     {elem.name}
                   </Label>
-                ))}
+                ))
+              )}
+                
               </div>
               <div className="applyFilters">
                 <Button onClick={getTransactionsFromState}>search</Button>
@@ -219,13 +235,6 @@ function TransactionHistory() {
             <div className="trxns cardGrid">
               {transactions.length !== 0 ? (
                 <>
-                  <h4>
-                    Showing {transactions.length} of{" "}
-                    {
-                      page.total * 15 // TODO: replace 15 with number of rows per page
-                    }{" "}
-                    Transaction(s)
-                  </h4>
                   {transactions.map((elem) => (
                     <TransactionCard
                       data={elem}
