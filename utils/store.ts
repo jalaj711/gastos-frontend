@@ -1,9 +1,10 @@
-import { combineReducers, configureStore, createStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import snackbarReducer from "../components/Snackbar/snackbarSlice";
 import gloablLoaderReducer from "../components/GlobalLoader/loaderSlice";
 import localforage from "localforage";
 import { persistReducer, persistStore } from "redux-persist";
+import labelReducer from "./labelSlice";
 
 const persistConfig = {
   key: "root",
@@ -13,6 +14,7 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     auth: authReducer,
+    labels: labelReducer, 
     snackbar: snackbarReducer,
     globalLoader: gloablLoaderReducer,
   })
