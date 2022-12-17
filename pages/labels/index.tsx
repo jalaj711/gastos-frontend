@@ -3,13 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faCheck, faClose } from "@fortawesome/free-solid-svg-icons";
 import LabelCard from "../../components/LabelCard";
 import Router from "next/router";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import {
   createLabel as createLabelGlobal,
-  refreshLabels as refreshLabelsGlobal,
 } from "../../utils/labelThunk";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
 
@@ -20,10 +19,6 @@ function Labels() {
   const newLabelNameRef = useRef<HTMLInputElement>(null);
   const newLabelDescRef = useRef<HTMLTextAreaElement>(null);
   const newLabelColorRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    dispatch(refreshLabelsGlobal());
-  }, [dispatch]);
 
   const createLabel = () => {
     if (newLabelNameRef.current?.value && newLabelColorRef.current?.value) {

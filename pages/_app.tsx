@@ -16,6 +16,8 @@ import {
   showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
 import { PersistGate } from "redux-persist/integration/react";
+import { refreshWallets } from "../utils/walletThunk";
+import { refreshLabels } from "../utils/labelThunk";
 
 config.autoAddCss = false;
 
@@ -24,6 +26,9 @@ const PageTransitionAnimation = (props: { children: ReactNode }) => {
   useEffect(() => {
     Router.events.on("routeChangeStart", () => dispatch(showGlobalLoader()));
     Router.events.on("routeChangeComplete", () => dispatch(hideGlobalLoader()));
+    // Refresh wallets & labels on first load
+    dispatch(refreshWallets());
+    dispatch(refreshLabels());
   }, [dispatch]);
   return <>{props.children}</>;
 };

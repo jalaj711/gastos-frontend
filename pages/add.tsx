@@ -15,6 +15,7 @@ import {
 } from "../components/GlobalLoader/loaderSlice";
 import { showSnackbarThunk } from "../components/Snackbar/snackbarThunk";
 import Router from "next/router";
+import { refreshWallets } from "../utils/walletThunk";
 
 function TransactionInput(props: {
   dollars: React.RefObject<HTMLDivElement>;
@@ -93,15 +94,18 @@ function TransactionInput(props: {
 
 function Add() {
   const [isExpense, setisExpense] = React.useState(true);
-  const [labels, setLabels] = React.useState<Array<number>>([]);
+
   const dollars = React.useRef<HTMLDivElement>(null);
   const cents = React.useRef<HTMLDivElement>(null);
   const description = React.useRef<HTMLTextAreaElement>(null);
   const nameRef = React.useRef<HTMLInputElement>(null);
+
   const token = useAppSelector((state) => state.auth.token);
   const userLabels = useAppSelector((state) => state.labels.labels);
   const userWallets = useAppSelector((state) => state.wallets.wallets);
   const dispatch = useAppDispatch();
+
+  const [labels, setLabels] = React.useState<Array<number>>([]);
   const [wallet, setWallet] = React.useState<number>(
     (userWallets.length > 0 && userWallets[0].id) || 1
   );
@@ -139,6 +143,7 @@ function Add() {
       .then((res) => res.json())
       .then((res) => {
         dispatch(hideGlobalLoader());
+        dispatch(refreshWallets())
         dispatch(showSnackbarThunk("Transaction created successfully!"));
         Router.push("/transactions");
       })

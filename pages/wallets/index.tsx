@@ -4,19 +4,12 @@ import WalletCard from "../../components/WalletCard";
 import Button from "../../components/Button";
 import Router from "next/router";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHooks";
-import { useEffect, useRef, useState } from "react";
-import { WalletType } from "../../utils/types";
-import URLs, { API_BASE } from "../../utils/endpoints";
-import {
-  hideGlobalLoader,
-  showGlobalLoader,
-} from "../../components/GlobalLoader/loaderSlice";
+import { useRef, useState } from "react";
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showSnackbarThunk } from "../../components/Snackbar/snackbarThunk";
 import {
-  createWallet as createWalletGlobal,
-  refreshWallets as refreshWalletsGlobal,
+  createWallet as createWalletGlobal
 } from "../../utils/walletThunk";
 
 function Wallets() {
@@ -26,10 +19,6 @@ function Wallets() {
   const [showCreator, setShowCreator] = useState(false);
   const newWalletNameRef = useRef<HTMLInputElement>(null);
   const newWalletDescRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    dispatch(refreshWalletsGlobal());
-  }, [auth, dispatch]);
 
   const createWallet = () => {
     if (newWalletNameRef.current?.value) {
