@@ -135,17 +135,17 @@ function Navbar() {
         {`
           .navbar {
             width: 100%;
-            height: 72px;
+            height: 64px;
             position: fixed;
             bottom: 0;
             left: 0;
-            padding-bottom: 12px;
-            padding-top: 12px;
+            padding-bottom: 8px;
+            padding-top: 8px;
           }
           .icons {
             display: flex;
             width: 100%;
-            height: 64px;
+            height: min-content;
             align-items: center;
             justify-content: center;
           }

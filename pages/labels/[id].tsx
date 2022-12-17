@@ -39,7 +39,7 @@ interface LabelStatsType {
 function Label() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
+  const token = useAppSelector((state) => state.auth.token);
   const [showCreator, setShowCreator] = useState(false);
   const newLabelNameRef = useRef<HTMLInputElement>(null);
   const newLabelDescRef = useRef<HTMLTextAreaElement>(null);
@@ -51,7 +51,7 @@ function Label() {
     dispatch(showGlobalLoader());
     fetch(API_BASE + URLs.LABELS.STATS + "?label=" + router.query.id, {
       headers: {
-        Authorization: "Token " + auth.token,
+        Authorization: "Token " + token,
       },
     })
       .then((res) => res.json())
@@ -66,7 +66,7 @@ function Label() {
         dispatch(hideGlobalLoader());
         setLabelStats(res.data);
       });
-  }, [auth, dispatch]);
+  }, [token, dispatch]);
   const updateLabel = () => {
     if (labelStats)
       dispatch(

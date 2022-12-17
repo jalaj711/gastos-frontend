@@ -22,8 +22,6 @@ import {
 import { TransactionType, WalletType, LabelType } from "../utils/types";
 
 interface DashboardDataType {
-  wallets: WalletType[];
-  labels: LabelType[];
   recents: TransactionType[];
   daily: { day: number; spent: number; count: number }[];
   weekly: { week: number; spent: number; count: number }[];
@@ -38,6 +36,8 @@ interface DashboardDataType {
 function Dashboard() {
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.auth.token);
+  const userWallets = useAppSelector((state) => state.wallets.wallets);
+  const userLabels = useAppSelector((state) => state.labels.labels);
   const [dashboardData, setDashboardData] = useState<DashboardDataType | null>(
     null
   );
@@ -260,7 +260,7 @@ function Dashboard() {
 
           <div className="section">
             <h2>Your Wallets</h2>
-            {dashboardData.wallets.length === 0 ? (
+            {userWallets.length === 0 ? (
               <div className="no-data">
                 <span>Seems like you don&apos;t have any wallets yet.</span>
                 <Button
@@ -274,7 +274,7 @@ function Dashboard() {
               </div>
             ) : (
               <div className="cardGrid">
-                {dashboardData.wallets.map((elem) => (
+                {userWallets.map((elem) => (
                   <WalletCard
                     key={elem.id}
                     data={elem}
@@ -297,7 +297,7 @@ function Dashboard() {
           </div>
           <div className="section">
             <h2>Your Labels</h2>
-            {dashboardData.labels.length === 0 ? (
+            {userLabels.length === 0 ? (
               <div className="no-data">
                 <span>Seems like you don&apos;t have any labels yet.</span>
                 <Button
@@ -312,7 +312,7 @@ function Dashboard() {
             ) : (
               <div className="horizontalGrid">
                 <div className="horizontalGridWrapper">
-                  {dashboardData.labels.map((elem) => (
+                  {userLabels.map((elem) => (
                     <LabelCard
                       key={elem.id}
                       data={elem}
@@ -334,7 +334,7 @@ function Dashboard() {
             </div>
           </div>
         </main>
-        <div style={{ width: "100vw", height: "72px" }} />
+        <div style={{ width: "100vw", height: "84px" }} />
 
         <style jsx>
           {`
@@ -492,10 +492,6 @@ function Dashboard() {
             }
           `}
         </style>
-        {/* display: grid;
-            grid-template-columns: 28vw 28vw 28vw;
-            padding: 0 24px;
-            margin-top: 24px; */}
       </>
     )
   );

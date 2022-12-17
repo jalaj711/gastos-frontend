@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LabelType, UserDataType, WalletType } from "./types";
+import { UserDataType } from "./types";
 
 interface authState {
   logged_in: boolean;
@@ -32,16 +32,10 @@ export const authSlice = createSlice({
       state.logged_in = false;
       state.token = null;
     },
-    updateLabels: (state, action: PayloadAction<LabelType[]>) => {
-      if (state.user_data) state.user_data.labels = action.payload;
-    },
-    updateWallets: (state, action: PayloadAction<WalletType[]>) => {
-      if (state.user_data) state.user_data.wallets = action.payload;
-    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, updateLabels, updateWallets } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

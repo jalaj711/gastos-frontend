@@ -66,7 +66,7 @@ function TransactionInput(props: { dollars: number; cents: number }) {
 function Wallet() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
+  const token = useAppSelector((state) => state.auth.token);
   const [showCreator, setShowCreator] = useState(false);
   const newWalletNameRef = useRef<HTMLInputElement>(null);
   const newWalletDescRef = useRef<HTMLTextAreaElement>(null);
@@ -77,7 +77,7 @@ function Wallet() {
     dispatch(showGlobalLoader());
     fetch(API_BASE + URLs.WALLET.STATS + "?wallet=" + router.query.id, {
       headers: {
-        Authorization: "Token " + auth.token,
+        Authorization: "Token " + token,
       },
     })
       .then((res) => res.json())
@@ -92,7 +92,7 @@ function Wallet() {
         dispatch(hideGlobalLoader());
         setWalletStats(res.data);
       });
-  }, [auth, dispatch]);
+  }, [token, dispatch]);
 
   const updateWallet = () => {
     if (walletStats)
