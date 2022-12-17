@@ -5,6 +5,7 @@ import gloablLoaderReducer from "../components/GlobalLoader/loaderSlice";
 import localforage from "localforage";
 import { persistReducer, persistStore } from "redux-persist";
 import labelReducer from "./labelSlice";
+import walletReducer from "./walletSlice";
 
 const persistConfig = {
   key: "root",
@@ -14,7 +15,8 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     auth: authReducer,
-    labels: labelReducer, 
+    labels: labelReducer,
+    wallets: walletReducer,
     snackbar: snackbarReducer,
     globalLoader: gloablLoaderReducer,
   })
