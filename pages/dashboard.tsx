@@ -76,38 +76,34 @@ function Dashboard() {
           <div className="mainWrapper">
             <h1>Dashboard</h1>
             <div className="primaryContainer">
-              <div className="cardContainer">
-                <div className="progressWrapper">
-                  <div className="stats">
-                    <div>
-                      <span className="button-like">Spent today:</span>
-                      <span className="value button-like">
-                        $
-                        {dashboardData.transactions.today[0] &&
-                          dashboardData.transactions.today[0].spent}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="button-like">spent this week:</span>
-                      <span className="value button-like">
-                        ${dashboardData.transactions.this_week[0].spent}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="button-like">spent this month:</span>
-                      <span className="value button-like">
-                        ${dashboardData.transactions.this_month[0].spent}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="button-like">
-                        total transactions this month:
-                      </span>
-                      <span className="value button-like">
-                        {dashboardData.transactions.this_month[0].count}
-                      </span>
-                    </div>
-                  </div>
+              <div className="stats">
+                <div>
+                  <span className="button-like">Spent today:</span>
+                  <span className="value button-like">
+                    $
+                    {dashboardData.transactions.today[0] &&
+                      dashboardData.transactions.today[0].spent}
+                  </span>
+                </div>
+                <div>
+                  <span className="button-like">spent this week:</span>
+                  <span className="value button-like">
+                    ${dashboardData.transactions.this_week[0].spent}
+                  </span>
+                </div>
+                <div>
+                  <span className="button-like">spent this month:</span>
+                  <span className="value button-like">
+                    ${dashboardData.transactions.this_month[0].spent}
+                  </span>
+                </div>
+                <div>
+                  <span className="button-like">
+                    total transactions this month:
+                  </span>
+                  <span className="value button-like">
+                    {dashboardData.transactions.this_month[0].count}
+                  </span>
                 </div>
               </div>
               <div className="search">
@@ -367,13 +363,8 @@ function Dashboard() {
               max-width: 500px;
               display: flex;
               flex-direction: column;
-            }
-            .cardContainer {
               padding: 16px;
               border-radius: 16px;
-            }
-
-            .progressWrapper {
               justify-content: space-between;
             }
 
@@ -471,22 +462,6 @@ function Dashboard() {
             @media (max-width: 500px) {
               .mainWrapper {
                 margin-top: 32px;
-              }
-              .progressWrapper > :global(.progressContainer) {
-                margin: 6px;
-              }
-
-              :global(.progressBar) {
-                width: 30px !important;
-                border-radius: 8px !important;
-              }
-              :global(.progressElement) {
-                width: 24px !important;
-                border-radius: 6px !important;
-              }
-              .cardContainer {
-                padding: 8px;
-                border-radius: 8px;
               }
               h1 {
                 font-size: 3rem;

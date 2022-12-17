@@ -88,7 +88,7 @@ const page1Links: { [path: string]: [string, IconDefinition] } = {
 const page2Links: { [path: string]: [string, IconDefinition] } = {
   "/labels": ["labels", faTags],
   "/wallets": ["wallets", faWallet],
-  "#": ["user", faUser],
+  "/user": ["user", faUser],
 };
 function Navbar() {
   const router = useRouter();

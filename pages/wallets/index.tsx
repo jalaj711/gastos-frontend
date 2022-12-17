@@ -13,7 +13,6 @@ import Navbar from "../../components/Navbar";
 
 function Wallets() {
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
   const wallets = useAppSelector((state) => state.wallets.wallets);
   const [showCreator, setShowCreator] = useState(false);
   const newWalletNameRef = useRef<HTMLInputElement>(null);
