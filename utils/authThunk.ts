@@ -9,6 +9,10 @@ import {
   showGlobalLoader,
 } from "../components/GlobalLoader/loaderSlice";
 import Router from "next/router";
+import { setWallets } from "./walletSlice";
+import { setLabels } from "./labelSlice";
+import { refreshLabels } from "./labelThunk";
+import { refreshWallets } from "./walletThunk";
 
 export const loginWithUsernameAndPassword = (
   username: string,
@@ -37,6 +41,9 @@ export const loginWithUsernameAndPassword = (
       if (response.status == 200) {
         const json = await response.json();
         dispatch(_login(json));
+        // Loads labels and wallets of the user
+        dispatch(refreshLabels());
+        dispatch(refreshWallets());
         Router.push("/dashboard");
       } else if (response.status == 403) {
         dispatch(showSnackbarThunk("Wrong credentials"));
@@ -78,6 +85,8 @@ export const logout = () => {
 
       dispatch(hideGlobalLoader());
       if (response.status == 204) {
+        dispatch(setWallets([]));
+        dispatch(setLabels([]));
         dispatch(_logout());
         Router.push("/login");
         dispatch(showSnackbarThunk("User logged out"));
