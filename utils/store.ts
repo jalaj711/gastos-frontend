@@ -3,7 +3,16 @@ import authReducer from "./authSlice";
 import snackbarReducer from "../components/Snackbar/snackbarSlice";
 import gloablLoaderReducer from "../components/GlobalLoader/loaderSlice";
 import localforage from "localforage";
-import { persistReducer, persistStore } from "redux-persist";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 import labelReducer from "./labelSlice";
 import walletReducer from "./walletSlice";
 
@@ -24,8 +33,13 @@ const persistedReducer = persistReducer(
 
 const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
-
 
 export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
