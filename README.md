@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 style="text-align: center">Gastos</h1>
+<p style="text-align: center">An app to suite all your expense (finances in general) tracking needs with support for multiple wallets and custom color-coded labels.</p>
+
 
 ## Getting Started
 
@@ -14,21 +16,20 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**Note:**
 
-## Learn More
+This is only the frontend part of the entire app, the backend can be found [here](https://github.com/jalaj711/gastos-backend). You will need to install the backend to be able to run this app. The frontend will by default re-route all API requests to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is available under the MIT License. Full text can be found [here](LICENSE).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Being an open source project, we are open to all kinds of contributions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you have found any bug or want to request a feature feel free to open an [issue](https://github.com/jalaj711/gastos-frontend/issues/new).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you would like to get your hands dirty with code, then head on to the [issues](https://github.com/jalaj711/gastos-frontend/issues/) section and send us a PR, we would be more than happy to accept it :)
+

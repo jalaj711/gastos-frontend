@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  basePath: "/finance-tracker",
+  basePath: "/gastos-frontend",
   async rewrites() {
     return [
       {
