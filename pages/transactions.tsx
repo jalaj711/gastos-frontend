@@ -71,7 +71,6 @@ function TransactionHistory() {
     }
     const url = new URL(window.location.href);
     url.search = search.toString();
-    console.log(search_filters, url.toString());
     window.history.pushState(null, "", url.toString());
 
     // Todo: Change this to a local loader

@@ -40,7 +40,7 @@ function Login() {
             className="formElement"
             onSubmit={(evt) => evt.preventDefault()}
           >
-            <Input type="text" placeholder="Email" ref={usernameRef} />
+            <Input type="text" placeholder="Username" ref={usernameRef} />
             <Input type="password" placeholder="Password" ref={passwordRef} />
             <Button onClick={handleLoginWithUsernamePassword}>Log in</Button>
             <Link href="#" className="form-link">

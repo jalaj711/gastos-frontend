@@ -74,7 +74,7 @@ function Login() {
           >
             <Input type="text" placeholder="First Name" ref={firstnameRef} />
             <Input type="text" placeholder="Last Name" ref={lastnameRef} />
-            <Input type="text" placeholder="Email" ref={usernameRef} />
+            <Input type="text" placeholder="Username" ref={usernameRef} />
             <Input type="password" placeholder="Password" ref={passwordRef} />
             <Button onClick={handleSignupWithUsernamePassword}>
               Create an account
