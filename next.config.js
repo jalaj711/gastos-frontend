@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  basePath: "/gastos-frontend",
+  // basePath: "/gastos-frontend",
   async rewrites() {
     return [
       {

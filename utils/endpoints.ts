@@ -1,5 +1,5 @@
-export const API_BASE = process.env.API_BASE || "/finance-tracker/api"
-
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "/gastos-frontend/api"
+console.log(API_BASE)
 export const USER_URLS = {
     GET: "/user/get/",
     DASHBOARD_STATS: "/user/dashboard/"
