@@ -79,7 +79,7 @@ function Login() {
             <Button onClick={handleSignupWithUsernamePassword}>
               Create an account
             </Button>
-            <Link href="#" className="form-link">
+            <Link href="/login" className="form-link">
               Already have an account? Login here
             </Link>
           </form>

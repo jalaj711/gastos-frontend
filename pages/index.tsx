@@ -4,6 +4,7 @@ import Head from "next/head";
 import Button from "../components/Button";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Router from "next/router";
 
 const Home: NextPage = () => {
   return (
@@ -20,20 +21,20 @@ const Home: NextPage = () => {
       <main>
         <nav className="navbar">
           <div className="hide-on-mobile">
-            <Button secondary small>
+            <Button secondary small onClick={() => Router.push("/")}>
               Home
             </Button>
-            <Button secondary small>
+            <Button secondary small onClick={() => Router.push("/")}>
               About Us
             </Button>
-            <Button secondary small>
+            <Button secondary small onClick={() => Router.push("/")}>
               Contact
             </Button>
           </div>
-          <Button secondary small>
+          <Button secondary small onClick={() => Router.push("/login")}>
             Login
           </Button>
-          <Button small>Sign Up</Button>
+          <Button small onClick={() => Router.push("/signin")}>Sign Up</Button>
         </nav>
         <div className="fullscreen hero section">
           <div className="content-div hero-content">
@@ -48,7 +49,7 @@ const Home: NextPage = () => {
               your bank!
             </p>
 
-            <Button endIcon={faArrowRight}>Start Now</Button>
+            <Button endIcon={faArrowRight} onClick={() => Router.push("/signin")}>Start Now</Button>
           </div>
         </div>
         <div className="fullscreen section">
@@ -65,7 +66,7 @@ const Home: NextPage = () => {
               cash, credit card, seperate bank accounts and just about what not!
             </p>
 
-            <Button endIcon={faArrowRight}>Start Now</Button>
+            <Button endIcon={faArrowRight} onClick={() => Router.push("/signin")}>Start Now</Button>
           </div>
         </div>
         <div className="fullscreen section">
@@ -80,7 +81,7 @@ const Home: NextPage = () => {
               your money very easily.
             </p>
 
-            <Button endIcon={faArrowRight}>Start Now</Button>
+            <Button endIcon={faArrowRight} onClick={() => Router.push("/signin")}>Start Now</Button>
           </div>
         </div>
         <div className="fullscreen section">
@@ -95,7 +96,7 @@ const Home: NextPage = () => {
               to fine tune your search.
             </p>
 
-            <Button endIcon={faArrowRight}>Start Now</Button>
+            <Button endIcon={faArrowRight} onClick={() => Router.push("/signin")}>Start Now</Button>
           </div>
         </div>
         <div className="footer">
@@ -114,8 +115,8 @@ const Home: NextPage = () => {
           <div className="footer-section">
             <span className="footer-section-title">Links</span>
             <ul className="footer-list">
-              <li>Login</li>
-              <li>Sign Up</li>
+              <li onClick={() => Router.push("/login")}>Login</li>
+              <li onClick={() => Router.push("/signin")}>Sign Up</li>
             </ul>
           </div>
         </div>
@@ -140,8 +141,6 @@ const Home: NextPage = () => {
             backdrop-filter: blur(8px);
           }
           .hide-on-mobile {
-
-            width: 100%;
             display: flex;
             align-items: center;
             justify-content: right;
@@ -232,6 +231,9 @@ const Home: NextPage = () => {
             padding: 24px;
             display: flex;
             justify-content: space-around;
+            @media (max-width: 600px) {
+              flex-direction: column;
+            }
           }
         `}
       </style>
