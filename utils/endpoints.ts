@@ -1,4 +1,4 @@
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "/gastos-frontend/api"
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "/api"
 console.log(API_BASE)
 export const USER_URLS = {
     GET: "/user/get/",

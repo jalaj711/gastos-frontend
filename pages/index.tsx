@@ -102,6 +102,27 @@ const Home: NextPage = () => {
             <Button endIcon={faArrowRight}>Start Now</Button>
           </div>
         </div>
+        <div className="footer">
+          <div>
+            <h1>Gastos</h1>
+            <span className="footer-credits">Developed by Jalaj Kumar</span>
+          </div>
+          <div className="footer-section">
+            <span className="footer-section-title">Github</span>
+            <ul className="footer-list">
+              <li>Source Code</li>
+              <li>Report a bug</li>
+              <li>Suggest a feature</li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <span className="footer-section-title">Links</span>
+            <ul className="footer-list">
+              <li>Login</li>
+              <li>Sign Up</li>
+            </ul>
+          </div>
+        </div>
       </main>
       <style jsx>
         {`
@@ -212,6 +233,14 @@ const Home: NextPage = () => {
           }
           .insights .section-desc {
             text-align: center;
+          }
+          .footer {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 0;
+            padding: 24px;
+            display: flex;
+            justify-content: space-around;
           }
         `}
       </style>
