@@ -2,12 +2,6 @@ import type { NextPage } from "next";
 import colors from "../utils/colors";
 import Head from "next/head";
 import Button from "../components/Button";
-import Card from "../components/Card";
-import CircularProgress from "../components/Progress/CircularProgress";
-import Input from "../components/Input";
-import Loader from "../components/Loader";
-import ProgressBar from "../components/Progress/ProgressBar";
-import Label from "../components/Label";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,15 +19,17 @@ const Home: NextPage = () => {
 
       <main>
         <nav className="navbar">
-          <Button secondary small>
-            Home
-          </Button>
-          <Button secondary small>
-            About Us
-          </Button>
-          <Button secondary small>
-            Contact
-          </Button>
+          <div className="hide-on-mobile">
+            <Button secondary small>
+              Home
+            </Button>
+            <Button secondary small>
+              About Us
+            </Button>
+            <Button secondary small>
+              Contact
+            </Button>
+          </div>
           <Button secondary small>
             Login
           </Button>
@@ -143,6 +139,17 @@ const Home: NextPage = () => {
             z-index: 10000;
             backdrop-filter: blur(8px);
           }
+          .hide-on-mobile {
+
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: right;
+            gap: 8px;
+            @media (max-width: 600px) {
+              display: none;
+            }
+          }
           .section {
             position: relative;
           }
@@ -159,19 +166,23 @@ const Home: NextPage = () => {
             text-align: center;
             justify-content: center;
             align-items: center;
+            @media (max-width: 600px) {
+              max-width: 100%;
+            }
           }
           .hero-title {
             width: 100%;
-            font-size: 4.5vw;
+            font-size: clamp(32px, 4.5vw, 108px);
             margin-bottom: 0;
           }
           .section-title {
             width: 100%;
-            font-size: 3vw;
+            font-size: clamp(24px, 3vw, 56px);
             margin-bottom: 0;
           }
           .highlight {
             position: relative;
+            white-space: nowrap;
           }
           .highlight::before {
             content: "";
@@ -188,50 +199,30 @@ const Home: NextPage = () => {
             max-width: 70%;
             color: #ccc;
             font-size: larger;
+            @media (max-width: 600px) {
+              max-width: 90%;
+              font-size: medium;
+            }
           }
-          .content-div.wallets {
-            top: 10%;
-            right: 10%;
-            transform: translateX(10%) translateY(-10%);
-            align-items: end;
+          .content-div {
+            max-width: 80%;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10%);
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            @media (max-width: 600px) {
+              max-width: 100%;
+              width: 100%;
+            }
           }
-          .wallets .section-title {
-            text-align: right;
-            max-width: 60%;
+          .section-title {
+            text-align: center;
           }
           .section-desc {
-            max-width: 40%;
-            color: #ccc;
-          }
-          .wallets .section-desc {
-            text-align: right;
-          }
-
-          .content-div.labels {
-            bottom: 10%;
-            left: 10%;
-            transform: translateX(-10%) translateY(10%);
-            align-items: start;
-          }
-          .labels .section-title {
-            text-align: left;
-            max-width: 60%;
-          }
-          .labels .section-desc {
-            text-align: left;
-          }
-
-          .content-div.insights {
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            align-items: center;
-          }
-          .insights .section-title {
-            text-align: center;
             max-width: 80%;
-          }
-          .insights .section-desc {
+            color: #ccc;
             text-align: center;
           }
           .footer {
